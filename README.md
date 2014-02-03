@@ -8,3 +8,5 @@ Victor Nguyen
 Haily De La Cruz
 
 Gopal Adhikari
+
+Zuoming Shi
