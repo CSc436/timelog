@@ -5,3 +5,4 @@ Application to keep track of productivity and provide logistics feedback to the 
 
 Victor Nguyen
 Haily De La Cruz
+Gopal Adhikari
