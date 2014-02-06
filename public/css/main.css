@@ -1,0 +1,85 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:400,700);
+@import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,300);
+
+body {
+	padding-top: 70px;
+	padding-bottom: 20px;
+	font-family: "Lato", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, legend {
+	font-family: "Roboto Slab", sans-serif;
+	font-weight: 400;
+	line-height: 1.1;
+}
+
+#main{
+	min-height: 500px;
+}
+
+.title{
+	border-bottom: 2px solid #5DCAD3;
+}
+
+#social-signup{
+	text-align: center;
+}
+
+#social-signup a{
+	width: 200px;
+	margin-right: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#user-options-menu{
+	margin-top: 8px;
+}
+
+#signup-email-section{
+	display: none;
+	margin-top: 20px;
+}
+
+footer{
+	min-height: 100px;
+	padding: 20px;
+	box-sizing: border-box;
+	position: relative;
+	text-align: center;
+}
+
+footer #copyright{
+	text-align: center;
+}
+
+footer .social{
+	text-align: center;
+}
+
+footer .social i{
+	border: 2px solid #fff;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	line-height: 50px;
+	margin-right: 20px;
+}
+
+footer .social i:hover{
+	box-shadow: 0 0 15px #13CC90;
+}
+
+.footer-links{
+	position: absolute;
+	bottom: 20px;
+	width: 100%;
+	text-align: center;
+}
+
+.footer-links a{
+	bottom: 0px;
+	color: #fff;
+	margin-right: 10px;
+	text-align: center;
+}
