@@ -14,3 +14,6 @@ Zuoming Shi
 Michael Knatz
 
 James Yoshida
+
+###Laravel Tutorial###
+http://net.tutsplus.com/tutorials/php/laravel-4-a-start-at-a-restful-api/
