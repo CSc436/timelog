@@ -1,0 +1,23 @@
+What is the user logging?
+   - Projects
+   - homework
+   - exercise
+
+   - tasks: W/ one category, a description, and a name. 
+	- Users should be able to assign task-categories or tags.
+	- Tags can be nested. To create a nested tag we'll use "hw/436", where "hw" will be a supertag while "436" will be the nested tag
+	- Tasks should have a name that becomes the postfix for a tag-file. E.g.) "hw/436/ass1"
+   - Should we create categories as well as tags?
+	- categories should be general, we don't want any overlap between categories. This will cause problems with the analyitics
+ 
+   - We've decided on what categoreies.
+   - In general, categories are for organization, where as tags are searching.
+   - For every task, we may want a goal field. Just a simple boolean.
+	- Or we could set goals on a time basis: "I want to finish this task in this amount of time"
+
+   - The default categories should be "suggested", this way the user doesn't get confused by having multiple categories for the same thing.
+	- One of these categories, "miscellaneous" should not have any subcategories; as to not promote 
+	- Categories should also be colored.
+
+   - When using the timer, we should save the exact seconds, and use the database/sql to round the values.
+   - Users should also be able to manually input their time. 
