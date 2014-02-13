@@ -25,10 +25,20 @@
 					<li class="active"><a href="/">Home</a></li>
 					<li><a href="/about">About</a></li>
 					<li><a href="/contact">Contact</a></li>
-				</ul>
+
+				@if(!Auth::check())  
+                    <li>{{ HTML::link('/login', 'Login') }}</li>  
+                @else
+                    <li>{{ HTML::link('/logout', 'Logout') }}</li>
+                @endif
+                <?php
+                /*
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="/login"><i class="fa fa-sign-in"></i> Sign In</a></li>
-				</ul> 
+				</ul>
+				*/
+				?>
+				</ul>
 			</div><!--/.navbar-collapse -->
 		</div>			
 	</div> <!-- /container -->
