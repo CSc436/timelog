@@ -26,10 +26,10 @@ class LogController extends BaseController {
 			$results = DB::transaction(function()
 				{
     				DB::table('log_entry')->insertGetId(array(
-    					'entryname' => Input::get('entryname'),
     					'startDateTime' => Input::get('startDateTime'),
-    					'endDateTime' => Input::get('endDateTime'),
-    					'category' => Input::get('category')));
+    					'endDateTime' => Input::get('endDateTime')
+    					// 'category' => Input::get('category')
+    					));
 				});
 			
 			return View::make('success');
