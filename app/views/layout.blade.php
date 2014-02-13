@@ -22,9 +22,10 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/">Home</a></li>
-					<li><a href="/about">About</a></li>
-					<li><a href="/contact">Contact</a></li>
+
+					<li  <?php if ($active == "home") echo"class=active"?> ><a href="/">Home</a></li>
+					<li <?php if ($active == "about") echo"class=active"?>> <a href="/about">About</a></li>
+					<li <?php if ($active == "contact") echo"class=active"?>><a href="/contact">Contact</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="/login"><i class="fa fa-sign-in"></i> Sign In</a></li>
