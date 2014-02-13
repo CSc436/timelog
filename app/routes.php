@@ -35,3 +35,10 @@ Route::get('login', function()
 {
 	return View::make('login');
 });
+
+Route::get('log/add', function()
+{
+	return View::make('add');
+});
+
+Route::post('log/add', 'LogController@addEntry');
