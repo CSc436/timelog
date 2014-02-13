@@ -28,8 +28,13 @@
 					<li <?php if ($active == "contact") echo"class=active"?>><a href="/contact">Contact</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/login"><i class="fa fa-sign-in"></i> Sign In</a></li>
-				</ul> 
+					@if(!Auth::check())  
+	                    <li><a href="/login"><i class="fa fa-sign-in"></i> Sign In</a></li>  
+	                @else
+	                    <li><a href="/logout"><i class="fa fa-sign-out"></i> Sign Out</a></li>
+	                @endif
+                </ul>
+				
 			</div><!--/.navbar-collapse -->
 		</div>			
 	</div> <!-- /container -->

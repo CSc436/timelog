@@ -31,7 +31,7 @@ Route::get('login', array('as' => 'login', function()
 Route::get('logout', function(){
 
 	Auth::logout();
-	return Redirect::route('login');
+	return Redirect::to('/')->with('success', 'Thanks for registering!');
 });
 
 Route::get('profile', function()
