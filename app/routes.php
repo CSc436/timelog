@@ -54,7 +54,6 @@ Route::post('password/reset/now', 'RemindersController@postReset');
 
 Route::get('users', function()
 {
-
 	$users = User::all();
 	return View::make('users')->with('users', $users);
 });
