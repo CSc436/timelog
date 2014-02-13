@@ -20,9 +20,6 @@ class AddlogInit extends Migration {
 			$t->integer('UID'); // User ID
 			$t->string('name');
 			$t->string('color', 6);
-			
-			// created_at, updated_at DATETIME
-            $t->timestamps();
 		});
 		Schema::create('log_entry', function(Blueprint $t)
 		{
@@ -34,9 +31,6 @@ class AddlogInit extends Migration {
 			$t->dateTime('endDateTime');
 			$t->integer('duration');
 			$t->text('notes');
-			
-			// created_at, updated_at DATETIME
-            $t->timestamps();
 		});/*
 		Schema::table('log_category', function(Blueprint $t)
 		{
