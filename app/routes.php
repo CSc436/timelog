@@ -54,6 +54,10 @@ Route::post('password/reset/now', 'RemindersController@postReset');
 
 Route::get('users', function()
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 00ace24ef2adc2e1103dbb0bb958894ec5ca7494
 	$users = User::all();
 	return View::make('users')->with('users', $users);
 });
@@ -108,3 +112,10 @@ Route::post('signup', function()
 		return $validator->getMessageBag();
 	}
 });
+
+Route::get('log/add', function()
+{
+	return View::make('add');
+});
+
+Route::post('log/add', 'LogController@addEntry');
