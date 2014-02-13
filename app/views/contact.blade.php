@@ -9,11 +9,6 @@
 	"Victor Nguyen" => "victornguyen@email.arizona.edu",
 	"Michael Knatz" => "michaelcknatz@email.arizona.edu",
 	"James Yoshida" => "yoshida@email.arizona.edu"); ?>
-	<!--<ul>
-	@foreach($arr as $key => $value)
-		<li><span class="name">{{ $key }}</span><span class="email">{{ $value }}</span></li>
-	@endforeach
-	</ul< -->
 	
 	<table class="table table-striped">
 	@foreach($arr as $key => $value)
