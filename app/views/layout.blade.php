@@ -26,6 +26,8 @@
 				<ul class="nav navbar-nav">
 
 					<li <?php if ($active == "home") echo"class=active" ?>><a href="/">Home</a></li>
+					<li <?php if ($active == "add") echo"class=active" ?>><a href="/log/add">Add</a></li>
+					<li <?php if ($active == "view") echo"class=active" ?>><a href="/log/view">View</a></li>
 					<li <?php if ($active == "about") echo"class=active" ?>> <a href="/about">About</a></li>
 					<li <?php if ($active == "contact") echo"class=active" ?>><a href="/contact">Contact</a></li>
 				</ul>

@@ -118,7 +118,7 @@ Route::post('log/add', 'LogController@addEntry');
 
 Route::get('log/view', function()
 {
-	$query = DB::table('log_entry')->get();
+	$query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
 
 	return View::make('view')->with('query', $query);
 });
