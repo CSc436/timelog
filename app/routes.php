@@ -111,7 +111,7 @@ Route::post('signup', function()
 
 Route::get('log/add', function()
 {
-	return View::make('add');
+	return View::make('add')->with('active', 'addlog');
 });
 
 Route::post('log/add', 'LogController@addEntry');
@@ -120,5 +120,5 @@ Route::get('log/view', function()
 {
 	$query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
 
-	return View::make('view')->with('query', $query);
+	return View::make('view')->with('query', $query)->with('active', 'viewlog');
 });
