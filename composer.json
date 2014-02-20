@@ -5,8 +5,10 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.1.*",
-		"way/generators": "dev-master"
+		"way/generators": "dev-master",
+		"phpunit/phpunit": "3.7.*"
 	},
+	
 	"autoload": {
 		"classmap": [
 			"app/commands",
@@ -33,5 +35,5 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "stable"
+	"minimum-stability": "dev"
 }
