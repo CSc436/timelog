@@ -78,7 +78,7 @@ class LogController extends BaseController {
 			
 			// save to DB
 			$entry->notes = '';
-			$entry->UID = Auth::user();
+			$entry->UID = Auth::user()->id;
 			$entry->save();
 
 			return View::make('success');
