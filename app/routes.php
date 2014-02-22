@@ -110,7 +110,7 @@ Route::post('signup', function()
 
 Route::get('log/add', function()
 {
-	return View::make('add')->with('active', 'addlog');
+	return Auth::check() != null ? View::make('add')->with('active', 'addlog') : Redirect::to('login');
 });
 
 Route::post('log/add', 'LogController@addEntry');
