@@ -23,13 +23,12 @@ Route::get('login', array('as' => 'login', function()
 	{
 		return Redirect::to('/');
 	} else {
-		return View::make('login')->with('active', 'login');
+		return View::make('login')->with(array('active'=> 'login', 'failed'=> 'true'));
 	}
 	
 }));
 
 Route::get('logout', function(){
-
 	Auth::logout();
 	return Redirect::to('/')->with('success', 'Thanks for registering!');
 });
