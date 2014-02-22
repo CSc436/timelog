@@ -81,11 +81,10 @@ class LogController extends BaseController {
 			$entry->UID = Auth::user()->id;
 			$entry->save();
 
-			return View::make('success');
+			return Redirect::to('log/view');
 		} else {
 			// validation has failed, display error messages
-			$data['msgs'] = $validator->messages();
-			return View::make('fail', $data);
+			return Redirect::to('log/add')->withErrors($validator);
 		}
 	}
 }
