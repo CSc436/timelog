@@ -125,6 +125,6 @@ Route::get('log/view', function()
 
 Route::get('api/log/view', function()
 {
-	$query = DB::select('select startDateTime as label, duration as value from log_entry');
-	return $query;
+	$data = DB::select("select DATE_FORMAT(startDateTime,'%m-%d-%y') as label, duration as value from log_entry order by label asc, duration desc");
+	return $data;
 });
