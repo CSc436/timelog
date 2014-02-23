@@ -6,13 +6,15 @@ class LoginTest extends TestCase{
 
 		// test for logging in a user
 
-		$post_data = array('username'=>'gopal', 'password'=>'abcd');
+		$post_data = array('username'=>'mknatz', 'password'=>'mknatz');
 
 		Input::replace($post_data);
-
-		$reponse = $this->call('POST', 'login');
-
-		echo Auth::user();
+		$check = Input::get();
+		echo $check['username'];
+		echo "\n\n";
+		
+		$response = $this->call('POST', 'login');
+		echo $response;
 	}
 
 }
