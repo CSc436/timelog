@@ -36,7 +36,7 @@ class UITest extends TestCase {
 		
 		$this->assertFalse($this->client->getResponse()->isOk());
 		
-		$post_data = array('username'=>'mknatz', 'password'=>'mknatz');
+		$post_data = array('email'=>'timeloguser@gmail.com', 'password'=>'secure password');
 
 		Input::replace($post_data);
 
