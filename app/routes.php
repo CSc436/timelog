@@ -121,3 +121,10 @@ Route::get('log/view', function()
 
 	return View::make('view')->with('query', $query)->with('active', 'viewlog');
 });
+
+
+Route::get('api/log/view', function()
+{
+	$query = DB::select('select startDateTime as label, duration as value from log_entry');
+	return $query;
+});
