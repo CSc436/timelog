@@ -19,6 +19,8 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="/"><i class="fa fa-calendar"></i> Time Log</a>
 			</div>
@@ -26,6 +28,8 @@
 				<ul class="nav navbar-nav">
 
 					<li <?php if ($active == "home") echo"class=active" ?>><a href="/">Home</a></li>
+					<li <?php if ($active == "addlog") echo"class=active" ?>><a href="/log/add">Add Logs</a></li>
+					<li <?php if ($active == "viewlog") echo"class=active" ?>><a href="/log/view">View Logs</a></li>
 					<li <?php if ($active == "about") echo"class=active" ?>> <a href="/about">About</a></li>
 					<li <?php if ($active == "contact") echo"class=active" ?>><a href="/contact">Contact</a></li>
 				</ul>
