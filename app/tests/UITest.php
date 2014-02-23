@@ -29,5 +29,21 @@ class UITest extends TestCase {
 
 		$this->assertTrue($this->client->getResponse()->isOk());
 	}
+	
+	public function testProfile()
+	{
+		$crawler = $this->client->request('GET', '/profile');
+		
+		$this->assertFalse($this->client->getResponse()->isOk());
+		
+		$post_data = array('username'=>'mknatz', 'password'=>'mknatz');
 
+		Input::replace($post_data);
+
+		$response = $this->call('POST', 'login');
+		
+		echo $response;
+		/*
+		$this->assertTrue($this->client->getResponse()->isOk());*/
+	}
 }
