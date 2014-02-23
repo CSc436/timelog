@@ -6,7 +6,13 @@
 		<!-- Form Name -->
 		<legend>Login</legend>
 
-			
+		<!-- Login Error -->
+		<ul>
+			@if($failed)
+				{{ '<div class="alert alert-danger"> Login failed. </div>' }}
+			@endif
+		</ul>
+
 		<!-- Text input-->
 		<div class="form-group">
 			<label class="col-md-4 control-label" for="username">Username</label>
