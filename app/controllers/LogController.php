@@ -31,7 +31,7 @@ class LogController extends BaseController {
     					// 'category' => Input::get('category')
     					));
 				});
-			
+
 			return View::make('success');
 		} else {
 			// validation has failed, display error messages
@@ -39,5 +39,4 @@ class LogController extends BaseController {
 			return View::make('fail', $data);
 		}
 	}
-
 }
