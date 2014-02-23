@@ -113,7 +113,8 @@ Route::get('log/add', function()
 	return Auth::check() != null ? View::make('add')->with('active', 'addlog') : Redirect::to('login');
 });
 
-Route::post('log/add', 'LogController@addEntry');
+// handles both add and edit log entry actions
+Route::post('log/save', 'LogController@saveEntry');
 
 Route::get('log/view', function()
 {

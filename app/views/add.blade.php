@@ -16,38 +16,38 @@
 			@endif
 		</div>
 	@endif
-	
-	<form method="post" action="/log/add" role="form" class="form-horizontal" style="max-width:500px">
+
+	{{ Form::open(array('route' => 'log/save', 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'style' => 'max-width:500px')) }}
 	  <div class="form-group">
-		<label for="entryname" class="col-sm-4 control-label">What will you be recording?</label>
+		{{ Form::label('entryname', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			<input type="text" class="form-control" id="entryname" name="entryname" placeholder="Name">
+			{{ Form::text('entryname', array('class' => 'form-control', 'placeholder' => 'Name')) }}
 		</div>
 	  </div>
 	  <div class="form-group">
-		<label for="startDateTime" class="col-sm-4 control-label">Start</label>
+		{{ Form::label('startDateTime', 'Start', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			<input type="datetime" class="form-control" id="startDateTime" name="startDateTime" placeholder="yyyy-mm-dd hh:mm">
+			{{ Form::text('startDateTime', array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
 		</div>
 	  </div>
 	  <div class="form-group">
-		<label for="endDateTime" class="col-sm-4 control-label">End</label>
+		{{ Form::label('endDateTime', 'End', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			<input type="datetime" class="form-control" id="endDateTime" name="endDateTime" placeholder="yyyy-mm-dd hh:mm">
+			{{ Form::text('endDateTime', array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
 		</div>
 	  </div>
 	  <div class="form-group">
-		<label for="category" class="col-sm-4 control-label">Category</label>
+		{{ Form::label('category', 'ECategorynd', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			<input type="text" class="form-control" id="category" name="category">
+			{{ Form::text('category', array('class' => 'form-control')) }}
 		</div>
 	  </div>
 	  <div class="form-group">
 		<div class="col-sm-offset-4 col-sm-8">
-			<button type="submit" class="btn btn-default">Submit</button>
+			{{ Form::submit('Submit', array('class' => 'btn btn-default')) }}
 		</div>
 	</div>
-	</form>
+	{{ Form::close() }}
 	
 	
 @stop

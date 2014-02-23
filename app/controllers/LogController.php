@@ -12,13 +12,11 @@ class LogController extends BaseController {
 	|
 	*/
 
-	public function addEntry()
-	{	
-		// user must be logged in!
-		if(!Auth::check()){
-			return;
-		}
-		
+	/*
+	* getValidator: generate the validator that will be used by addEntry() and editEntry()
+	*/
+	private function validateInput()
+	{
 		/*
 		*  Returns true if the date-time value of this field is greater than the
 		*  value of the provided attribute name.
@@ -56,11 +54,23 @@ class LogController extends BaseController {
 			),
 			array('after_start' => 'End date-time must be after start date-time.')
 		);
+
+		return $validator;
+	}
+
+	public function addEntry()
+	{	
+		// user must be logged in!
+		if(!Auth::check()){
+			return;
+		}
+		
+		$validator = validateInput(); // validate input from Input::all()
 		
 		if ($validator->passes()) {
 			// validation has passed, save user in DB
 			
-			// LogEntry
+			// create new LogEntry
 			$entry = new LogEntry;
 			$entry->startDateTime = Input::get('startDateTime');
 			$entry->endDateTime = Input::get('endDateTime');
