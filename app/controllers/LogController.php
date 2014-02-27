@@ -41,10 +41,7 @@ class LogController extends BaseController {
 		*/
 		Validator::extend('validName', function($attribute, $value, $parameters)
 		{
-			$validchars = preg_match('/[a-zA-z0-9-_ \.\+\*\?&\]\[\}\{\|\(\)\$%\^#!@]+/', $value);
-			if($validchars === false)
-				return false;
-			return count(str_replace(' ','',$value)) > 0;
+			return Utils::validateName($value);
 		});
 	
 		// validate
@@ -86,5 +83,9 @@ class LogController extends BaseController {
 			// validation has failed, display error messages
 			return Redirect::to('log/add')->withErrors($validator);
 		}
+	}
+
+	public function getLogAdd(){
+		return Auth::check() != null ? View::make('add')->with('active', 'addlog') : Redirect::to('login');
 	}
 }
