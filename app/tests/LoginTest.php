@@ -10,9 +10,29 @@ class LoginTest extends TestCase{
 
 		Input::replace($post_data);
 
-		$reponse = $this->call('POST', 'login');
+		$response = $this->action('POST', 'UserController@postUserLogin', $post_data);
 
-		echo Auth::user();
+		$loggedInUser = Auth::user();
+
+		$this->assertEquals($loggedInUser->username, "gopal");
+
+		$this->assertNotNull(Auth::check());
+
+		if(Auth::check()){
+			echo "The user was successfully logged in";
+		}
+
+		$this->assertTrue($response->isRedirect());
+		$this->assertRedirectedTo('profile');
+	}
+
+
+	public function testLogout(){
+
+		$response = $this->call('GET', 'logout');
+		$this->assertTrue($response->isRedirect());
+		$this->assertNull(Auth::user(), 'User\'s session is empty as expected');
+		$this->assertRedirectedTo('/');
 	}
 
 }

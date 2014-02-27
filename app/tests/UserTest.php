@@ -2,6 +2,28 @@
 
 class UserTest extends TestCase {
 
+	public function setUp(){
+
+		parent::setUp();
+		
+		Artisan::call('migrate');
+		Artisan::call('db:seed');
+	}
+
+	public function testNewUserValid(){
+
+		$user = new User;
+
+		$user->firstname = '';
+		$user->lastname = 'User'; 
+		$user->email = 'something@example.com';
+		$user->password='abcd';
+
+		$this->assertTrue($user->save());
+		$this->assertTrue($user->save());
+
+	}
+
 	public function testNewUser()
 	{
 		// test for creating new user
@@ -12,10 +34,9 @@ class UserTest extends TestCase {
 
 		Input::replace($post_data);
 
-		$this->call('POST', 'signup');
+		$response = $this->action('POST', 'UserController@postNewUser', $post_data);
 
-		$user = User::all();
-		// echo $user;
+		$this->assertRedirectedTo("/");
 	}
 
 }
