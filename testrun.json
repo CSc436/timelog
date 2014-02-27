@@ -1,0 +1,107 @@
+{
+    "event": "suiteStart",
+    "suite": "Application Test Suite",
+    "tests": 6
+}{
+    "event": "suiteStart",
+    "suite": "LoginTest",
+    "tests": 1
+}{
+    "event": "testStart",
+    "suite": "LoginTest",
+    "test": "LoginTest::testLogin"
+}{
+    "event": "test",
+    "suite": "LoginTest",
+    "test": "LoginTest::testLogin",
+    "status": "pass",
+    "time": 0.069002866744995,
+    "trace": [
+
+    ],
+    "message": "",
+    "output": ""
+}{
+    "event": "suiteStart",
+    "suite": "UITest",
+    "tests": 4
+}{
+    "event": "testStart",
+    "suite": "UITest",
+    "test": "UITest::testHomepage"
+}{
+    "event": "test",
+    "suite": "UITest",
+    "test": "UITest::testHomepage",
+    "status": "pass",
+    "time": 0.012001037597656,
+    "trace": [
+
+    ],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "UITest",
+    "test": "UITest::testAbout"
+}{
+    "event": "test",
+    "suite": "UITest",
+    "test": "UITest::testAbout",
+    "status": "pass",
+    "time": 0.010000944137573,
+    "trace": [
+
+    ],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "UITest",
+    "test": "UITest::testContact"
+}{
+    "event": "test",
+    "suite": "UITest",
+    "test": "UITest::testContact",
+    "status": "pass",
+    "time": 0.0099999904632568,
+    "trace": [
+
+    ],
+    "message": "",
+    "output": ""
+}{
+    "event": "testStart",
+    "suite": "UITest",
+    "test": "UITest::testLogin"
+}{
+    "event": "test",
+    "suite": "UITest",
+    "test": "UITest::testLogin",
+    "status": "pass",
+    "time": 0.011001110076904,
+    "trace": [
+
+    ],
+    "message": "",
+    "output": ""
+}{
+    "event": "suiteStart",
+    "suite": "UserTest",
+    "tests": 1
+}{
+    "event": "testStart",
+    "suite": "UserTest",
+    "test": "UserTest::testNewUser"
+}{
+    "event": "test",
+    "suite": "UserTest",
+    "test": "UserTest::testNewUser",
+    "status": "pass",
+    "time": 0.015001058578491,
+    "trace": [
+
+    ],
+    "message": "",
+    "output": ""
+}

@@ -23,7 +23,7 @@ Route::get('login', array('as' => 'login', function()
 	{
 		return Redirect::to('/');
 	} else {
-		return View::make('login')->with(array('active'=> 'login', 'failed'=> 'true'));
+		return View::make('login')->with(array('active'=> 'login', 'failed'=> false));
 	}
 	
 }));
