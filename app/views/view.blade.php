@@ -33,7 +33,7 @@
 				      .showLabels(true);
 				 
 				    d3.select("#pie svg")
-				        .datum(data)
+				        .datum(pieData)
 				        .transition().duration(350)
 				        .call(chart);
 				 
