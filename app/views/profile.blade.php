@@ -12,7 +12,6 @@
 		<div class="panel-body">
 			
 			<p><tr><strong>Full Name: </strong></tr>{{ $user->firstname." ".$user->lastname }}</p> 
-			<p><tr><strong>User Name: </strong></tr>{{ $user->username }}</p>
 			<p><tr><strong>Email Address: </strong></tr>{{ $user->email }}</p>
 			<p><tr><strong>Member Since: </strong></tr>{{ $user->created_at }}</p>
 			<p><tr><strong>Member ID: </strong></tr>{{ $user->id }}</p>
@@ -33,7 +32,7 @@
 			<h5 class="panel-title">Delete User</h5>
 		</div>
 		<div class="panel-body">
-			<p><tr><strong>Delete Account</strong></tr></p>
+			<p><tr><strong><a href="localhost:8000/profile">Delete Account</a></strong></tr></p>
 		</div>
 	</div>
 	
