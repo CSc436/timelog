@@ -21,8 +21,7 @@
 		window.onload = function() {
 			/* Pie Graph */
 			$.get("/api/log/pie", function(pieData) {
-				var obj = {key: "Categories", values: pieData};
-				setupPieGraph([obj]);
+				setupPieGraph(pieData);
 			});
 
 			function setupPieGraph(pieData) {
@@ -32,7 +31,7 @@
 				      .y(function(d) { return (+d.value) })
 				      .showLabels(true);
 				 
-				    d3.select("#pie svg")
+				    d3.select('#pie svg')
 				        .datum(pieData)
 				        .transition().duration(350)
 				        .call(chart);
@@ -41,12 +40,13 @@
 				});
 			}
 
+			/* Bar Graph */
 			$.get("/api/log/view", function(data){
 				var obj = {key: "Your time logs", values: data};
 				setupGraph([obj]);
 			});
 
-			/* Bar Graph */
+
 			function setupGraph(data) {
 
 				nv.addGraph(function() {
