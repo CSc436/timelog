@@ -93,3 +93,11 @@ Route::get('api/log/view', function()
 	$data = DB::select("select DATE_FORMAT(startDateTime,'%m-%d-%y') as label, duration as value from log_entry order by label asc, duration desc");
 	return $data;
 });
+
+
+// ------------------- Dashboard Routes --------------------
+
+Route::get('dashboard', function()
+{
+	return View::make('dashboard')->with('active', 'profile');
+});

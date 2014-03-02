@@ -5,7 +5,7 @@ class UserController extends Controller {
 	public function postUserLogin(){
 
 		$credentials = array(
-			'username' => Input::get('username'),
+			'email' => Input::get('email'),
 			'password' => Input::get('password')
 			);
 
@@ -23,7 +23,6 @@ class UserController extends Controller {
 		$rules = array(
 			'firstname' => 'required|min:2|max:64|alpha',
 			'lastname'  => 'required|min:2|max:64|alpha',
-			'username'  => 'required|alpha_num|between:4,32|unique:user',
 			'email'     => 'required|between:3,64|email|unique:user',
 			'password'  => 'required|alpha_num|between:4,32|confirmed',
 			'password_confirmation' => 'required|alpha_num|between:4,32'
