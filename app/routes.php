@@ -113,7 +113,13 @@ Route::get('log/add', function()
 	return Auth::check() != null ? View::make('add')->with('active', 'addlog') : Redirect::to('login');
 });
 
+Route::get('log/addlog_cal', function()
+{
+	return Auth::check() != null ? View::make('addlog_cal')->with('active', 'addlog_cal') : Redirect::to('login');
+});
+
 Route::post('log/add', 'LogController@addEntry');
+Route::post('log/add_cal', 'LogController@addEntry');
 
 Route::get('log/view', function()
 {
