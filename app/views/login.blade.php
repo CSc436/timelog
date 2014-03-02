@@ -15,9 +15,9 @@
 
 		<!-- Text input-->
 		<div class="form-group">
-			<label class="col-md-4 control-label" for="username">Username</label>
+			<label class="col-md-4 control-label" for="email">email</label>
 			<div class="col-md-5">
-				<input id="username" name="username" autofocus type="text" placeholder="" class="form-control input-md" required="">
+				<input id="email" name="email" autofocus type="text" placeholder="" class="form-control input-md" required="">
 			</div>
 		</div>
 
@@ -73,12 +73,6 @@
 				<label class="col-md-4 control-label" for="signup-lastname">Last Name</label>
 				<div class="col-md-5">
 					<input id="signup-lastname" name="lastname" type="text" placeholder="" class="form-control input-md" required>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="col-md-4 control-label" for="signup-username">Username</label>
-				<div class="col-md-5">
-					<input id="signup-username" name="username" type="text" placeholder="" class="form-control input-md" required>
 				</div>
 			</div>
 			<div class="form-group">
