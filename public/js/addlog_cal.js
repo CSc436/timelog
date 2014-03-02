@@ -79,7 +79,7 @@
 			},
 			eventClick: function(calEvent, jsEvent, view) {
 				var title = prompt('What were you working on:', calEvent.title, { buttons: { Ok: true, Cancel: false} });
-				var description = prompt('Notes:', calEvent.description, { buttons: { Ok: true, Cancel: false} });
+				var description = prompt('Category:', calEvent.description, { buttons: { Ok: true, Cancel: false} });
 
 				if (title){
 					  calEvent.title = title;
@@ -87,6 +87,16 @@
 					  calendar.fullCalendar('updateEvent',calEvent);
 					  calendar.fullCalendar('updateEvent',calEvent);
 				}
+
+				/*
+				$.post( "/log/add", { entryname: calEvent.title, 
+					category: calEvent.description, 
+					startDateTime:calEvent.start, 
+					endDateTime: calEvent.end })
+					.done(function( data ) {
+					alert( "Response Loaded: " + data );
+  				});*/
+				//alert(calEvent.end.year);
 			}
 		});
 	});
