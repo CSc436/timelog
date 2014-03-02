@@ -110,11 +110,12 @@ Route::post('signup', function()
 
 Route::get('log/add', function()
 {
-	return Auth::check() != null ? View::make('add')->with('active', 'addlog') : Redirect::to('login');
+	return Auth::check() != null ? View::make('entryform')->with('active', 'addlog') : Redirect::to('login');
 });
 
 // handles both add and edit log entry actions
-Route::post('log/save', 'LogController@saveEntry');
+Route::post('log/save/{id?}', 'LogController@saveEntry')->where('id', '[0-9]+');
+Route::get('log/edit/{id}', 'LogController@editEntry')->where('id', '[0-9]+');
 
 Route::get('log/view', function()
 {

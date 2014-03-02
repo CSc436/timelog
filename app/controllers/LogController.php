@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LogController extends BaseController {
 
@@ -58,20 +59,30 @@ class LogController extends BaseController {
 		return $validator;
 	}
 
-	public function addEntry()
+	public function saveEntry($id = null)
 	{	
 		// user must be logged in!
 		if(!Auth::check()){
-			return;
+			return Response::make('Not Found', 404);
+		}
+
+		if($id == null){
+			// create new LogEntry
+			$entry = new LogEntry;
+		}else{
+			// load existing LogEntry
+			try{
+				$entry = LogEntry::where('UID', '=', Auth::user()->id)->findOrFail($id);
+			}catch(ModelNotFoundException $e){
+				return Response::make('Not Found', 404);
+			}
 		}
 		
-		$validator = validateInput(); // validate input from Input::all()
+		$validator = $this->validateInput(); // validate input from Input::all()
 		
 		if ($validator->passes()) {
 			// validation has passed, save user in DB
-			
-			// create new LogEntry
-			$entry = new LogEntry;
+
 			$entry->startDateTime = Input::get('startDateTime');
 			$entry->endDateTime = Input::get('endDateTime');
 			
@@ -84,6 +95,7 @@ class LogController extends BaseController {
 			$d = intval($interval->format('%a'));
 			$h = intval($interval->format('%h'));
 			$m = intval($interval->format('%i'));
+
 			$entry->duration = ((($d * 24) + $h) * 60) + $m;
 			
 			// save to DB
@@ -92,9 +104,30 @@ class LogController extends BaseController {
 			$entry->save();
 
 			return Redirect::to('log/view');
-		} else {
+		} else if($id == null) {
 			// validation has failed, display error messages
+			Input::flash();
 			return Redirect::to('log/add')->withErrors($validator);
+		}else{
+			// validation has failed, display error messages
+			Input::flash();
+			return Redirect::to('log/edit/'.$id)->withErrors($validator);
 		}
+	}
+
+	public function editEntry($id)
+	{	
+		// user must be logged in!
+		if(!Auth::check()){
+			return Response::make('Not Found', 404);
+		}
+
+		try{
+			$entry = LogEntry::where('UID', '=', Auth::user()->id)->findOrFail($id);
+		}catch(ModelNotFoundException $e){
+			return Response::make('Not Found', 404);
+		}
+
+		return View::make('entryform')->with('editThis', $entry);
 	}
 }
