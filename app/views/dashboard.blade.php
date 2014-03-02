@@ -2,7 +2,9 @@
 <!-- weather API Key: d513969ef432e427 -->
 @section('content')
 	<h2 class="title">Dashboard</h2>
-
+	<?php
+		$user = Auth::user();
+	?>
 	<div id="dashboard-container">
 		<div id="dashboard-left-sidebar" class="pull-left">
 				<div class="panel panel-info">
@@ -26,7 +28,9 @@
 			<div id="time"></div>
 		</div>
 		
-		<div id="categories"></div>
+		<div id="categories" class="pull-center">
+			
+		</div>
 		
 		<div id="trends"></div>
 		
@@ -35,7 +39,7 @@
 			<div id="deadlines">
 				<h3 class="panel- title">Deadlines</h3>
 				<div class="panel-body">
-					
+					<!--Auth::user()->id == Auth::log_category-->
 				</div>
 			</div>
 			<div id="achievements">
