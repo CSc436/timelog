@@ -9,7 +9,12 @@
 	<title>Time Log</title>
 	<link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('css/font-awesome.min.css') }}" rel="stylesheet">
+	<link href="{{ URL::asset('css/nv.d3.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('css/main.css') }}" rel="stylesheet">
+	<script src="{{ URL::asset('js/jquery-2.1.0.min.js') }}"></script>
+	<script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
+	<script src="{{ URL::asset('js/main.js') }}"></script>
+	@yield('header')
 </head>
 <body>
 	<div class="navbar navbar-default navbar-fixed-top">
@@ -29,6 +34,7 @@
 
 					<li <?php if ($active == "home") echo"class=active" ?>><a href="/">Home</a></li>
 					<li <?php if ($active == "addlog") echo"class=active" ?>><a href="/log/add">Add Logs</a></li>
+					<li <?php if ($active == "addlog_cal") echo"class=active" ?>><a href="/log/addlog_cal">Add Logs(Calendar)</a></li>
 					<li <?php if ($active == "viewlog") echo"class=active" ?>><a href="/log/view">View Logs</a></li>
 					<li <?php if ($active == "about") echo"class=active" ?>> <a href="/about">About</a></li>
 					<li <?php if ($active == "contact") echo"class=active" ?>><a href="/contact">Contact</a></li>
@@ -66,9 +72,5 @@
 			<a href="/about">About</a>
 		</div>
 	</footer>
-
-	<script src="{{ URL::asset('js/jquery-2.1.0.min.js') }}"></script>
-	<script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
-	<script src="{{ URL::asset('js/main.js') }}"></script>
 </body>
 </html>

@@ -23,7 +23,7 @@ Route::get('login', array('as' => 'login', function()
 	{
 		return Redirect::to('/');
 	} else {
-		return View::make('login')->with(array('active'=> 'login', 'failed'=> 'true'));
+		return View::make('login')->with(array('active'=> 'login', 'failed'=> false));
 	}
 	
 }));
@@ -43,7 +43,9 @@ Route::get('profile', function()
 	}
 });
 
-Route::post('password/change', 'UserController@changePassword');
+
+// ------------------- ReminderController Routes --------------------
+
 
 Route::post('password/reset', "RemindersController@postRemind");
 
@@ -51,71 +53,43 @@ Route::get('password/reset/{token}', 'RemindersController@getReset');
 
 Route::post('password/reset/now', 'RemindersController@postReset');
 
-Route::get('users', function()
+
+// ------------------- UserController Routes --------------------
+
+
+Route::get('users', 'UserController@getAllUsers');
+
+// Route to login strategy
+Route::post('login', 'UserController@postUserLogin');
+
+// Route to signup strategy
+Route::post('signup', 'UserController@postNewUser');
+
+Route::post('password/change', 'UserController@changePassword');
+
+// ------------------- LogController Routes --------------------
+
+
+Route::get('log/add', 'LogController@getLogAdd');
+
+Route::get('log/addlog_cal', function()
 {
-	$users = User::all();
-	return View::make('users')->with('users', $users);
-});
-
-
-// Login strategy
-Route::post('login', function()
-{
-	$credentials = array(
-		'email' => Input::get('email'),
-		'password' => Input::get('password')
-		);
-
-	if (Auth::attempt($credentials))
-	{
-		return Redirect::intended('profile');
-	}
-	else {
-		return Redirect::to('login');
-	}
-	
-});
-
-
-// Signup strategy
-Route::post('signup', function()
-{
-	$rules = array(
-		'firstname' => 'required|min:2|max:64|alpha',
-		'lastname'  => 'required|min:2|max:64|alpha',
-		'email'     => 'required|between:3,64|email|unique:user',
-		'password'  => 'required|alpha_num|between:4,32|confirmed',
-		'password_confirmation' => 'required|alpha_num|between:4,32'
-		);
-
-	$validator = Validator::make(Input::all(), $rules);
-
-	if ($validator->passes()) {
-
-		User::create(array(
-			'firstname'     => Input::get('firstname'),
-			'lastname'     => Input::get('lastname'),
-			'email'    => Input::get('email'),
-			'password' => Hash::make(Input::get('password'))
-			));
-
-		return Redirect::to('/')->with('success', 'Thanks for registering!');
-
-	} else {
-		return $validator->getMessageBag();
-	}
-});
-
-Route::get('log/add', function()
-{
-	return Auth::check() != null ? View::make('add')->with('active', 'addlog') : Redirect::to('login');
+	return Auth::check() != null ? View::make('addlog_cal')->with('active', 'addlog_cal') : Redirect::to('login');
 });
 
 Route::post('log/add', 'LogController@addEntry');
+Route::post('log/add_cal', 'LogController@addEntry');
 
 Route::get('log/view', function()
 {
 	$query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
 
 	return View::make('view')->with('query', $query)->with('active', 'viewlog');
+});
+
+
+Route::get('api/log/view', function()
+{
+	$data = DB::select("select DATE_FORMAT(startDateTime,'%m-%d-%y') as label, duration as value from log_entry order by label asc, duration desc");
+	return $data;
 });
