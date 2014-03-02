@@ -38,6 +38,7 @@
 					<li <?php if ($active == "viewlog") echo"class=active" ?>><a href="/log/view">View Logs</a></li>
 					<li <?php if ($active == "about") echo"class=active" ?>> <a href="/about">About</a></li>
 					<li <?php if ($active == "contact") echo"class=active" ?>><a href="/contact">Contact</a></li>
+					<li <?php if ($active == "dashboard") echo"class=active" ?>><a href="/dashboard">Dashboard</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					@if(!Auth::check())  
