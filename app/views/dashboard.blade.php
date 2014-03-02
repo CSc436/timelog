@@ -2,54 +2,70 @@
 <!-- weather API Key: d513969ef432e427 -->
 @section('content')
 	<h2 class="title">Dashboard</h2>
-	<?php
-		$user = Auth::user();
-	?>
-	<div id="dashboard-container">
-		<div id="dashboard-left-sidebar" class="pull-left">
+
+	<div id="dashboard-container" class="row">
+
+		<!-- Left sidebar column -->
+		<div id="dashboard-left-sidebar" class="col-md-2 pull-left">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<h3 class="panel-title">Quick Links</h4>
+						<h3 class="panel-title">Quick Links</h3>
 					</div>
 					<div class="panel-body">
-						<p><tr><strong>Create Tasks</strong></tr> </p>
-						<p><tr><strong>View Tasks</strong></tr> </p>
-						<p><tr><strong>Completed Tasks</strong></tr> </p>
-						<p><tr><strong>View Data</strong></tr> </p>
-						<p><tr><strong>Achievements</strong></tr> </p>
+						<p>View Tasks</p>
+						<p>Completed Tasks</p>
+						<p>View Data</p>
+						<p>Achievements</p>
+						<p>Create Tasks</p>
 					</div>
 				</div>
 		</div>
 
-		<div id="weather">
+		<!-- Weather column -->
+		<div id="weather" class="box col-md-2">
 			<div id="weather-condition"></div>
 			<div id="temperature"></div>
 			<div id="location"></div>
 			<div id="time"></div>
+			<div id="date"></div>
 		</div>
 		
-		<div id="categories" class="pull-center">
+
+		<!-- Categories column -->
+		<div id="categories" class="box col-md-5">
+			<svg></svg>
+		</div>
+		
+		<!-- Right sidebar column -->
+		<div id="dashboard-right-sidebar" class="col-md-2 pull-right" >
 			
-		</div>
-		
-		<div id="trends"></div>
-		
-		
-		<div id="dashboard-right-sidebar" class="pull-right" >
-			<div id="deadlines">
-				<h3 class="panel- title">Deadlines</h3>
+			<div id="deadlines" class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">Deadlines</h3>
+				</div>
 				<div class="panel-body">
 					<!--Auth::user()->id == Auth::log_category-->
+					<p>Finish HW</p>
+					<p>Attend ACM meeting</p>
 				</div>
 			</div>
-			<div id="achievements">
-				<h4 class="panel- title">Achievements</h4>
+
+			<div id="achievements" class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">Achievements</h3>
+				</div>
 				<div class="panel-body">
-					Hello
+					Congrats! You are like the most productive person in the world.
 				</div>
 			</div>
-				
+
 		</div>
+
+		<!-- Trends column -->
+		<div id="trends" class="box col-md-6">
+			
+		</div>
+
 	</div>
 
 	<link href="{{ URL::asset('css/dashboard.css') }}" rel="stylesheet">

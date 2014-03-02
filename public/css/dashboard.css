@@ -1,3 +1,23 @@
+#weather{
+	display: inline-block;
+}
+
+#categories{
+	height: 300px;
+}
+
 #weather #time{
 	font-size: 2em;
+}
+
+.nvd3 .nv-legend{
+	float: left;
+}
+
+.box{
+	border-radius: 0;
+	box-shadow: 0 0 2px #999;
+	padding: 20px;
+	min-height: 200px;
+	margin: 0 20px 20px 0;
 }

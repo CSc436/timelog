@@ -7,6 +7,10 @@
 		  height: 400px;
 		}
 
+		#pie svg {
+		  height: 400px;
+		}
+
 		table {
 			table-layout: fixed;
 			width: 80%;
@@ -15,13 +19,35 @@
 	</style>
 	<script>
 		window.onload = function() {
+			/* Pie Graph */
+			$.get("/api/log/pie", function(pieData) {
+				setupPieGraph(pieData);
+			});
 
+			function setupPieGraph(pieData) {
+				nv.addGraph(function() {
+				 	var chart = nv.models.pieChart()
+				      .x(function(d) { return d.label })
+				      .y(function(d) { return (+d.value) })
+				      .showLabels(true);
+				 
+				    d3.select('#pie svg')
+				        .datum(pieData)
+				        .transition().duration(350)
+				        .call(chart);
+				 
+					return chart;
+				});
+			}
+
+			/* Bar Graph */
 			$.get("/api/log/view", function(data){
 				var obj = {key: "Your time logs", values: data};
 				setupGraph([obj]);
 			});
 
-			function setupGraph(data){
+
+			function setupGraph(data) {
 
 				nv.addGraph(function() {
 				   	chart = nv.models.discreteBarChart()
@@ -32,8 +58,6 @@
 					  .showValues(true)       //...instead, show the bar value right on top of each bar.
 					  .transitionDuration(350)
 					  ;
-				 
-
 
 					d3.select('#chart svg')
 					  .datum(data)
@@ -43,12 +67,15 @@
 				 
 				  return chart;
 				});
-
 			}
 		};
 
  
 	</script>
+	<div id="pie">
+		<svg></svg>
+	</div>
+
 	<div id="chart">
 		<svg></svg>
 	</div>
