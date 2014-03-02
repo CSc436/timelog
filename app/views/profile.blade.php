@@ -32,7 +32,7 @@
 			<h5 class="panel-title">Delete User</h5>
 		</div>
 		<div class="panel-body">
-			<p><tr><strong>Delete Account</strong></tr></p>
+			<p><tr><strong><a href="localhost:8000/profile">Delete Account</a></strong></tr></p>
 		</div>
 	</div>
 	
