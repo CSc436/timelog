@@ -83,9 +83,10 @@ Route::post('log/add_cal', 'LogController@addEntry');
 Route::get('log/view', function()
 {	
 	//$user = Auth::user();
-	//$query = DB::select('select from log_entry where UID="$user->uid" ')->orderBy('endDateTime', 'asc')->get();
-	$query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
-	return View::make('view')->with('query', $query)->with('active', 'viewlog');
+	$query = DB::select('select from log_entry where UID="$user->uid" ')->orderBy('endDateTime', 'asc')->get();
+	return Auth::check() != null ? View::make('addlog_cal')->with('query', '$query')-> : Redirect::to('login');
+	//$query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
+	//return View::make('view')->with('query', $query)->with('active', 'viewlog');
 });
 
 

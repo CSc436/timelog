@@ -6,6 +6,17 @@ $(document).ready(function() {
 	var m = date.getMonth();
 	var y = date.getFullYear();
 	
+	//var eventsBeforeParsed = $.;
+	var eventBeforeParsed = [];
+	//var eventsAfterParsed =[];
+	/*eventsBeforeParsed.each(function(key){
+
+	})*/
+
+	for ( var i=0; i<eventsBeforeParsed.length; i++ ) {
+ 		//[loopBody]
+	}
+
 	var calendar = $('#calendar').fullCalendar({
 		header: {
 			left: 'prev,next today',
@@ -45,9 +56,7 @@ $(document).ready(function() {
 
 			calendar.fullCalendar('unselect');
 		},
-		events: [
-
-		],
+		//events: EventList,
 		/*events: [
 			{
 				title: 'My Event',
@@ -65,27 +74,7 @@ $(document).ready(function() {
 				title: 'Meeting',
 				start: new Date(y, m, d, 10, 30),
 				allDay: false
-			},
-<<<<<<< HEAD
-			{
-				title: 'Lunch',
-				start: new Date(y, m, d, 12, 0),
-				end: new Date(y, m, d, 14, 0),
-				allDay: false
-			},
-			{
-				title: 'Birthday Party',
-				start: new Date(y, m, d+1, 19, 0),
-				end: new Date(y, m, d+1, 22, 30),
-				allDay: false
-			},
-			{
-				title: 'Click for Google',
-				start: new Date(y, m, 28),
-				end: new Date(y, m, 29),
-				url: 'http://google.com/'
-			}
-			],*/
+			}]*/
 		eventRender: function(event, element) { 
 			//element.title="Tooltip on top"
 			if(event.description != null){
@@ -101,7 +90,6 @@ $(document).ready(function() {
 				  calEvent.description = description;
 				  calendar.fullCalendar('updateEvent',calEvent);
 				  calendar.fullCalendar('updateEvent',calEvent);
-=======
 			eventClick: function(calEvent, jsEvent, view) {
 				var title = prompt('What were you working on:', calEvent.title, { buttons: { Ok: true, Cancel: false} });
 				var description = prompt('Category:', calEvent.description, { buttons: { Ok: true, Cancel: false} });
@@ -122,7 +110,6 @@ $(document).ready(function() {
 					alert( "Response Loaded: " + data );
   				});*/
 				//alert(calEvent.end.year);
->>>>>>> 2aa4aebd8920cb9248a48713ac0b61c5cb094220
 			}
 
 			/*
