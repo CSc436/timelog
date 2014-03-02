@@ -9,12 +9,27 @@ $(function() {
 			success: function(parsed_json) {
 				var location = parsed_json['location']['city'];
 				var temp_f = parsed_json['current_observation']['temp_f'];
-				var locationDiv = $("<div>", {text: location});
-				var tempDiv = $("div", {text: temp_f});
-				$("#weather").append(locationDiv).append(tempDiv);
+				
+				$("#temparature").text(temp_f);
+				$("#weather-condition").text(temp_f);
+				$("#location").text(location);
 			}
 		});
 	}
 
+	Dashboard.getTime = function(){
+		$("#time").text(moment().format("hh:mma"));
+	}
+
+	Dashboard.getWeather();
+	Dashboard.getTime();
+
+	window.setInterval(function(){
+		Dashboard.getWeather();
+	}, 900000);
+	
+	window.setInterval(function(){
+		Dashboard.getTime();
+	}, 60000);
 
 });
