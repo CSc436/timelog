@@ -9,7 +9,7 @@
 		<div id="dashboard-left-sidebar" class="col-md-2 pull-left">
 				<div class="panel panel-info">
 					<div class="panel-heading">
-						<h3 class="panel-title">Quick Links</h4>
+						<h3 class="panel-title">Quick Links</h3>
 					</div>
 					<div class="panel-body">
 						<p>View Tasks</p>
@@ -31,27 +31,37 @@
 		</div>
 		
 		<!-- Categories column -->
-		<div id="categories" class="box col-md-5"></div>
-		
-		<!-- Trends column -->
-		<div id="trends" class="box col-md-6">
-			
+		<div id="categories" class="box col-md-5">
+			<svg></svg>
 		</div>
 		
 		<!-- Right sidebar column -->
 		<div id="dashboard-right-sidebar" class="col-md-2 pull-right" >
-			<div id="deadlines">
-				<h3 class="panel-title">Deadlines</h3>
+			
+			<div id="deadlines" class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">Deadlines</h3>
+				</div>
 				<div class="panel-body">
-					
+					<p>Finish HW</p>
+					<p>Attend ACM meeting</p>
 				</div>
 			</div>
-			<div id="achievements">
-				<h4 class="panel-title">Achievements</h4>
-				<div class="panel-body">
-					Congrats! You are the most productive person in the world.
+
+			<div id="achievements" class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">Achievements</h3>
 				</div>
-			</div>				
+				<div class="panel-body">
+					Congrats! You are like the most productive person in the world.
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Trends column -->
+		<div id="trends" class="box col-md-6">
+			
 		</div>
 
 	</div>

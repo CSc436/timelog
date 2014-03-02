@@ -2,8 +2,16 @@
 	display: inline-block;
 }
 
+#categories{
+	height: 300px;
+}
+
 #weather #time{
 	font-size: 2em;
+}
+
+.nvd3 .nv-legend{
+	float: left;
 }
 
 .box{
