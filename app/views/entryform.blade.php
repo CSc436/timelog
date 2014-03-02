@@ -25,7 +25,7 @@
 	  <div class="form-group">
 		{{ Form::label('entryname', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			{{ Form::text('entryname', null, array('class' => 'form-control', 'placeholder' => 'Name')) }}
+			{{ Form::text('entryname', 'Not Used Yet', array('class' => 'form-control', 'placeholder' => 'Name')) }}
 		</div>
 	  </div>
 	  <div class="form-group">
@@ -44,6 +44,12 @@
 		{{ Form::label('category', 'Category', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			{{ Form::text('category', null, array('class' => 'form-control')) }}
+		</div>
+	  </div>
+	  <div class="form-group">
+		{{ Form::label('notes', 'Notes', array('class' => 'col-sm-4 control-label')) }}
+		<div class="col-sm-8">
+			{{ Form::textarea('notes', null, array('class' => 'form-control')) }}
 		</div>
 	  </div>
 	  <div class="form-group">

@@ -99,7 +99,7 @@ class LogController extends BaseController {
 			$entry->duration = ((($d * 24) + $h) * 60) + $m;
 			
 			// save to DB
-			$entry->notes = '';
+			$entry->notes = Input::get('notes');
 			$entry->UID = Auth::user()->id;
 			$entry->save();
 
