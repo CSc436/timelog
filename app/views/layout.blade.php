@@ -9,6 +9,7 @@
 	<title>Time Log</title>
 	<link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('css/font-awesome.min.css') }}" rel="stylesheet">
+	<link href="{{ URL::asset('css/nv.d3.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('css/main.css') }}" rel="stylesheet">
 	<script src="{{ URL::asset('js/jquery-2.1.0.min.js') }}"></script>
 	<script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>

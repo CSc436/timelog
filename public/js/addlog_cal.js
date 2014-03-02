@@ -66,6 +66,7 @@ $(document).ready(function() {
 				start: new Date(y, m, d, 10, 30),
 				allDay: false
 			},
+<<<<<<< HEAD
 			{
 				title: 'Lunch',
 				start: new Date(y, m, d, 12, 0),
@@ -100,6 +101,28 @@ $(document).ready(function() {
 				  calEvent.description = description;
 				  calendar.fullCalendar('updateEvent',calEvent);
 				  calendar.fullCalendar('updateEvent',calEvent);
+=======
+			eventClick: function(calEvent, jsEvent, view) {
+				var title = prompt('What were you working on:', calEvent.title, { buttons: { Ok: true, Cancel: false} });
+				var description = prompt('Category:', calEvent.description, { buttons: { Ok: true, Cancel: false} });
+
+				if (title){
+					  calEvent.title = title;
+					  calEvent.description = description;
+					  calendar.fullCalendar('updateEvent',calEvent);
+					  calendar.fullCalendar('updateEvent',calEvent);
+				}
+
+				/*
+				$.post( "/log/add", { entryname: calEvent.title, 
+					category: calEvent.description, 
+					startDateTime:calEvent.start, 
+					endDateTime: calEvent.end })
+					.done(function( data ) {
+					alert( "Response Loaded: " + data );
+  				});*/
+				//alert(calEvent.end.year);
+>>>>>>> 2aa4aebd8920cb9248a48713ac0b61c5cb094220
 			}
 
 			/*
