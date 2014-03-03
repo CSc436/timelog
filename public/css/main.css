@@ -33,7 +33,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, legend {
 
 .container-page {
 	position: relative;
-	z-index: 999999;
+	z-index: 200;
 	height: 100%;
 	margin-bottom: 200px;
 	padding-bottom: 50px;
