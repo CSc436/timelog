@@ -72,6 +72,7 @@
 			<a href="/help">Help</a>
 			<a href="/about">About</a>
 		</div>
+		<p>Handmade with <i class="fa fa-heart fa-3"></i> in the USA</p>
 	</footer>
 </body>
 </html>
