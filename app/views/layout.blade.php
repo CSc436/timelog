@@ -33,13 +33,10 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-
 					<li <?php if ($active == "home") echo"class=active" ?>><a href="/">Home</a></li>
 					<li <?php if ($active == "addlog") echo"class=active" ?>><a href="/log/add">Add Logs</a></li>
-					<li <?php if ($active == "addlog_cal") echo"class=active" ?>><a href="/log/addlog_cal">Add Logs(Calendar)</a></li>
+					<li <?php if ($active == "addlog_cal") echo"class=active" ?>><a href="/log/addlog_cal">Calendar</a></li>
 					<li <?php if ($active == "viewlog") echo"class=active" ?>><a href="/log/view">View Logs</a></li>
-					<li <?php if ($active == "about") echo"class=active" ?>> <a href="/about">About</a></li>
-					<li <?php if ($active == "contact") echo"class=active" ?>><a href="/contact">Contact</a></li>
 					<li <?php if ($active == "dashboard") echo"class=active" ?>><a href="/dashboard">Dashboard</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
@@ -69,6 +66,7 @@
 	<footer>
 		<p>Time Log &copy; 2014</p>
 		<div class="footer-links">
+			<a href="/contact">Contact Us</a>
 			<a href="/terms">Terms</a>
 			<a href="/privacy">Privacy</a>
 			<a href="/help">Help</a>

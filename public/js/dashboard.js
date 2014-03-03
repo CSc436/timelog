@@ -16,7 +16,8 @@ $(function() {
 				var icon = $("<img>", {
 					src: icon_url
 				});
-				$("#weather-condition").append(icon);
+				
+				$("#weather-condition").html(icon);
 				$("#location").text(location);
 
 				console.log(parsed_json);
