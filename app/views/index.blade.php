@@ -1,10 +1,10 @@
 @extends('layout')
 
 @section('content')
-	<h2 class="title">Home</h2>
+
 	{{ Session::get("success") }}
 
-	<div class="jumbotron">
+	<div class="jumbotron timelog-jumbotron">
 	  <h1>Time Logging, Task Planning and Management</h1>
 	  <p>Time Log makes it really easy to log your tasks and help you plan your tasks effortlessly. The use of Time Log guarantees you with maximum productivity and minimum stress.</p>
 	</div>
@@ -49,8 +49,8 @@
 
 			</div>
 		  </div>
-		</div>
 	  
 	  </section>
+	  </div>
 
 @stop

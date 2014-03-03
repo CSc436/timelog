@@ -1,6 +1,9 @@
 @extends('layout')
 
 @section('content')
+
+	<div class="container" id="main">
+
 	<h2 class="title">Add New Time Entry</h2>
 	@if(!$errors->isEmpty())
 		<div class="alert alert-danger">
@@ -59,5 +62,6 @@
 	</div>
 	{{ Form::close() }}
 	
+	</div>
 	
 @stop

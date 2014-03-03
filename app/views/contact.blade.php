@@ -1,42 +1,47 @@
 @extends('layout')
 
 @section('content')
-<h2 class="title">Contact</h2>
 
-<!-- Feel free to add your headshots to public/image/heads/netid.jpg -->
-<!-- The headshot should be a square. Rectangles are bad, m'kay? -->
-<!-- Let's keep the description short as well, okay? -->
+<div class="container" id="main">
 
-<?php $arr = array(
-	"Haily De La Cruz" => array("email" => "haily@email.arizona.edu", 
-		"desc" => "Haily is awesome", "image_url" => "http://placehold.it/150x150"),
-	"Gopal Adhikari" => array("email" => "gopala@email.arizona.edu", 
-		"desc" => "I like developing functional web applications and I am a tea enthusiast.", "image_url" => "/image/heads/gopala.jpg"),
-	"Zuoming Shi" => array("email" => "zuomingshi@email.arizona.edu", 
-		"desc" => "Zuoming is awesome", "image_url" => "http://placehold.it/150x150"),
-	"Victor Nguyen" => array("email" => "victornguyen@email.arizona.edu", 
-		"desc" => "Victor is awesome", "image_url" => "http://placehold.it/150x150"),
-	"Michael Knatz" => array("email" => "michaelcknatz@email.arizona.edu", 
-		"desc" => "Michael is awesome", "image_url" => "http://placehold.it/150x150"),
-	"James Yoshida" => array("email" => "yoshida@email.arizona.edu", 
-		"desc" => "James is awesome", "image_url" => "http://placehold.it/150x150")); 
-	?>
-	
-<div id="dev-profiles" class="container">
+	<h2 class="title">Contact</h2>
 
-	<h2>Developers</h2>
+	<!-- Feel free to add your headshots to public/image/heads/netid.jpg -->
+	<!-- The headshot should be a square. Rectangles are bad, m'kay? -->
+	<!-- Let's keep the description short as well, okay? -->
 
-	@foreach($arr as $key => $value)
-	<div class="dev col-md-3">
-		<img class="dev-head" src="{{ $value['image_url'] }}">
-		<h3>{{ $key }}</h3>
-		<div class="dev-description">			
-			<p>{{ $value["desc"] }}</p>
-			<?php $email = $value["email"]; ?>
-			<a href="mailto:{{ $email }}">{{ $email }}</a>
+	<?php $arr = array(
+		"Haily De La Cruz" => array("email" => "haily@email.arizona.edu", 
+			"desc" => "Haily is awesome", "image_url" => "http://placehold.it/150x150"),
+		"Gopal Adhikari" => array("email" => "gopala@email.arizona.edu", 
+			"desc" => "I like developing functional web applications and I am a tea enthusiast.", "image_url" => "/image/heads/gopala.jpg"),
+		"Zuoming Shi" => array("email" => "zuomingshi@email.arizona.edu", 
+			"desc" => "Zuoming is awesome", "image_url" => "http://placehold.it/150x150"),
+		"Victor Nguyen" => array("email" => "victornguyen@email.arizona.edu", 
+			"desc" => "Victor is awesome", "image_url" => "http://placehold.it/150x150"),
+		"Michael Knatz" => array("email" => "michaelcknatz@email.arizona.edu", 
+			"desc" => "Michael is awesome", "image_url" => "http://placehold.it/150x150"),
+		"James Yoshida" => array("email" => "yoshida@email.arizona.edu", 
+			"desc" => "James is awesome", "image_url" => "http://placehold.it/150x150")); 
+		?>
+		
+	<div id="dev-profiles" class="container">
+
+		<h2>Developers</h2>
+
+		@foreach($arr as $key => $value)
+		<div class="dev col-md-3">
+			<img class="dev-head" src="{{ $value['image_url'] }}">
+			<h3>{{ $key }}</h3>
+			<div class="dev-description">			
+				<p>{{ $value["desc"] }}</p>
+				<?php $email = $value["email"]; ?>
+				<a href="mailto:{{ $email }}">{{ $email }}</a>
+			</div>
 		</div>
+		@endforeach
 	</div>
-	@endforeach
+
 </div>
 
 <style scoped type="text/css" media="screen">

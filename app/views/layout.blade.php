@@ -26,8 +26,6 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="/"><i class="fa fa-calendar"></i> Time Log</a>
 			</div>
@@ -58,21 +56,23 @@
 		</div>			
 	</div> <!-- /container -->
 
-	<div class="container" id="main">
+	<div class="container-page">
 		@yield('content')
 	</div>
 
 	<hr>
-	<footer>
-		<p>Time Log &copy; 2014</p>
-		<div class="footer-links">
-			<a href="/contact">Contact Us</a>
-			<a href="/terms">Terms</a>
-			<a href="/privacy">Privacy</a>
-			<a href="/help">Help</a>
-			<a href="/about">About</a>
+	<footer class="footer">
+		<div class="container">
+			<p>Time Log &copy; 2014</p>
+			<div class="footer-links">
+				<a href="/contact">Contact Us</a>
+				<a href="/terms">Terms</a>
+				<a href="/privacy">Privacy</a>
+				<a href="/help">Help</a>
+				<a href="/about">About</a>
+			</div>
+			<p>Handmade with <i class="fa fa-heart fa-3"></i> in the USA</p>
 		</div>
-		<p>Handmade with <i class="fa fa-heart fa-3"></i> in the USA</p>
 	</footer>
 </body>
 </html>

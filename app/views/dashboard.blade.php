@@ -1,6 +1,9 @@
 @extends('layout')
 <!-- weather API Key: d513969ef432e427 -->
 @section('content')
+
+	<div class="container" id="main">
+
 	<h2 class="title">Dashboard</h2>
 
 	<div id="dashboard-container" class="row">
@@ -63,6 +66,8 @@
 		<div id="trends" class="box col-md-6">
 			
 		</div>
+
+	</div>
 
 	</div>
 

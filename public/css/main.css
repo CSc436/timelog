@@ -1,8 +1,8 @@
-@import url(http://fonts.googleapis.com/css?family=Lato:400,700);
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
 @import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,300);
 
 body {
-	padding-top: 70px;
+	padding-top: 50px;
 	padding-bottom: 20px;
 	font-family: "Lato", sans-serif;
 }
@@ -25,6 +25,32 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, legend {
 	text-align: center;
 }
 
+
+.container-page {
+	position: relative;
+	z-index: 200;
+	height: 100%;
+	margin-bottom: 200px;
+	padding-bottom: 50px;
+	background-color: #fff;
+}
+
+.timelog-jumbotron{
+	background: #0084c5; /* Old browsers */
+	background: -moz-linear-gradient(45deg,  #0084c5 0%, #0489c3 36%, #30cabf 66%, #2fbcb2 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#0084c5), color-stop(36%,#0489c3), color-stop(66%,#30cabf), color-stop(100%,#2fbcb2)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(45deg,  #0084c5 0%,#0489c3 36%,#30cabf 66%,#2fbcb2 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(45deg,  #0084c5 0%,#0489c3 36%,#30cabf 66%,#2fbcb2 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(45deg,  #0084c5 0%,#0489c3 36%,#30cabf 66%,#2fbcb2 100%); /* IE10+ */
+	background: linear-gradient(45deg,  #0084c5 0%,#0489c3 36%,#30cabf 66%,#2fbcb2 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0084c5', endColorstr='#2fbcb2',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+	color: #fff;
+}
+.jumbotron p{
+	font-weight: 300;
+}
+
 #social-signup{
 	text-align: center;
 }
@@ -43,6 +69,22 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, legend {
 #signup-email-section{
 	display: none;
 	margin-top: 20px;
+}
+
+.footer{
+	background: #3f4245 url(../image/footer-bg.png) repeat-x left top;
+	padding-top: 60px;
+	padding-bottom: 80px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	z-index: 100;
+	height: 200px;
+	width: 100%;
+	-webkit-transform: translateZ(0);
+	color: #fff;
+	font-size: 1.3em;
+	font-weight: 300;
 }
 
 footer{
@@ -82,4 +124,5 @@ footer .social i:hover{
 	bottom: 0px;
 	margin-right: 10px;
 	text-align: center;
+	color: #1485c3;
 }

@@ -2,6 +2,8 @@
 
 @section('content')
 	<?php $user = Auth::user(); ?>
+
+	<div class="container" id="main">
 	
 	<h2 class="title">Profile</h2>
 	
@@ -39,5 +41,6 @@
 		</div>
 	</div>
 	
+	</div>
 	
 @stop
