@@ -35,7 +35,7 @@ Route::get('login', array('as' => 'login', function()
 Route::get('logout', function(){
 
 	Auth::logout();
-	return Redirect::to('/')->with('success', 'You are now logged out.');
+	return Redirect::to('/login')->with('success', 'You are now logged out.');
 
 });
 

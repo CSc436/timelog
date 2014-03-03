@@ -4,6 +4,8 @@
 
 <div class="container" id="main">
 
+	{{ Session::get("success") }}
+
 	<form class="form-horizontal" action="/login" method="post">
 		<fieldset>
 			<!-- Form Name -->
