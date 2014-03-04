@@ -3,7 +3,7 @@
 	<p>Time Log makes it really easy to log your tasks and help you plan your tasks effortlessly. The use of Time Log guarantees you with maximum productivity and minimum stress.</p>
 </div>
 
-<div class="container"><h1 class='feature-title title'>Features</h1></div>
+<div class="container"><h1 class='feature-title title'>Features</h1>
 
 <section class="timelog-features">
 	<div class="row">
@@ -45,3 +45,5 @@
 		</div>
 	</div>
 </section>
+
+</div>

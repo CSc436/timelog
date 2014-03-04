@@ -34,12 +34,12 @@
 		</div>
 		
 		<!-- Categories column -->
-		<div id="categories" class="box col-md-5">
+		<div id="categories" class="box col-md-4">
 			<svg></svg>
 		</div>
 		
 		<!-- Right sidebar column -->
-		<div id="dashboard-right-sidebar" class="col-md-2 pull-right" >
+		<div id="dashboard-right-sidebar" class="col-md-3 pull-right" >
 			
 			<div id="deadlines" class="panel panel-info">
 				<div class="panel-heading">

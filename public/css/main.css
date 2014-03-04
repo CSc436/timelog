@@ -1,6 +1,7 @@
 @import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
 @import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400,300);
 
+
 body {
 	padding-top: 50px;
 	padding-bottom: 20px;
@@ -16,6 +17,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, legend {
 
 #main{
 	min-height: 500px;
+	margin-top: 30px;
 }
 
 .title{

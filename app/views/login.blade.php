@@ -4,7 +4,12 @@
 
 <div class="container" id="main">
 
-	{{ Session::get("success") }}
+	<?php $success = Session::get("success"); ?>
+	@if(isset($success))
+		<div class="alert alert-info">
+			{{ $success }}
+		</div>
+	@endif
 
 	<form class="form-horizontal" action="/login" method="post">
 		<fieldset>
@@ -20,7 +25,7 @@
 
 			<!-- Text input-->
 			<div class="form-group">
-				<label class="col-md-4 control-label" for="email">email</label>
+				<label class="col-md-4 control-label" for="email">Email</label>
 				<div class="col-md-5">
 					<input id="email" name="email" autofocus type="text" placeholder="" class="form-control input-md" required="">
 				</div>
