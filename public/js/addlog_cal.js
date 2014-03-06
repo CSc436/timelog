@@ -57,10 +57,11 @@ $(document).ready(function() {
 			var stFromatted = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm");
 			var etFromatted = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm");
 			//Send data!
-			$.post( "/log/add", { entryname: title, 
+			$.post( "/log/add_from_calendar", { entryname: title, 
 				category: description, 
 				startDateTime:stFromatted, 
-				endDateTime: etFromatted 
+				endDateTime: etFromatted,
+				notes: description
 			})
 
 			calendar.fullCalendar('unselect');
@@ -81,6 +82,13 @@ $(document).ready(function() {
 				  calendar.fullCalendar('updateEvent',calEvent);
 				  calendar.fullCalendar('updateEvent',calEvent);
 			}
+
+			$.post( "/log/add_from_calendar", { 
+				entryname: title, 
+				startDateTime:stFromatted, 
+				endDateTime: etFromatted, 
+				notes: description
+			})
 		}
 	});
 });

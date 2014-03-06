@@ -103,13 +103,13 @@ Route::group(array('before' => 'auth'), function(){
 	});
 
 	Route::get('log/add', 'LogController@getLogAdd');
-
 	Route::get('log/addlog_cal', function()
 	{
 		return View::make('addlog_cal')->with('active', 'addlog_cal');
 	});
 
-	Route::post('log/add_cal', 'LogController@addEntry');
+	Route::post('log/add_call', 'LogController@saveEntry');
+	Route::post('log/add_from_calendar', 'LogController@saveEntry');
 
 	// handles both add and edit log entry actions
 	Route::post('log/save/{id?}', 'LogController@saveEntry')->where('id', '[0-9]+');
