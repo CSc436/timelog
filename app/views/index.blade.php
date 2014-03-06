@@ -1,7 +1,11 @@
 @extends('layout')
 
 @section('content')
-	<h2 class="title">Home</h2>
-	{{ Session::get("success") }}
+
+	@if(Auth::check())
+		{{ View::make('index_user') }}
+	@else
+		{{ View::make('index_guest') }}
+	@endif
 
 @stop

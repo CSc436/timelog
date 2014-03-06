@@ -20,7 +20,8 @@ $(document).ready(function() {
  				title : "placeholder title",
 				start: new Date(events[i].startDateTime),
 				end: new Date(events[i].endDateTime),
-				allDay: false
+				allDay: false,
+				description: events[i].notes
  			});
 		}
 	});

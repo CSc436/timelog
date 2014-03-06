@@ -9,7 +9,13 @@
 @stop
 
 @section('content')
-	<h2 class="title">Add New Time Entry(only adding allowed, each edit currently counts as a add)</h2>
-	<div id='calendar'></div>
+
+	<div class="container" id="main">
+
+		<h2 class="title">Add New Time Entry(only adding allowed, each edit currently counts as a add)</h2>
+		<div id='calendar'></div>
+
+	</div>
 	
 @stop
+
