@@ -16,7 +16,7 @@
 					</div>
 					<div class="panel-body">
 						<p><a href="/log/view">View Tasks</a></p>
-						<p>Completed Tasks</p>
+						<p><a href="/tasks/completed">Completed Tasks</a></p>
 						<p><a href="/log/view">View Data</a></p>
 						<p><a href="/achievements">Achievements</a></p>
 						<p><a href="/addlog_cal">Create Tasks</a></p>
@@ -47,7 +47,6 @@
 					<h3 class="panel-title">Deadlines</h3>
 				</div>
 				<div class="panel-body">
-					<!--Auth::user()->id == Auth::log_category-->
 					<p>Finish HW</p>
 					<p>Attend ACM meeting</p>
 				</div>

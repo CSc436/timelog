@@ -6,38 +6,13 @@ require_once('api_routes.php');
 
 // Destination route for things you can click on the menu or other home page links
 
-Route::any('/', function()
-{
-	return View::make('index')->with('active', 'home');
-});
-
-Route::get('about', function()
-{
-	return View::make('about')->with('active', 'about');
-});
-
-Route::get('contact', function()
-{
-	return View::make('contact')->with('active', 'contact');
-});
-
-Route::get('login', array('as' => 'login', function()
-{
-	if (Auth::check())
-	{
-		return Redirect::to('/');
-	} else {
-		return View::make('login')->with(array('active'=> 'login', 'failed'=> false));
-	}
-	
-}));
-
-Route::get('logout', function(){
-
-	Auth::logout();
-	return Redirect::to('/login')->with('success', 'You are now logged out.');
-
-});
+Route::any('/', 'PagesController@Index');
+Route::get('about', 'PagesController@About');
+Route::get('contact', 'PagesController@Contact');
+Route::get('login', 'PagesController@Login');
+Route::get('logout', 'PagesController@LogOut');
+Route::get('privacy', 'PagesController@PrivacyPolicy');
+Route::get('terms', 'PagesController@TermsOfService');
 
 
 // ------------------- ReminderController Routes ----------------
@@ -126,9 +101,4 @@ Route::group(array('before' => 'auth'), function(){
 		return View::make('achievements')->with('active', 'achievements');
 	});
 	
-});
-
-Route::get('dashboard', function()
-{
-	return View::make('dashboard')->with('active', 'profile');
 });
