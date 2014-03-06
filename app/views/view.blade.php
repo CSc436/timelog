@@ -1,8 +1,11 @@
 @extends('layout')
 
 @section('content')
+
+	<div class="container" id="main">
+
 	<h2 class="title">View</h2>
-	<style>
+	<style scoped>
 		#chart svg {
 		  height: 400px;
 		}
@@ -87,7 +90,7 @@
 		<svg></svg>
 	</div>
 
-	<table>
+	<table class="table">
 		<tr>
 			<th> Start Date </th>
 			<th> End Date </th>
@@ -104,5 +107,7 @@
 		}
 	?>
 	</table>
+
+	</div>
 
 @stop
