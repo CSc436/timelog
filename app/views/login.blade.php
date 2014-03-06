@@ -11,17 +11,18 @@
 		</div>
 	@endif
 
-	<form class="form-horizontal" action="/login" method="post">
+	<form class="form-horizontal" action="{{ action('UserController@postUserLogin') }}" method="post">
 		<fieldset>
 			<!-- Form Name -->
 			<legend>Login</legend>
 
 			<!-- Login Error -->
-			<ul>
-				@if($failed)
-					{{ '<div class="alert alert-danger"> Login failed. </div>' }}
-				@endif
-			</ul>
+			<?php $error = Session::get("error"); ?>
+			@if(isset($error))
+				<div class="alert alert-danger">
+					{{ $error }}
+				</div>
+			@endif
 
 			<!-- Text input-->
 			<div class="form-group">
