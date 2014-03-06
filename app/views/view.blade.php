@@ -24,22 +24,28 @@
 		window.onload = function() {
 			/* Pie Graph */
 			$.get("/api/log/pie", function(pieData) {
-				var customColors = [];
+				if(pieData) {
+					var customColors = [];
 
-				for(var i = 0; i < pieData.length; i++) {
-					customColors.push(pieData[i].color);
+					for(var i = 0; i < pieData.length; i++) {
+						customColors.push(pieData[i].color);
+					}
+
+					setupPieGraph(pieData, customColors);
+				} else {
+					$("#pie").html("<h2>No data</h2>");
 				}
-
-				setupPieGraph(pieData, customColors);
 			});
 
 			function setupPieGraph(pieData, customColors) {
 				nv.addGraph(function() {
 					var chart = nv.models.pieChart()
 						.x(function(d) { return d.label })
-						.y(function(d) { return ((+d.value)/60)})
+						.y(function(d) { return ((+d.value)/60) })
 						.color(customColors)
-						.showLabels(true);
+						.showLabels(true)
+						.labelType("percent");
+						;
 				 
 					d3.select('#pie svg')
 						.datum(pieData)
@@ -100,6 +106,7 @@
 	<?php
 		foreach ($query as $entries)
 		{
+		
 			echo ("<tr><td>".$entries->startDateTime."</td>");
 			echo ("<td>".$entries->endDateTime."</td>");
 			echo ("<td>".$entries->duration."</td>");
