@@ -19,7 +19,6 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 		$data = DB::select("select name as label, CAST(SUM(duration) as unsigned) as value from log_category c, log_entry e where c.cid = e.cid group by label");
 		return $data;
 	});
-
 });
 
 ?>

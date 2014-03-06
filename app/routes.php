@@ -101,12 +101,6 @@ Route::group(array('before' => 'auth'), function(){
 
 	// ---- User password change (if logged in)
 	Route::post('password/change', 'UserController@changePassword');
-
-Route::get('api/log/pie', function()
-{
-	// select name, color, duration from log_entry e, log_category c where c.cid = e.cid and c.uid = e.uid
-	$data = DB::select("select name as label, CAST(SUM(duration) as unsigned) as value , color as color from log_category c, log_entry e where c.cid = e.cid group by label");
-	return $data;
 });
 
-
+?>
