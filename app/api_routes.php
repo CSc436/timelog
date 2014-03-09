@@ -7,6 +7,13 @@
 
 Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 
+
+	Route::get('log/category/{cid}', function($cid)
+	{
+		$data = DB::select("select DATE_FORMAT(startDateTime,'%m-%d-%y') as label, duration as value from log_entry where cid = $cid order by label asc, duration desc");
+		return $data;
+	});
+
 	Route::get('log/view', function()
 	{
 		// $data = DB::table('log_entry')

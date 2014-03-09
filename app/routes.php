@@ -97,9 +97,11 @@ Route::group(array('before' => 'auth'), function(){
 
 	Route::get('log/view', function()
 	{
-		$query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
-
-		return View::make('view')->with('query', $query)->with('active', 'viewlog');
+		$id = Auth::user()->id;
+		$categories = DB::select("select name, cid from log_category c where c.uid = $id");
+		// $query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
+		$query = DB::select("select name, startDateTime, endDateTime, duration, notes from log_entry e, log_category c where e.cid = c.cid AND e.uid = $id");
+		return View::make('view')->with('query', $query)->with('categories', $categories)->with('active', 'viewlog');
 	});
 
 	Route::get('log/add', 'LogController@getLogAdd');
