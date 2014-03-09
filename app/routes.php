@@ -92,7 +92,9 @@ Route::group(array('before' => 'auth'), function(){
 
 
 	// ---- User password change (if logged in)
-	Route::post('password/change', 'UserController@changePassword');
+	Route::post('password/change', 'UserController@postChangeUserPassword');
+	// ---- User email change (if logged in)
+	Route::post('email/change', 'UserController@postChangeUserEmail');
 	
 	
 	// ---- Achievements ----

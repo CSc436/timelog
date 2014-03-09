@@ -29,6 +29,25 @@ $(function() {
 		event.preventDefault();
 	});
 
+	$("#email-change-form").submit(function(event){
+
+		var $form = $(this);
+
+		$.post($form.attr("action"), $form.serialize(), function(data) {
+			
+			console.log(data);
+
+			if(data.error){
+				$("#email-change-message").addClass("alert-danger").text(data.error);
+			} else{
+				$("#changeEmailModal").modal("hide");
+				$("#user-email").text(data);
+			}
+		}, "json");
+
+		event.preventDefault();
+	});
+
 	$("#change-password-form").submit(function(event) {
 
 		var $form = $(this);
@@ -54,7 +73,7 @@ $(function() {
 		event.preventDefault();
 	});
 
-	$("#reset-password-forma").submit(function(event) {
+	$("#reset-password-form").submit(function(event) {
 
 		var $form = $(this);
 
