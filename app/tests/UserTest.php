@@ -28,7 +28,7 @@ class UserTest extends TestCase {
 	{
 		// test for creating new user
 
-		$post_data = array('username'=>'jdoe', 'firstname'=>'Jane', 'lastname'=>'Doe', 
+		$post_data = array('firstname'=>'Jane', 'lastname'=>'Doe', 
 			'email'=>'jdoe@example.com', 'password'=>'abcd',
 			'password_confirmation'=>'abcd');
 

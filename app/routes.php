@@ -6,45 +6,18 @@ require_once('api_routes.php');
 
 // Destination route for things you can click on the menu or other home page links
 
-Route::any('/', function()
-{
-	return View::make('index')->with('active', 'home');
-});
-
-Route::get('about', function()
-{
-	return View::make('about')->with('active', 'about');
-});
-
-Route::get('contact', function()
-{
-	return View::make('contact')->with('active', 'contact');
-});
-
-Route::get('login', array('as' => 'login', function()
-{
-	if (Auth::check())
-	{
-		return Redirect::to('/');
-	} else {
-		return View::make('login')->with(array('active'=> 'login', 'failed'=> false));
-	}
-	
-}));
-
-Route::get('logout', function(){
-
-	Auth::logout();
-	return Redirect::to('/login')->with('success', 'You are now logged out.');
-
-});
+Route::any('/', 'PagesController@Index');
+Route::get('about', 'PagesController@About');
+Route::get('contact', 'PagesController@Contact');
+Route::get('login', 'PagesController@Login');
+Route::get('logout', 'PagesController@LogOut');
+Route::get('privacy', 'PagesController@PrivacyPolicy');
+Route::get('terms', 'PagesController@TermsOfService');
 
 
 // ------------------- ReminderController Routes ----------------
 Route::post('password/reset', "RemindersController@postRemind");
-
 Route::get('password/reset/{token}', 'RemindersController@getReset');
-
 Route::post('password/reset/now', 'RemindersController@postReset');
 
 
@@ -114,7 +87,6 @@ Route::group(array('before' => 'auth'), function(){
 		return View::make('addlog_cal')->with('active', 'addlog_cal');
 	});
 
-	//???????
 	//Route::post('log/add_call', 'LogController@saveEntryFromAddPage');
 	
 	//Add an event from the calendar interface
@@ -123,17 +95,21 @@ Route::group(array('before' => 'auth'), function(){
 
 	// handles both add and edit log entry actions
 	//Route::post('log/save/{id?}/{getPage?}', 'LogController@saveEntry')->where('id', '[0-9]+')->where('getPage', 'false');
+	
 	Route::post('log/save/{id?}', 'LogController@saveEntryFromAddPage')->where('id', '[0-9]+');
 	Route::get('log/edit/{id}', 'LogController@editEntry')->where('id', '[0-9]+');
 
 	// ---- User password change (if logged in)
-	Route::post('password/change', 'UserController@changePassword');
+	Route::post('password/change', 'UserController@postChangeUserPassword');
 
-	// ---- Achievements ----
+	// ---- User email change (if logged in)
+	Route::post('email/change', 'UserController@postChangeUserEmail');
+
 	Route::get('achievements', function()
 	{
 		return View::make('achievements')->with('active', 'achievements');
 	});
+
 
 	Route::get('dashboard', function()
 	{
@@ -146,4 +122,3 @@ Route::group(array('before' => 'auth'), function(){
 	});
 });
 
-?>

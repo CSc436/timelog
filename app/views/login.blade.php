@@ -1,5 +1,44 @@
 @extends('layout')
 
+{{-- Various Modals for resetting password, changing email, changin password etc --}}
+
+<!-- Modal -->
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" role="dialog" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="resetPasswordModalLabel">Reset Password</h4>
+			</div>
+			<div class="modal-body">
+				Enter the email address that was used to register your account.
+				<div class="alert" id="password-reset-message"></div>
+				<form class="form-horizontal" id="reset-password-form" action={{ action('RemindersController@postRemind') }} method="post">
+					<fieldset>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="email">Email</label>
+							<div class="col-md-5">
+								<input id="email" name="email" type="email" placeholder="" class="form-control input-md" autofocus required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="submit-password-reset"></label>
+							<div class="col-md-4">
+								<button id="submit-password-reset" name="submit-password-reset" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+
+					</fieldset>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 @section('content')
 
 <div class="container" id="main">
@@ -7,7 +46,7 @@
 	<?php $success = Session::get("success"); ?>
 	@if(isset($success))
 		<div class="alert alert-info">
-			{{{ $success }}}
+			{{ $success }}
 		</div>
 	@endif
 
@@ -20,7 +59,7 @@
 			<?php $error = Session::get("error"); ?>
 			@if(isset($error))
 				<div class="alert alert-danger">
-					{{{ $error }}}
+					{{ $error }}
 				</div>
 			@endif
 
@@ -115,44 +154,5 @@
 			</fieldset>
 		</form>
 	</section>
-
-	{{-- Various Modals for resetting password, changing email, changin password etc --}}
-
-	<!-- Modal -->
-	<div class="modal fade" id="resetPasswordModal" tabindex="-1" role="dialog" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="resetPasswordModalLabel">Reset Password</h4>
-				</div>
-				<div class="modal-body">
-					Enter the email address that was used to register your account.
-					<div class="alert" id="password-reset-message"></div>
-					<form class="form-horizontal" id="reset-password-form" action="{{ action('RemindersController@postRemind') }}" method="post">
-						<fieldset>
-
-							<div class="form-group">
-								<label class="col-md-4 control-label" for="email">Email</label>
-								<div class="col-md-5">
-									<input id="email" name="email" type="email" placeholder="" class="form-control input-md" autofocus required>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-md-4 control-label" for="submit-password-reset"></label>
-								<div class="col-md-4">
-									<button id="submit-password-reset" name="submit-password-reset" class="btn btn-primary">Submit</button>
-								</div>
-							</div>
-
-						</fieldset>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 @stop

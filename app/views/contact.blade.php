@@ -6,10 +6,6 @@
 
 	<h2 class="title">Contact</h2>
 
-	<!-- Feel free to add your headshots to public/image/heads/netid.jpg -->
-	<!-- The headshot should be a square. Rectangles are bad, m'kay? -->
-	<!-- Let's keep the description short as well, okay? -->
-
 	<?php $arr = array(
 		"Haily De La Cruz" => array("email" => "haily@email.arizona.edu", 
 			"desc" => "Haily is awesome", "image_url" => "http://placehold.it/150x150"),
@@ -62,4 +58,5 @@
 		overflow: auto;
 	}
 </style>
+
 @stop

@@ -6,7 +6,7 @@ class LoginTest extends TestCase{
 
 		// test for logging in a user
 
-		$post_data = array('username'=>'gopal', 'password'=>'abcd');
+		$post_data = array('email'=>'timeloguser@gmail.com', 'password'=>'secure password');
 
 		Input::replace($post_data);
 
@@ -14,7 +14,7 @@ class LoginTest extends TestCase{
 
 		$loggedInUser = Auth::user();
 
-		$this->assertEquals($loggedInUser->username, "gopal");
+		$this->assertEquals($loggedInUser->email, "timeloguser@gmail.com");
 
 		$this->assertNotNull(Auth::check());
 
@@ -32,7 +32,7 @@ class LoginTest extends TestCase{
 		$response = $this->call('GET', 'logout');
 		$this->assertTrue($response->isRedirect());
 		$this->assertNull(Auth::user(), 'User\'s session is empty as expected');
-		$this->assertRedirectedTo('/');
+		$this->assertRedirectedTo('/login');
 	}
 
 }

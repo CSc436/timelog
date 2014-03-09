@@ -29,24 +29,45 @@ $(function() {
 		event.preventDefault();
 	});
 
-	$("#change-password-form").submit(function(event) {
+	/* Facilitates email address changing for a logged in user */
+	$("#email-change-form").submit(function(event){
+
+		var $form = $(this);
+
+		$.post($form.attr("action"), $form.serialize(), function(data) {
+			
+			console.log(data);
+
+			if(data.error){
+				$("#email-change-message").addClass("alert-danger").text(data.error);
+			} else{
+				$("#changeEmailModal").modal("hide");
+				$("#user-email").text(data);
+			}
+		}, "json");
+
+		event.preventDefault();
+	});
+
+	/* Facilitates password changing for a logged in user */
+	$("#password-change-form").submit(function(event) {
 
 		var $form = $(this);
 
 		$.post($form.attr("action"), $form.serialize(), function(data) {
 
-			if (data == "1") {
+			if (data == true) {
 
 				$("#password-change-message").removeClass("alert-danger").addClass("alert alert-success").html("Password Changed!");
 				$form[0].reset();
 
 				setTimeout(function() {
-						$("#passwordChangeModal").modal("hide")
+						$("#changePasswordModal").modal("hide")
 					},
 					1000);
 
 			} else {
-				$("#password-change-message").show().removeClass("alert-success").addClass("alert alert-danger").html(data.error);
+				$("#password-change-message").show().removeClass("alert-success").addClass("alert alert-danger").html(JSON.stringify(data));
 			}
 
 		}, "json");
@@ -54,7 +75,8 @@ $(function() {
 		event.preventDefault();
 	});
 
-	$("#reset-password-forma").submit(function(event) {
+	/* Facilitates resetting password for a user who forgot their password */
+	$("#reset-password-form").submit(function(event) {
 
 		var $form = $(this);
 
