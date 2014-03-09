@@ -150,10 +150,18 @@
 			echo ("<td>".$entries->startDateTime."</td>");
 			echo ("<td>".$entries->endDateTime."</td>");
 			echo ("<td>".$entries->duration."</td>");
-			echo ("<td>".$entries->notes."</td></tr>");
+			echo ("<td>".$entries->notes."</td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/".$entries->LID."/modal'})\">Edit</button></td></tr>");
 		}
 	?>
 	</table>
+	<script>
+		$(function() {
+			$('body').on('hidden.bs.modal', '.modal', function () {
+				$(this).removeData('bs.modal');
+				$('#thisModal').html("");
+			});
+		});
+	</script>
 
 	</div>
 

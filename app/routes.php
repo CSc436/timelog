@@ -74,12 +74,13 @@ Route::group(array('before' => 'auth'), function(){
 		$id = Auth::user()->id;
 		$categories = DB::select("select name, cid from log_category c where c.uid = $id");
 		// $query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
-		$query = DB::select("select name, startDateTime, endDateTime, duration, notes from log_entry e, log_category c where e.cid = c.cid AND e.uid = $id");
+		$query = DB::select("select LID, name, startDateTime, endDateTime, duration, notes from log_entry e, log_category c where e.cid = c.cid AND e.uid = $id");
 		return View::make('view')->with('query', $query)->with('categories', $categories)->with('active', 'viewlog');
 	});
 
 	//This should be named better, the naming scheme for the function is confusing
 	Route::get('log/add', 'LogController@getLogAdd');
+	Route::get('log/add/modal', function(){return (new LogController)->getLogAdd(true);});
 
 	//Direct to calendar page
 	Route::get('log/addlog_cal', function()
@@ -98,6 +99,7 @@ Route::group(array('before' => 'auth'), function(){
 	
 	Route::post('log/save/{id?}', 'LogController@saveEntryFromAddPage')->where('id', '[0-9]+');
 	Route::get('log/edit/{id}', 'LogController@editEntry')->where('id', '[0-9]+');
+	Route::get('log/edit/{id}/modal', function($id){return (new LogController)->editEntry($id, true);})->where('id', '[0-9]+');
 
 	// ---- User password change (if logged in)
 	Route::post('password/change', 'UserController@postChangeUserPassword');
