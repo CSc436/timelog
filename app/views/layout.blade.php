@@ -43,7 +43,7 @@
 	                @else
 					<li {{ $active == "profile" ? "class='active'" : "" }}>
 					<a href="/profile"><i class="fa fa-user">
-					</i> {{ Auth::user()->firstname }}</a></li>
+					</i> {{{ Auth::user()->firstname }}}</a></li>
 					<li>
 						<a href="/logout">
 							<i class="fa fa-sign-out"></i> Log Out

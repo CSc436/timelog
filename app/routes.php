@@ -70,38 +70,72 @@ Route::group(array('before' => 'auth'), function(){
 	});
 
 	// ---- Dashboard -----
-
 	Route::get('dashboard', function()
 	{
 		return View::make('dashboard')->with('active', 'dashboard');
 	});
+	
+	//Get logs for view logs page
+	Route::get('log/view', function()
+	{	
+		$user = Auth::user();
+		$uid = $user->id;
+		$query = DB::table('log_entry')->where('UID', '=', $uid)->orderBy('endDateTime', 'asc')->get();
 
-	// ---- LogController -----
+		return Auth::check() != null ? View::make('view')->with('query', $query)->with('active', 'viewlog') : Redirect::to('login');
+	});
 
+	//Retrieves entries for calendar interface desplay
+	Route::get('log/view_cal', function()
+	{	
+		$user = Auth::user();
+		$uid = $user->id;
+		$query = DB::table('log_entry')->where('UID', '=', $uid)->orderBy('endDateTime', 'asc')->get();
+
+		return Auth::check() != null ? $query : Redirect::to('login');
+	});
+
+	//Get logs for view logs page (old and testing for removal)
+	/*
 	Route::get('log/view', function()
 	{
 		$query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
 
 		return View::make('view')->with('query', $query)->with('active', 'viewlog');
-	});
+	});*/
 
+	//This should be named better, the naming scheme for the function is confusing
 	Route::get('log/add', 'LogController@getLogAdd');
 
+	//Direct to calendar page
 	Route::get('log/addlog_cal', function()
 	{
 		return View::make('addlog_cal')->with('active', 'addlog_cal');
 	});
 
-	Route::post('log/add_cal', 'LogController@addEntry');
+	//???????
+	Route::post('log/add_call', 'LogController@saveEntry');
+	
+	//Add an event from the calendar interface
+	Route::post('log/add_from_calendar', 'LogController@saveEntry');
 
 	// handles both add and edit log entry actions
 	Route::post('log/save/{id?}', 'LogController@saveEntry')->where('id', '[0-9]+');
 	Route::get('log/edit/{id}', 'LogController@editEntry')->where('id', '[0-9]+');
 
-
 	// ---- User password change (if logged in)
 	Route::post('password/change', 'UserController@changePassword');
-
+	
+	
+	// ---- Achievements ----
+	Route::get('achievements', function()
+	{
+		return View::make('achievements')->with('active', 'achievements');
+	});
+	
 });
 
-
+Route::get('dashboard', function()
+{
+	return View::make('dashboard')->with('active', 'profile');
+});
