@@ -95,14 +95,15 @@ Route::group(array('before' => 'auth'), function(){
 		return Auth::check() != null ? $query : Redirect::to('login');
 	});
 
-	//Get logs for view logs page (old and testing for removal)
-	/*
+	//Get logs for view logs page 
 	Route::get('log/view', function()
 	{
-		$query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
-
-		return View::make('view')->with('query', $query)->with('active', 'viewlog');
-	});*/
+		$id = Auth::user()->id;
+		$categories = DB::select("select name, cid from log_category c where c.uid = $id");
+		// $query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
+		$query = DB::select("select name, startDateTime, endDateTime, duration, notes from log_entry e, log_category c where e.cid = c.cid AND e.uid = $id");
+		return View::make('view')->with('query', $query)->with('categories', $categories)->with('active', 'viewlog');
+	});
 
 	//This should be named better, the naming scheme for the function is confusing
 	Route::get('log/add', 'LogController@getLogAdd');
@@ -125,17 +126,17 @@ Route::group(array('before' => 'auth'), function(){
 
 	// ---- User password change (if logged in)
 	Route::post('password/change', 'UserController@changePassword');
-	
-	
+
 	// ---- Achievements ----
 	Route::get('achievements', function()
 	{
 		return View::make('achievements')->with('active', 'achievements');
 	});
-	
+
+	Route::get('dashboard', function()
+	{
+		return View::make('dashboard')->with('active', 'profile');
+	});
 });
 
-Route::get('dashboard', function()
-{
-	return View::make('dashboard')->with('active', 'profile');
-});
+?>
