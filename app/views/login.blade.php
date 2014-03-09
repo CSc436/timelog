@@ -45,9 +45,9 @@
 
 	<?php $success = Session::get("success"); ?>
 	@if(isset($success))
-	<div class="alert alert-info">
-		{{ $success }}
-	</div>
+		<div class="alert alert-info">
+			{{ $success }}
+		</div>
 	@endif
 
 	<form class="form-horizontal" action="{{ action('UserController@postUserLogin') }}" method="post">
@@ -58,9 +58,9 @@
 			<!-- Login Error -->
 			<?php $error = Session::get("error"); ?>
 			@if(isset($error))
-			<div class="alert alert-danger">
-				{{ $error }}
-			</div>
+				<div class="alert alert-danger">
+					{{ $error }}
+				</div>
 			@endif
 
 			<!-- Text input-->
@@ -107,7 +107,7 @@
 	<section id="signup-email-section">
 		<ul>
 			@foreach($errors->all() as $error)
-			<li>{{ $error }}</li>
+			<li>{{{ $error }}}</li>
 			@endforeach
 		</ul>
 		<form class="form-horizontal" id="signup-email-form" action="/signup" method="post">
@@ -154,6 +154,5 @@
 			</fieldset>
 		</form>
 	</section>
-
 </div>
 @stop

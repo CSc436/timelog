@@ -9,11 +9,11 @@
 		<div class="alert alert-danger">
 			<strong>Error:</strong>
 			@if($errors->count() == 1)
-				{{ $errors->first() }}
+				{{{ $errors->first() }}}
 			@else
 				<ul>
 					@foreach($errors->getMessages() as $msg)
-						<li>{{ $msg[0] }}</li>
+						<li>{{{ $msg[0] }}}</li>
 					@endforeach
 				</ul>
 			@endif
