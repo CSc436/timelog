@@ -156,4 +156,90 @@ class LogController extends BaseController {
 	public function getLogAdd(){
 		return Auth::check() != null ? View::make('entryform')->with('active', 'addlog') : Redirect::to('login');
 	}
+
+
+	/*
+	* validateCategory: generate the validator that will be used by addCategory() and editEntry()
+	*/
+	private function validateCategory()
+	{
+		
+		/*
+		* A valid name consists of print characters and spaces, not including slashes (\ nor /).
+		* A valid name is also one that is at least of length 1 when not counting white space.
+		*/
+		Validator::extend('validName', function($attribute, $value, $parameters)
+		{
+			return Utils::validateName($value);
+		});
+	
+		// validate
+		$validator = Validator::make(Input::all(), array(
+			'categoryName' => 'required|validName',
+			'taskDeadline' => 'date'
+			)
+		);
+
+		return $validator;
+	}
+
+
+	public function saveCategory($id = null) {
+		
+		if(!Auth::check()){
+			return Response::make('Must be logged int to save a category', 404);
+		}
+		if($id == null){
+			// create new category entry
+			$catEntry = new logCategory;
+		}		
+		$validator = $this->validateCategory(); // validate input from Input::all()
+		
+		if ($validator->passes()) {
+
+			// validation has passed, save category in DB
+			$catEntry->UID = Auth::user()->id;
+			$catEntry->name = Input::get('categoryName');
+
+			
+			$superCategory = Input::get('superCategory');
+
+			$catEntry->PID = DB::table('log_category')->where('name',$superCategory)->where('UID',Auth::user()->id)->pluck('CID');
+
+			$catEntry->isTask = Input::get('isTask');
+			
+			$catEntry->deadline = Input::get('taskDeadline');
+
+			$star = Input::get('starRating');
+
+			if(!$catEntry->isTask == 'on'){
+				$catEntry->isTask = 0;
+				$catEntry->isCompleted = 0;
+				$catEntry->rating = 0;
+			}
+			else {
+				$catEntry->rating= $star;
+				if ($star == 0) {
+					$catEntry->isCompleted = 0;
+				}
+				else {
+					$catEntry->isCompleted = 1;
+				}
+			}
+
+			//save category to database
+			$catEntry->save();
+
+			return Redirect::to('log/view');
+		} else if($id == null) {
+			// validation has failed, display error messages
+			Input::flash();
+			return Redirect::to('log/addCategory')->withErrors($validator);
+		}else{
+			// validation has failed, display error messages
+			Input::flash();
+			return Redirect::to('log/edit/'.$id)->withErrors($validator);
+		}
+
+	}
 }

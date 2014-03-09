@@ -139,6 +139,11 @@ Route::group(array('before' => 'auth'), function(){
 	{
 		return View::make('dashboard')->with('active', 'profile');
 	});
+
+		Route::post('log/saveCat{id?}','logController@saveCategory')->where('id', '[0-9]+');
+		Route::get('log/addCategory', function(){
+		return View::make('addCategory');
+	});
 });
 
 ?>
