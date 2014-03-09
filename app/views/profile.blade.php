@@ -37,6 +37,58 @@
 	</div>
 </div>
 
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true" data-backdrop="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="changePasswordModalLabel">Change Password</h4>
+			</div>
+			<div class="modal-body">
+				Enter the current password, the new password and confirmation.
+				<div class="alert" id="password-change-message"></div>
+				<form class="form-horizontal" id="password-change-form" action={{ action('UserController@postChangeUserPassword') }} method="post">
+					<fieldset>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="current-password">Current</label>
+							<div class="col-md-5">
+								<input id="current-password" name="current-password" type="password" class="form-control input-md" autofocus required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="password">New</label>
+							<div class="col-md-5">
+								<input id="password" name="password" type="password" class="form-control input-md" autofocus required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="password_confirmation">Confirm</label>
+							<div class="col-md-5">
+								<input id="password_confirmation" name="password_confirmation" type="password" class="form-control input-md" autofocus required>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-4 control-label" for="submit-password-change"></label>
+							<div class="col-md-4">
+								<button id="submit-password-change" name="submit-password-change" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+
+					</fieldset>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 @section('content')
 
 <?php $user = Auth::user(); ?>
@@ -83,6 +135,11 @@
 						</td>
 						<td>
 							{{ $user->id }}
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<i class="fa fa-key"></i> <a href="#" data-toggle="modal" data-target="#changePasswordModal">Change Password</a>
 						</td>
 					</tr>
 				</table>

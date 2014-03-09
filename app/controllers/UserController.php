@@ -28,8 +28,15 @@ class UserController extends Controller {
 
 	public function postChangeUserPassword(){
 
+		$user = Auth::user();
+		$credentials = array("email" => $user->email, "password" => Input::get("current-password"));
+
+		if(!Auth::once($credentials)){
+			return json_encode("Invalid current password!");
+		}
+
 		$rules = array(
-			'password'  => 'required|alpha_num|between:4,32|confirmed',
+			'password' => 'required|alpha_num|between:4,32|confirmed',
 			'password_confirmation' => 'required|alpha_num|between:4,32'
 			);
 
@@ -40,7 +47,6 @@ class UserController extends Controller {
 		}
 		else{
 			
-			$user = Auth::user();
 			$dbUser = User::find($user->id);
 			$dbUser->password = Hash::make(Input::get("password"));
 			$dbUser->save();
