@@ -125,7 +125,14 @@ Route::group(array('before' => 'auth'), function(){
 
 	// ---- User password change (if logged in)
 	Route::post('password/change', 'UserController@changePassword');
-
+	
+	
+	// ---- Achievements ----
+	Route::get('achievements', function()
+	{
+		return View::make('achievements')->with('active', 'achievements');
+	});
+	
 });
 
 Route::get('dashboard', function()
