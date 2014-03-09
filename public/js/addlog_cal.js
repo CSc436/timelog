@@ -21,7 +21,8 @@ $(document).ready(function() {
 				start: new Date(events[i].startDateTime),
 				end: new Date(events[i].endDateTime),
 				allDay: false,
-				description: events[i].notes
+				description: events[i].notes,
+				id : events[i].LID
  			});
 		}
 	});
@@ -57,14 +58,16 @@ $(document).ready(function() {
 			var stFromatted = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm");
 			var etFromatted = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm");
 			//Send data!
-			$.post( "/log/add_from_calendar", { entryname: title, 
-				category: description, 
+			$.post( "/log/add_from_calendar", { 
+				entryname: title,
+				category: "placeholder", 
 				startDateTime:stFromatted, 
 				endDateTime: etFromatted,
 				notes: description
 			})
 
 			calendar.fullCalendar('unselect');
+			console.log(description);
 		},
 		eventRender: function(event, element) { 
 			//element.title="Tooltip on top"
@@ -73,22 +76,33 @@ $(document).ready(function() {
 			}
 		},
 		eventClick: function(calEvent, jsEvent, view) {
-			var title = prompt('What were you working on:', calEvent.title, { buttons: { Ok: true, Cancel: false} });
-			var description = prompt('Category:', calEvent.description, { buttons: { Ok: true, Cancel: false} });
+			var tmp;
+			var title;
+			var description;
+			if(tmp = prompt('What were you working on:', calEvent.title, { buttons: { Ok: true, Cancel: false} })){title = tmp;}
+			else{title = calEvent.title;}
+
+			if(tmp = prompt('Category:', calEvent.description, { buttons: { Ok: true, Cancel: false} })){description = tmp;}
+			else{description = calEvent.description;}
 
 			if (title){
 				  calEvent.title = title;
 				  calEvent.description = description;
 				  calendar.fullCalendar('updateEvent',calEvent);
-				  calendar.fullCalendar('updateEvent',calEvent);
 			}
+
+			var stFromatted = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm");
+			var etFromatted = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm");
 
 			$.post( "/log/add_from_calendar", { 
 				entryname: title, 
-				startDateTime:stFromatted, 
+				category: "placeholder", 
+				startDateTime: stFromatted, 
 				endDateTime: etFromatted, 
 				notes: description
 			})
+
+			console.log(description);
 		}
 	});
 });
