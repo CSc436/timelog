@@ -128,7 +128,7 @@ class LogController extends BaseController {
 		return View::make('entryform')->with('editThis', $entry);
 	}
 
-	public function getLogAdd(){
-		return Auth::check() != null ? View::make('entryform')->with('active', 'addlog') : Redirect::to('login');
+	public function getLogAdd($modal = false){
+		return Auth::check() != null ? ($modal == false ? View::make('entryform')->with('active', 'addlog') : View::make('entryform_modal')->with('active', 'addlog')) : Redirect::to('login');
 	}
 }

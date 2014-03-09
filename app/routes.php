@@ -106,6 +106,7 @@ Route::group(array('before' => 'auth'), function(){
 
 	//This should be named better, the naming scheme for the function is confusing
 	Route::get('log/add', 'LogController@getLogAdd');
+	Route::get('log/add/modal', function(){return (new LogController)->getLogAdd(true);});
 
 	//Direct to calendar page
 	Route::get('log/addlog_cal', function()
