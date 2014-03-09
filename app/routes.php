@@ -114,13 +114,15 @@ Route::group(array('before' => 'auth'), function(){
 	});
 
 	//???????
-	Route::post('log/add_call', 'LogController@saveEntry');
+	//Route::post('log/add_call', 'LogController@saveEntryFromAddPage');
 	
 	//Add an event from the calendar interface
-	Route::post('log/add_from_calendar', 'LogController@saveEntry');
+	Route::post('log/add_from_calendar', 'LogController@saveEntryFromCalendar');
+	Route::post('log/save_from_calendar/{id?}', 'LogController@saveEntryFromCalendar')->where('id', '[0-9]+');
 
 	// handles both add and edit log entry actions
-	Route::post('log/save/{id?}', 'LogController@saveEntry')->where('id', '[0-9]+');
+	//Route::post('log/save/{id?}/{getPage?}', 'LogController@saveEntry')->where('id', '[0-9]+')->where('getPage', 'false');
+	Route::post('log/save/{id?}', 'LogController@saveEntryFromAddPage')->where('id', '[0-9]+');
 	Route::get('log/edit/{id}', 'LogController@editEntry')->where('id', '[0-9]+');
 
 	// ---- User password change (if logged in)

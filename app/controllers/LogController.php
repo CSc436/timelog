@@ -57,8 +57,10 @@ class LogController extends BaseController {
 	}
 
 	public function saveEntry($id = null)
-	{	
+	{
+		// getPage argument is yet to be used.
 		// user must be logged in!
+		
 		if(!Auth::check()){
 			return Response::make('Not Found', 404);
 		}
@@ -99,9 +101,17 @@ class LogController extends BaseController {
 			$entry->notes = Input::get('notes');
 			$entry->UID = Auth::user()->id;
 			$entry->save();
+			$LID = $entry->LID;
+			return $LID;
+		}
 
+		return null;
+	}
+
+	public function saveEntryFromAddPage($id = null){
+		if($this->saveEntry($id)){
 			return Redirect::to('log/view');
-		} else if($id == null) {
+		}else if($id == null) {
 			// validation has failed, display error messages
 			Input::flash();
 			return Redirect::to('log/add')->withErrors($validator);
@@ -112,7 +122,22 @@ class LogController extends BaseController {
 		}
 	}
 
-	public function editEntry($id)
+	//This function bypasses returning a page upon successful submission to optimize for speed.
+	public function saveEntryFromCalendar($id = null){
+		if($LID = $this->saveEntry($id)){
+			return $LID;
+		}else if($id == null) {
+			//TODO: validation has failed, display error messages
+			Input::flash();
+			return Redirect::to('log/add')->withErrors($validator);
+		}else{
+			//TODO: validation has failed, display error messages
+			Input::flash();
+			return Redirect::to('log/edit/'.$id)->withErrors($validator);
+		}
+	}
+
+	public function editEntry($id, $getPage = true)
 	{	
 		// user must be logged in!
 		if(!Auth::check()){

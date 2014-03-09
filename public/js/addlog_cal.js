@@ -43,6 +43,22 @@ $(document).ready(function() {
 			//Create a new event
 			var title = prompt('What were you working on:');
 			var description = prompt('Notes:');
+			var stFromatted = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm");
+			var etFromatted = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm");
+			var id;
+			
+			$.post( "/log/add_from_calendar", { 
+				entryname: title,
+				category: "placeholder", 
+				startDateTime:stFromatted, 
+				endDateTime: etFromatted,
+				notes: description
+			}, function(LID) {
+				//Returns the log id of the event
+				console.log(LID);
+				id=LID;
+			});
+
 			if (title) {
 				calendar.fullCalendar('renderEvent',
 					{
@@ -50,22 +66,12 @@ $(document).ready(function() {
 						description: description,
 						start: start,
 						end: end,
-						allDay: allDay
+						id: id,
+						allDay: false
 					},
 					true // make the event "stick"
 				);
 			}
-
-			var stFromatted = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm");
-			var etFromatted = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm");
-
-			$.post( "/log/add_from_calendar", { 
-				entryname: title,
-				category: "placeholder", 
-				startDateTime:stFromatted, 
-				endDateTime: etFromatted,
-				notes: description
-			})
 
 			calendar.fullCalendar('unselect');
 			console.log(description);
@@ -92,7 +98,7 @@ $(document).ready(function() {
 			var stFromatted = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm");
 			var etFromatted = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm");
 
-			$.post( "/log/save/" + calEvent.id, { 
+			$.post( "/log/save_from_calendar/" + calEvent.id, { 
 				entryname: calEvent.title, 
 				category: "placeholder", 
 				startDateTime: stFromatted, 
@@ -118,8 +124,8 @@ $(document).ready(function() {
 
 			var stFromatted = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm");
 			var etFromatted = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm");
-
-			$.post( "/log/save/"+calEvent.id, { 
+ 
+			$.post( "/log/save_from_calendar/" + calEvent.id, { 
 				entryname: calEvent.title, 
 				category: "placeholder", 
 				startDateTime: stFromatted, 
@@ -144,7 +150,7 @@ $(document).ready(function() {
 	    	var stFromatted = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm");
 			var etFromatted = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm");
 
-			$.post( "/log/save/"+calEvent.id, { 
+			$.post( "/log/save_from_calendar/" + calEvent.id, { 
 				entryname: calEvent.title, 
 				category: "placeholder", 
 				startDateTime: stFromatted, 
