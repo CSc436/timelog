@@ -35,7 +35,6 @@ class UserController extends Controller {
 			User::create(array(
 				'firstname'     => Input::get('firstname'),
 				'lastname'     => Input::get('lastname'),
-				'username'     => Input::get('username'),
 				'email'    => Input::get('email'),
 				'password' => Hash::make(Input::get('password'))
 				));
