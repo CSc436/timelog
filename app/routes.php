@@ -17,9 +17,7 @@ Route::get('terms', 'PagesController@TermsOfService');
 
 // ------------------- ReminderController Routes ----------------
 Route::post('password/reset', "RemindersController@postRemind");
-
 Route::get('password/reset/{token}', 'RemindersController@getReset');
-
 Route::post('password/reset/now', 'RemindersController@postReset');
 
 
@@ -70,14 +68,15 @@ Route::group(array('before' => 'auth'), function(){
 		return Auth::check() != null ? $query : Redirect::to('login');
 	});
 
-	//Get logs for view logs page (old and testing for removal)
-	/*
+	//Get logs for view logs page 
 	Route::get('log/view', function()
 	{
-		$query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
-
-		return View::make('view')->with('query', $query)->with('active', 'viewlog');
-	});*/
+		$id = Auth::user()->id;
+		$categories = DB::select("select name, cid from log_category c where c.uid = $id");
+		// $query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
+		$query = DB::select("select name, startDateTime, endDateTime, duration, notes from log_entry e, log_category c where e.cid = c.cid AND e.uid = $id");
+		return View::make('view')->with('query', $query)->with('categories', $categories)->with('active', 'viewlog');
+	});
 
 	//This should be named better, the naming scheme for the function is confusing
 	Route::get('log/add', 'LogController@getLogAdd');
@@ -88,26 +87,28 @@ Route::group(array('before' => 'auth'), function(){
 		return View::make('addlog_cal')->with('active', 'addlog_cal');
 	});
 
-	//???????
-	Route::post('log/add_call', 'LogController@saveEntry');
+	//Route::post('log/add_call', 'LogController@saveEntryFromAddPage');
 	
 	//Add an event from the calendar interface
-	Route::post('log/add_from_calendar', 'LogController@saveEntry');
+	Route::post('log/add_from_calendar', 'LogController@saveEntryFromCalendar');
+	Route::post('log/save_from_calendar/{id?}', 'LogController@saveEntryFromCalendar')->where('id', '[0-9]+');
 
 	// handles both add and edit log entry actions
-	Route::post('log/save/{id?}', 'LogController@saveEntry')->where('id', '[0-9]+');
+	//Route::post('log/save/{id?}/{getPage?}', 'LogController@saveEntry')->where('id', '[0-9]+')->where('getPage', 'false');
+	
+	Route::post('log/save/{id?}', 'LogController@saveEntryFromAddPage')->where('id', '[0-9]+');
 	Route::get('log/edit/{id}', 'LogController@editEntry')->where('id', '[0-9]+');
 
 	// ---- User password change (if logged in)
 	Route::post('password/change', 'UserController@postChangeUserPassword');
+
 	// ---- User email change (if logged in)
 	Route::post('email/change', 'UserController@postChangeUserEmail');
-	
-	
-	// ---- Achievements ----
+
 	Route::get('achievements', function()
 	{
 		return View::make('achievements')->with('active', 'achievements');
 	});
 	
 });
+
