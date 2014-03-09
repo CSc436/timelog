@@ -71,12 +71,29 @@ Route::group(array('before' => 'auth'), function(){
 
 	// ---- Dashboard -----
 
+	Route::get('log/view', function()
+	{	
+		$user = Auth::user();
+		$uid = $user->id;
+		$query = DB::table('log_entry')->where('UID', '=', $uid)->orderBy('endDateTime', 'asc')->get();
+
+		return Auth::check() != null ? View::make('view')->with('query', $query)->with('active', 'viewlog') : Redirect::to('login');
+	});
+
+	Route::get('log/view_cal', function()
+	{	
+		$user = Auth::user();
+		$uid = $user->id;
+		$query = DB::table('log_entry')->where('UID', '=', $uid)->orderBy('endDateTime', 'asc')->get();
+
+		return Auth::check() != null ? $query : Redirect::to('login');
+	});
+
 	Route::get('dashboard', function()
 	{
 		return View::make('dashboard')->with('active', 'dashboard');
 	});
 
-	// ---- LogController -----
 
 	Route::get('log/view', function()
 	{
@@ -101,6 +118,17 @@ Route::group(array('before' => 'auth'), function(){
 
 	// ---- User password change (if logged in)
 	Route::post('password/change', 'UserController@changePassword');
+
+	// ---- Achievements ----
+	Route::get('achievements', function()
+	{
+		return View::make('achievements')->with('active', 'achievements');
+	});
+
+	Route::get('dashboard', function()
+	{
+		return View::make('dashboard')->with('active', 'profile');
+	});
 });
 
 ?>

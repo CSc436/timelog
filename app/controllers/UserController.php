@@ -14,7 +14,7 @@ class UserController extends Controller {
 			return Redirect::intended('profile');
 		}
 		else {
-			return Redirect::to('login');
+			return Redirect::to('login')->with('error', 'Incorrect email or password');
 		}
 	}
 

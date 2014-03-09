@@ -15,11 +15,11 @@
 						<h3 class="panel-title">Quick Links</h3>
 					</div>
 					<div class="panel-body">
-						<p>View Tasks</p>
+						<p><a href="/log/view">View Tasks</a></p>
 						<p>Completed Tasks</p>
-						<p>View Data</p>
-						<p>Achievements</p>
-						<p>Create Tasks</p>
+						<p><a href="/log/view">View Data</a></p>
+						<p><a href="/achievements">Achievements</a></p>
+						<p><a href="/addlog_cal">Create Tasks</a></p>
 					</div>
 				</div>
 		</div>
@@ -33,6 +33,7 @@
 			<div id="date"></div>
 		</div>
 		
+
 		<!-- Categories column -->
 		<div id="categories" class="box col-md-4">
 			<svg></svg>
@@ -46,6 +47,7 @@
 					<h3 class="panel-title">Deadlines</h3>
 				</div>
 				<div class="panel-body">
+					<!--Auth::user()->id == Auth::log_category-->
 					<p>Finish HW</p>
 					<p>Attend ACM meeting</p>
 				</div>
