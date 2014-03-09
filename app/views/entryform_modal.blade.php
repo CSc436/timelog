@@ -1,9 +1,9 @@
 <div class="modal-dialog">
 	<div class="modal-content">
 		@if(!isset($editThis))
-			{{ Form::open(array('url' => 'log/save', 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'style' => 'max-width:500px')) }}
+			{{ Form::open(array('url' => 'log/save', 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal')) }}
 		@else
-			{{ Form::model($editThis, array('url' => 'log/save/'.$editThis->LID, 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'style' => 'max-width:500px')) }}
+			{{ Form::model($editThis, array('url' => 'log/save/'.$editThis->LID, 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal')) }}
 		@endif
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -57,7 +57,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				{{ Form::submit('Submit', array('class' => 'btn btn-default')) }}
+				{{ Form::submit('Submit', array('class' => 'btn btn-default btn-primary')) }}
 			</div>
 		{{ Form::close() }}
 	</div>
