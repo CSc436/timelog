@@ -123,6 +123,7 @@ Route::group(array('before' => 'auth'), function(){
 	// handles both add and edit log entry actions
 	Route::post('log/save/{id?}', 'LogController@saveEntry')->where('id', '[0-9]+');
 	Route::get('log/edit/{id}', 'LogController@editEntry')->where('id', '[0-9]+');
+	Route::get('log/edit/{id}/modal', function($id){return (new LogController)->editEntry($id, true);})->where('id', '[0-9]+');
 
 	// ---- User password change (if logged in)
 	Route::post('password/change', 'UserController@changePassword');

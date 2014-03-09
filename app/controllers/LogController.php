@@ -112,7 +112,7 @@ class LogController extends BaseController {
 		}
 	}
 
-	public function editEntry($id)
+	public function editEntry($id, $modal = false)
 	{	
 		// user must be logged in!
 		if(!Auth::check()){
@@ -125,7 +125,10 @@ class LogController extends BaseController {
 			return Response::make('Not Found', 404);
 		}
 
-		return View::make('entryform')->with('editThis', $entry);
+		if($modal === false)
+			return View::make('entryform')->with('editThis', $entry);
+		else
+			return View::make('entryform_modal')->with('editThis', $entry);
 	}
 
 	public function getLogAdd($modal = false){
