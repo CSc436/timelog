@@ -2,6 +2,54 @@
 
 class UserController extends Controller {
 
+	public function postChangeUserEmail(){
+
+		$validator = Validator::make(Input::all(),
+
+			array(
+				'email' => 'required|email|unique:user'
+				)
+			);
+
+		if($validator->fails()){
+			return json_encode(array("error" => "There was a problem with the email you submitted."));
+		}
+		else{
+			
+			$user = Auth::user();
+			$dbUser = User::find($user->id);
+			$dbUser->email = Input::get("email");
+			$dbUser->save();
+
+			return json_encode($dbUser->email);
+		}
+
+	}
+
+	public function postChangeUserPassword(){
+
+		$rules = array(
+			'password'  => 'required|alpha_num|between:4,32|confirmed',
+			'password_confirmation' => 'required|alpha_num|between:4,32'
+			);
+
+		$validator = Validator::make(Input::all(), $rules);
+
+		if($validator->fails()){
+			return $validator->getMessageBag();
+		}
+		else{
+			
+			$user = Auth::user();
+			$dbUser = User::find($user->id);
+			$dbUser->password = Hash::make(Input::get("password"));
+			$dbUser->save();
+
+			return json_encode(true);
+		}
+	}
+
+
 	public function postUserLogin(){
 
 		$credentials = array(
