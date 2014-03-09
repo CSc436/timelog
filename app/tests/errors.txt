@@ -1,0 +1,44 @@
+PHPUnit 3.7.31 by Sebastian Bergmann.
+
+Configuration read from C:\Users\Michael\Desktop\git\git.git\time-log\phpunit.xml
+
+.
+.The user was successfully logged in.......[31;1mE[0m
+
+Time: 6.88 seconds, Memory: 13.50Mb
+
+There was 1 error:
+
+1) UserTest::testNewUser
+Illuminate\Database\QueryException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'username' in 'field list' (SQL: insert into `user` (`firstname`, `lastname`, `username`, `email`, `password`, `updated_at`, `created_at`) values (Jane, Doe, , jdoe@example.com, yfUrA7zk8K.TK1goFfvg.7Rro1UCioSge7RHwyCRVvhL2UFRdmcy, 2014-03-09 21:30:02, 2014-03-09 21:30:02))
+
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Database\Connection.php:539
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Database\Connection.php:338
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Database\Connection.php:295
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Database\Query\Processors\Processor.php:30
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:1662
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:912
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1419
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1419
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1389
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1300
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:410
+C:\Users\Michael\Desktop\git\git.git\time-log\app\controllers\UserController.php:41
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Routing\Controller.php:194
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php:93
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Routing\ControllerDispatcher.php:62
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Routing\Router.php:934
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Routing\Route.php:105
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Routing\Router.php:1000
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Routing\Router.php:968
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Foundation\Application.php:738
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Foundation\Application.php:708
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\symfony\http-kernel\Symfony\Component\HttpKernel\Client.php:81
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\symfony\browser-kit\Symfony\Component\BrowserKit\Client.php:325
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Foundation\Testing\TestCase.php:74
+C:\Users\Michael\Desktop\git\git.git\time-log\vendor\laravel\framework\src\Illuminate\Foundation\Testing\TestCase.php:117
+C:\Users\Michael\Desktop\git\git.git\time-log\app\tests\UserTest.php:37
+
+[37;41m[2KFAILURES!
+[0m[37;41m[2KTests: 10, Assertions: 17, Errors: 1.
+[0m[2K

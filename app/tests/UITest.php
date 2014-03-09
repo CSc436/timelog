@@ -32,9 +32,9 @@ class UITest extends TestCase {
 	
 	public function testProfile()
 	{
-		$crawler = $this->client->request('GET', '/profile');
+		//$crawler = $this->client->request('GET', '/profile');
 		
-		$this->assertFalse($this->client->getResponse()->isOk());
+		//$this->assertFalse($this->client->getResponse()->isOk());
 		
 		$post_data = array('email'=>'timeloguser@gmail.com', 'password'=>'secure password');
 
@@ -42,7 +42,8 @@ class UITest extends TestCase {
 
 		$response = $this->call('POST', 'login');
 		
-		echo $response;
+		//$crawler = $this->client->request('GET', '/profile');
+		
 		/*
 		$this->assertTrue($this->client->getResponse()->isOk());*/
 	}
