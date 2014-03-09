@@ -1,7 +1,8 @@
 @extends('layout')
 
-@section('content')
-
+@section('content')	
+	<link href="{{ URL::asset('js/sorttable.js') }}" rel="stylesheet">
+	<script src="{{ URL::asset('js/sorttable.js') }}"></script>
 	<div class="container" id="main">
 
 	<h2 class="title">View</h2>
@@ -96,7 +97,7 @@
 		<svg></svg>
 	</div>
 
-	<table class="table">
+	<table class="sortable">
 		<tr>
 			<th> Start Date </th>
 			<th> End Date </th>
