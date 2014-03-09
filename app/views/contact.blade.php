@@ -32,11 +32,11 @@
 		@foreach($arr as $key => $value)
 		<div class="dev col-md-3">
 			<img class="dev-head" src="{{ $value['image_url'] }}">
-			<h3>{{ $key }}</h3>
+			<h3>{{{ $key }}}</h3>
 			<div class="dev-description">			
-				<p>{{ $value["desc"] }}</p>
+				<p>{{{ $value["desc"] }}}</p>
 				<?php $email = $value["email"]; ?>
-				<a href="mailto:{{ $email }}">{{ $email }}</a>
+				<a href="mailto:{{{ $email }}}">{{{ $email }}}</a>
 			</div>
 		</div>
 		@endforeach

@@ -7,7 +7,7 @@
 	<?php $success = Session::get("success"); ?>
 	@if(isset($success))
 		<div class="alert alert-info">
-			{{ $success }}
+			{{{ $success }}}
 		</div>
 	@endif
 
@@ -20,7 +20,7 @@
 			<?php $error = Session::get("error"); ?>
 			@if(isset($error))
 				<div class="alert alert-danger">
-					{{ $error }}
+					{{{ $error }}}
 				</div>
 			@endif
 
@@ -68,7 +68,7 @@
 	<section id="signup-email-section">
 		<ul>
 			@foreach($errors->all() as $error)
-			<li>{{ $error }}</li>
+			<li>{{{ $error }}}</li>
 			@endforeach
 		</ul>
 		<form class="form-horizontal" id="signup-email-form" action="/signup" method="post">
@@ -129,7 +129,7 @@
 				<div class="modal-body">
 					Enter the email address that was used to register your account.
 					<div class="alert" id="password-reset-message"></div>
-					<form class="form-horizontal" id="reset-password-form" action={{ action('RemindersController@postRemind') }} method="post">
+					<form class="form-horizontal" id="reset-password-form" action="{{ action('RemindersController@postRemind') }}" method="post">
 						<fieldset>
 
 							<div class="form-group">
