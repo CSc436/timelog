@@ -1,0 +1,23 @@
+function getOneLevel($catId){
+    $query=mysql_query("SELECT categoryId FROM categories WHERE categoryMasterId='".$catId."'");
+    $cat_id=array();
+    if(mysql_num_rows($query)>0){
+        while($result=mysql_fetch_assoc($query)){
+            $cat_id[]=$result['categoryId'];
+        }
+    }   
+    return $cat_id;
+}
+
+function getChildren($parent_id, $tree_string=array()) {
+    $tree = array();
+    // getOneLevel() returns a one-dimensional array of child ids        
+    $tree = $this->getOneLevel($parent_id);     
+    if(count($tree)>0 && is_array($tree)){      
+        $tree_string=array_merge($tree_string,$tree);
+    }
+    foreach ($tree as $key => $val) {
+        $this->getChildren($val, &$tree_string);
+    }   
+    return $tree_string;
+}
