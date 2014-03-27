@@ -15,7 +15,7 @@
 
 		<?php $arr = array(
 			"Haily De La Cruz" => array("email" => "haily@email.arizona.edu", 
-				"desc" => "Web Developer, Head Time Logger, and Comic Relief", "image_url" => "/image/heads/haily.jpeg"),
+				"desc" => "I Rally developers to Scrum together to Git the world the gift of Time Log. We are Agile PHP Artisans that Laravel our users.", "image_url" => "/image/heads/haily.jpeg"),
 			"Gopal Adhikari" => array("email" => "gopala@email.arizona.edu", 
 				"desc" => "I like developing functional web applications and I am a tea enthusiast.", "image_url" => "/image/heads/gopala.jpg"),
 			"Zuoming Shi" => array("email" => "zuomingshi@email.arizona.edu", 
@@ -59,8 +59,8 @@
 				box-shadow: 0 0 2px #999;
 				padding: 20px;
 				box-sizing: border-box;
-				min-height: 350px;
-				max-height: 350px;
+				min-height: 360px;
+				max-height: 360px;
 				overflow: auto;
 			}
 		</style>
