@@ -20,7 +20,6 @@ class UserTest extends TestCase {
 		$user->password='abcd';
 
 		$this->assertTrue($user->save());
-		$this->assertTrue($user->save());
 
 	}
 
