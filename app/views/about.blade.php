@@ -15,11 +15,11 @@
 
 		<?php $arr = array(
 			"Haily De La Cruz" => array("email" => "haily@email.arizona.edu", 
-				"desc" => "Haily is awesome", "image_url" => "http://placehold.it/150x150"),
+				"desc" => "Web Developer, Head Time Logger, and Comic Relief", "image_url" => "/image/heads/haily.jpeg"),
 			"Gopal Adhikari" => array("email" => "gopala@email.arizona.edu", 
 				"desc" => "I like developing functional web applications and I am a tea enthusiast.", "image_url" => "/image/heads/gopala.jpg"),
 			"Zuoming Shi" => array("email" => "zuomingshi@email.arizona.edu", 
-				"desc" => "Zuoming is awesome", "image_url" => "http://placehold.it/150x150"),
+				"desc" => "Zuoming is awesome", "image_url" => "/image/heads/zuomings.jpg"),
 			"Victor Nguyen" => array("email" => "victornguyen@email.arizona.edu", 
 				"desc" => "Victor is awesome", "image_url" => "http://placehold.it/150x150"),
 			"Michael Knatz" => array("email" => "michaelcknatz@email.arizona.edu", 
