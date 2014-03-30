@@ -75,7 +75,7 @@ Route::group(array('before' => 'auth'), function(){
 		$categories = DB::select("select name, cid from log_category c where c.uid = $id");
 		if($categories) {
 			// $query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
-			$query = DB::select("select name, startDateTime, endDateTime, duration, notes from log_entry e, log_category c where e.cid = c.cid AND e.uid = $id");
+			$query = DB::select("select LID, name, startDateTime, endDateTime, duration, notes from log_entry e, log_category c where e.cid = c.cid AND e.uid = $id");
 		} else {
 			$query = DB::select("select startDateTime, endDateTime, duration, notes from log_entry where uid = $id");
 		}
