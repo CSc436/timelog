@@ -141,6 +141,7 @@
 			<th> Start Date </th>
 			<th> End Date </th>
 			<th> Duration </th>
+			<th> Category </th>
 			<th> Notes </th>
 		</tr>
 	<?php

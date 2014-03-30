@@ -203,19 +203,27 @@ class LogController extends BaseController {
 			// validation has passed, save category in DB
 			$catEntry->UID = Auth::user()->id;
 			$catEntry->name = Input::get('categoryName');
+			$testName = DB::select("select * from log_category c where c.name ='" . "$catEntry->name' AND c.uid = '" . "$catEntry->UID'");
+			if ($testName != NULL){
+				Input::flash();
+				return Redirect::to('log/addCategory')->with('message','Category name already taken')->withErrors($validator);
+			}
 
 			
 			$superCategory = Input::get('superCategory');
 
 			$catEntry->PID = DB::table('log_category')->where('name',$superCategory)->where('UID',Auth::user()->id)->pluck('CID');
-
-			$catEntry->isTask = Input::get('isTask');
 			
 			$catEntry->deadline = Input::get('taskDeadline');
 
+			if ($catEntry->deadline == NULL)
+				$catEntry->isTask = 0;
+			else
+				$catEntry->isTask = 1;
+
 			$star = Input::get('starRating');
 
-			if(!$catEntry->isTask == 'on'){
+			if(!$catEntry->isTask == 1){
 				$catEntry->isTask = 0;
 				$catEntry->isCompleted = 0;
 				$catEntry->rating = 0;
