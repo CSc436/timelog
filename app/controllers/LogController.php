@@ -28,8 +28,12 @@ class LogController extends BaseController {
 		*/
 		Validator::extend('after_start', function($attribute, $value, $parameters)
 		{
-			$start = new DateTime(Input::get($parameters[0]));
-			$end = new DateTime($value);
+			try{
+				$start = new DateTime(Input::get($parameters[0]));
+				$end = new DateTime($value);
+			}catch(Exception $e){
+				return false;
+			}
 
 			return $end > $start;
 		});
