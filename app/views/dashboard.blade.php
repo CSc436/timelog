@@ -6,6 +6,8 @@
 
 	<h2 class="title">Dashboard</h2>
 
+	<div id="error-container"></div>
+
 	<div id="dashboard-container" class="row">
 
 		<!-- Left sidebar column -->
