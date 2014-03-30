@@ -16,9 +16,14 @@
 		}
 
 		table {
-			table-layout: fixed;
+			/*table-layout: fixed;*/
 			width: 80%;
 			padding: 1px;
+		}
+		tr .colorBox {
+			border: solid black 1px;
+			height: 10px;
+			width: 10px;
 		}
 	</style>
 	<script>
@@ -123,6 +128,7 @@
 		<tr>
 			<?php
 				if(property_exists($query[0], "name")) {
+					echo ("<th> </th>");
 					echo ("<th> Name </th>");
 				}
 			?>
@@ -137,7 +143,8 @@
 		foreach ($query as $entries)
 		{
 			if(property_exists($entries, "name")) {
-				echo ("<tr><td>".$entries->name."</td>");
+				echo ("<tr><td>"."<div class="."\"colorBox\""."style="."\"background-color: $entries->color\">"."</div>"."</td>");
+				echo ("<td>".$entries->name."</td>");
 				echo ("<td>".$entries->startDateTime."</td>");
 			} else {
 				echo ("<tr><td>".$entries->startDateTime."</td>");
