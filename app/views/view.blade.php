@@ -59,12 +59,26 @@
 
 			/* Bar Graph */
 		
-			var cid = document.getElementById("category").value;
-			$.get("/api/log/category/" + cid, function(data){
-					var obj = {key: "Your time logs", values: data};
-					setupGraph([obj]);
+			window.setData = function() {
+				var cid = document.getElementById("category").value;
+				if(cid == "-----") {
+					$.get("/api/log/data", function(data){
+						var obj = {key: "Your time logs", values: data};
+						setupGraph([obj]);
+					});
+				} else {
+					$.get("/api/log/category/" + cid, function(data){
+						var obj = {key: "Your time logs", values: data};
+						setupGraph([obj]);
+					});
+				}
+			}
+
+			$.get("/api/log/data", function(data){
+				var obj = {key: "Your time logs", values: data};
+				setupGraph([obj]);
 			});
-		
+
 
 			function setupGraph(data) {
 
@@ -88,42 +102,12 @@
 				});
 			}
 		};
-
- 			/* Bar Graph */
-			function getGraphData() {
-				var cid = document.getElementById("category").value;
-				$.get("/api/log/category/" + cid, function(data){
-						var obj = {key: "Your time logs", values: data};
-						setupGraph([obj]);
-				});
-			}
-
-			function setupGraph(data) {
-
-				nv.addGraph(function() {
-					chart = nv.models.discreteBarChart()
-					  .x(function(d) { return d.label })    //Specify the data accessors.
-					  .y(function(d) { return (+d.value) })
-					  .staggerLabels(false)    //Too many bars and not enough room? Try staggering labels.
-					  .tooltips(false)        //Don't show tooltips
-					  .showValues(true)       //...instead, show the bar value right on top of each bar.
-					  .transitionDuration(350)
-					  ;
-
-					d3.select('#chart svg')
-					  .datum(data)
-					  .call(chart);
-				 
-					nv.utils.windowResize(chart.update);
-				 
-				  return chart;
-				});
-			}
 	</script>
 	<div id="pie">
 		<svg></svg>
 	</div>
-	<select name="category" id="category" onchange="getGraphData()">
+	<select name="category" id="category" onchange="setData()">
+		<option value="--">-----</option>
 		<?php
 			foreach ($categories as $names)
 			{
@@ -137,17 +121,27 @@
 
 	<table class="sortable">
 		<tr>
-			<th> Name </th>
+			<?php
+				if(property_exists($query[0], "name")) {
+					echo ("<th> Name </th>");
+				}
+			?>
 			<th> Start Date </th>
 			<th> End Date </th>
 			<th> Duration </th>
 			<th> Notes </th>
 		</tr>
+
 	<?php
+
 		foreach ($query as $entries)
 		{
-			echo ("<tr><td>".$entries->name."</td>");
-			echo ("<td>".$entries->startDateTime."</td>");
+			if(property_exists($entries, "name")) {
+				echo ("<tr><td>".$entries->name."</td>");
+				echo ("<td>".$entries->startDateTime."</td>");
+			} else {
+				echo ("<tr><td>".$entries->startDateTime."</td>");
+			}
 			echo ("<td>".$entries->endDateTime."</td>");
 			echo ("<td>".$entries->duration."</td>");
 			echo ("<td>".$entries->notes."</td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/".$entries->LID."/modal'})\">Edit</button></td></tr>");
