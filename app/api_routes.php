@@ -26,6 +26,13 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 		$data = DB::select("select DATE_FORMAT(startDateTime,'%m-%d-%y') as label, duration as value from log_entry order by label asc, duration desc");
 		return $data;
 	});
+
+	Route::get('log/categories', function()
+	{
+		$data = DB::table('log_category')->select('name')->where('uid', '=', Auth::user()->id)->get();
+		return $data;
+	});
+
 });
 
 ?>

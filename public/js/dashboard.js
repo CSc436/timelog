@@ -22,7 +22,6 @@ $(function() {
 			lat = position.coords.latitude;
 			lon = position.coords.longitude;
 			url = "http://api.wunderground.com/api/d513969ef432e427/geolookup/conditions/q/" + lat + "," + lon + ".json";
-			console.log(url);
 		} else{
 
 			// Add this feature in next iteration

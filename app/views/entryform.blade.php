@@ -46,7 +46,7 @@
 	  <div class="form-group">
 		{{ Form::label('category', 'Category', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			{{ Form::text('category', null, array('class' => 'form-control')) }}
+			{{ Form::select('category', array(), null, array('class' => 'form-control')) }}
 		</div>
 	  </div>
 	  <div class="form-group">
@@ -63,5 +63,23 @@
 	{{ Form::close() }}
 	
 	</div>
+
+	<!-- At this point I am not sure where to put the JS code to populate the category box -->
+	<script>
+
+		$(function(){
+
+			var $cats = $("#category");
+
+			$.getJSON("/api/log/categories", function(data){
+				console.log(data);
+				$.each(data, function(k, v){
+					$cats.append(new Option(v.name, v.name));
+				});
+				
+			});
+
+		});
+	</script>
 	
 @stop

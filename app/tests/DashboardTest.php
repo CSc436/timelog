@@ -14,11 +14,4 @@ class DashboardTest extends TestCase {
 
 		$this->assertTrue($this->client->getResponse()->isOk());
 	}
-	
-	
-	
-	
-	
-	
-	
 }
