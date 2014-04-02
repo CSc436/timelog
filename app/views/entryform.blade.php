@@ -1,5 +1,10 @@
 @extends('layout')
 
+@section('header')
+	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
+@stop
+
+
 @section('content')
 
 	<div class="container" id="main">
@@ -47,6 +52,7 @@
 		{{ Form::label('category', 'Category', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			{{ Form::select('category', array(), null, array('class' => 'form-control')) }}
+			<i class="fa fa-plus-circle"></i> Add a new category
 		</div>
 	  </div>
 	  <div class="form-group">
@@ -68,6 +74,21 @@
 	<script>
 
 		$(function(){
+
+			// set default values for start and end dates
+			// default date format: yyyy-mm-dd hh:mm
+
+			var i = 0;
+			var currDate = new Date();
+			
+			$("input[id$=DateTime]").each(function(k, v){
+
+				var mins = currDate.getMinutes();
+				var addMins = mins + (i++) * 15;
+				currDate.setMinutes(addMins);
+				$(v).val(moment(currDate).format('YYYY-MM-DD hh:mm'));
+
+			});
 
 			var $cats = $("#category");
 
