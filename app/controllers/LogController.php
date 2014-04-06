@@ -42,10 +42,20 @@ class LogController extends BaseController {
 		{
 			return Utils::validateName($value);
 		});
+		
+		/*
+		* A valid name consists of print characters and spaces, not including slashes (\ nor /).
+		* A valid name is also one that is at least of length 1 when not counting white space.
+		*/
+		Validator::extend('validCategoryID', function($attribute, $value, $parameters)
+		{
+			return false;
+		});
 	
 		// validate
 		$validator = Validator::make(Input::all(), array(
-			'entryname' => 'required|validName',
+			'category' => 'validCategoryID',
+			'newcat' => 'validName',
 			'startDateTime' => 'required|date',
 			'endDateTime' => 'required|date|after_start:startDateTime',
 			'category' => 'alpha_dash'

@@ -26,7 +26,7 @@
 		{{ Form::model($editThis, array('url' => 'log/save/'.$editThis->LID, 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'style' => 'max-width:500px')) }}
 	@endif
 	  <div class="form-group">
-		{{ Form::label('entryname', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
+		{{ Form::label('category', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group">
 				{{Form::select('category', array('NULL' => 'Unnamed', '0' => 'Category 1','1' => '&nbsp;&nbsp;&nbsp;&nbsp;Category 1/Category 2', '2' => 'Category 3', '3' => 'Category 4'), 'NULL', array('id' => 'category', 'class' => 'form-control'));}}
