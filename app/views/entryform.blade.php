@@ -1,5 +1,9 @@
 @extends('layout')
 
+@section('header')
+	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
+@stop
+
 @section('content')
 
 	<div class="container" id="main">
@@ -29,7 +33,7 @@
 		{{ Form::label('category', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group">
-				{{Form::select('category', array('NULL' => 'Unnamed', '0' => 'Category 1','1' => '&nbsp;&nbsp;&nbsp;&nbsp;Category 1/Category 2', '2' => 'Category 3', '3' => 'Category 4'), 'NULL', array('id' => 'category', 'class' => 'form-control'));}}
+				{{Form::select('category', array('NULL' => 'Unnamed'), 'NULL', array('id' => 'category', 'class' => 'form-control'));}}
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button" onclick="$('#newcatbox').toggle();$('#newcat').focus();"><span class="fa fa-plus"></span></button>
 				</span>
@@ -78,5 +82,37 @@
 	{{ Form::close() }}
 	
 	</div>
+
+	<script>
+
+		$(function(){
+
+			// set default values for start and end dates
+			// default date format: yyyy-mm-dd hh:mm
+
+			var i = 0;
+			var currDate = new Date();
+			
+			$("input[id$=DateTime]").each(function(k, v){
+
+				var mins = currDate.getMinutes();
+				var addMins = mins + (i++) * 15;
+				currDate.setMinutes(addMins);
+				$(v).val(moment(currDate).format('YYYY-MM-DD hh:mm'));
+
+			});
+
+			var $cats = $("#category");
+
+			$.getJSON("/api/log/categories", function(data){
+				console.log(data);
+				$.each(data, function(k, v){
+					$cats.append(new Option(v.name, v.name));
+				});
+				
+			});
+
+		});
+	</script>
 	
 @stop
