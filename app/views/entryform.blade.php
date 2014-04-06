@@ -4,12 +4,11 @@
 	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
 @stop
 
-
 @section('content')
 
 	<div class="container" id="main">
 
-	<h2 class="title">Add New Time Entry</h2>
+	  <h2 class="title">Add New Time Entry</h2>
 	@if(!$errors->isEmpty())
 		<div class="alert alert-danger">
 			<strong>Error:</strong>
@@ -37,22 +36,36 @@
 		</div>
 	  </div>
 	  <div class="form-group">
+		{{ Form::label('category', 'Category', array('class' => 'col-sm-4 control-label')) }}
+		<div class="col-sm-8">
+			<div class="input-group">
+				{{Form::select('starRating', array('0' => '0 stars','1' => '1 star (below average)', '2' => '2 stars(average)', '3' => '3  stars(above average)'), '0', array('class' => 'form-control'));}}
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" onclick="$('#add_new_category').toggle();"><span class="glyphicon glyphicon-plus"></span></button>
+				</span>
+			</div>
+		</div>
+	  </div>
+	  <div class="form-group">
 		{{ Form::label('startDateTime', 'Start', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			{{ Form::text('startDateTime', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
+			<div class="input-group">
+				{{ Form::text('startDateTime', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" onclick="var d = new Date();$('#startDateTime').val(d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes());">Now</button>
+				</span>
+			</div>
 		</div>
 	  </div>
 	  <div class="form-group">
 		{{ Form::label('endDateTime', 'End', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			{{ Form::text('endDateTime', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
-		</div>
-	  </div>
-	  <div class="form-group">
-		{{ Form::label('category', 'Category', array('class' => 'col-sm-4 control-label')) }}
-		<div class="col-sm-8">
-			{{ Form::select('category', array(), null, array('class' => 'form-control')) }}
-			<i class="fa fa-plus-circle"></i> Add a new category
+			<div class="input-group">
+				{{ Form::text('endDateTime', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" onclick="var d = new Date();$('#endDateTime').val(d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes());">Now</button>
+				</span>
+			</div>
 		</div>
 	  </div>
 	  <div class="form-group">
@@ -65,12 +78,11 @@
 		<div class="col-sm-offset-4 col-sm-8">
 			{{ Form::submit('Submit', array('class' => 'btn btn-default')) }}
 		</div>
-	</div>
+	  </div>
 	{{ Form::close() }}
 	
 	</div>
 
-	<!-- At this point I am not sure where to put the JS code to populate the category box -->
 	<script>
 
 		$(function(){
