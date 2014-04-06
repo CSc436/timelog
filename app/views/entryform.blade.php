@@ -32,16 +32,16 @@
 	  <div class="form-group">
 		{{ Form::label('entryname', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			{{ Form::text('entryname', 'Not Used Yet', array('class' => 'form-control', 'placeholder' => 'Name')) }}
-		</div>
-	  </div>
-	  <div class="form-group">
-		{{ Form::label('category', 'Category', array('class' => 'col-sm-4 control-label')) }}
-		<div class="col-sm-8">
 			<div class="input-group">
-				{{Form::select('starRating', array('0' => '0 stars','1' => '1 star (below average)', '2' => '2 stars(average)', '3' => '3  stars(above average)'), '0', array('class' => 'form-control'));}}
+				{{Form::select('category', array('NULL' => 'Unnamed', '0' => 'Category 1','1' => '&nbsp;&nbsp;&nbsp;&nbsp;Category 1/Category 2', '2' => 'Category 3', '3' => 'Category 4'), 'NULL', array('id' => 'category', 'class' => 'form-control'));}}
 				<span class="input-group-btn">
-					<button class="btn btn-default" type="button" onclick="$('#add_new_category').toggle();"><span class="glyphicon glyphicon-plus"></span></button>
+					<button class="btn btn-default" type="button" onclick="$('#newcatbox').toggle();$('#newcat').focus();"><span class="fa fa-plus"></span></button>
+				</span>
+			</div>
+			<div class="input-group" style="display:none;margin-top:1em" id="newcatbox">
+				{{ Form::text('newcat', '', array('id' => 'newcat', 'class' => 'form-control', 'placeholder' => 'New Category Name')) }}
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button"><span class="fa fa-edit"></span></button>
 				</span>
 			</div>
 		</div>
