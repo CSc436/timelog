@@ -100,10 +100,17 @@ Route::group(array('before' => 'auth'), function(){
 		$id = Auth::user()->id;
 		$categories = DB::select("select name, cid from log_category c where c.uid = $id");
 		if($categories) {
-			// $query = DB::table('log_entry')->orderBy('endDateTime', 'asc')->get();
-			$query = DB::select("select color, name, startDateTime, endDateTime, duration, notes from log_entry e, log_category c where e.cid = c.cid AND e.uid = $id");
+			// $query = DB::select("select color, name, startDateTime, endDateTime, duration, notes from log_entry e, log_category c where e.cid = c.cid AND e.uid = $id");
+			$query = DB::table('log_entry')
+				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
+				->select('color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
+				->where('log_entry.uid', '=', "$id")->get();
 		} else {
-			$query = DB::select("select startDateTime, endDateTime, duration, notes from log_entry where uid = $id");
+			// $query = DB::select("select startDateTime, endDateTime, duration, notes from log_entry where uid = $id");
+			$query = DB::table('log_entry')
+				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
+				->select('startDateTime', 'endDateTime', 'duration', 'notes')
+				->where('log_entry.uid', '=', "$id")->get();
 		}
 		return View::make('view')->with('query', $query)->with('categories', $categories)->with('active', 'viewlog');
 	});

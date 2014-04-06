@@ -73,17 +73,14 @@
 					});
 				} else {
 					$.get("/api/log/category/" + cid, function(data){
+						console.log(data);
 						var obj = {key: "Your time logs", values: data};
 						setupGraph([obj]);
 					});
 				}
 			}
 
-			$.get("/api/log/data", function(data){
-				var obj = {key: "Your time logs", values: data};
-				setupGraph([obj]);
-			});
-
+			setData();
 
 			function setupGraph(data) {
 
@@ -112,7 +109,7 @@
 		<svg></svg>
 	</div>
 	<select name="category" id="category" onchange="setData()">
-		<option value="--">-----</option>
+		<option value="-----">-----</option>
 		<?php
 			foreach ($categories as $names)
 			{
@@ -124,6 +121,11 @@
 		<svg></svg>
 	</div>
 
+	<select name="displayAmt" id="displayAmt" onchange="updateChart()">
+		<option value="5">5</option>
+		<option value="25">25</option>
+		<option value="50">50</option>
+	</select>
 	<table class="sortable">
 		<tr>
 			<?php
