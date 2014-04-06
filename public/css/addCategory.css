@@ -4,3 +4,5 @@
 .rating span.star:before{content:"\f006";padding-right:5px;color:#999}
 .rating span.star:hover:before,
 .rating span.star:hover~span.star:before{content:"\f005";color:#e3cf7a}
+.starred {content:"\f005";color:#e3cf7a}
+
