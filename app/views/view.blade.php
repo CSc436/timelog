@@ -121,11 +121,11 @@
 		<svg></svg>
 	</div>
 
-	<select name="displayAmt" id="displayAmt" onchange="updateChart()">
+<!-- 	<select name="displayAmt" id="displayAmt" onchange="updateChart()">
 		<option value="5">5</option>
 		<option value="25">25</option>
 		<option value="50">50</option>
-	</select>
+	</select> -->
 	<table class="sortable">
 		<tr>
 			<?php
@@ -157,6 +157,7 @@
 		}
 	?>
 	</table>
+	<?php echo $query->links(); ?>
 	<script>
 		$(function() {
 			$('body').on('hidden.bs.modal', '.modal', function () {

@@ -78,13 +78,15 @@ Route::group(array('before' => 'auth'), function(){
 			$query = DB::table('log_entry')
 				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
 				->select('LID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
-				->where('log_entry.uid', '=', "$id")->get();
+				->where('log_entry.uid', '=', "$id")
+				->paginate(15);
 		} else {
 			// $query = DB::select("select startDateTime, endDateTime, duration, notes from log_entry where uid = $id");
 			$query = DB::table('log_entry')
 				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
 				->select('LID', 'startDateTime', 'endDateTime', 'duration', 'notes')
-				->where('log_entry.uid', '=', "$id")->get();
+				->where('log_entry.uid', '=', "$id")
+				->paginate(15);
 		}
 		return View::make('view')->with('query', $query)->with('categories', $categories)->with('active', 'viewlog');
 	});
