@@ -105,6 +105,14 @@ class LogCategorySeeder extends Seeder {
 		$socialSelect = DB::table('log_category')->where('uid', $userSelect)->where('name', 'Social')->pluck('cid');
 		$workSelect = DB::table('log_category')->where('uid', $userSelect)->where('name', 'Work')->pluck('cid');
 		$miscSelect = DB::table('log_category')->where('uid', $userSelect)->where('name', 'Misc')->pluck('cid');
+
+		LogCategory::create(array('uid' => $userSelect, 'name' => 'CS 425 HW', 'color' => '#F00', 'pid' => $homeworkSelect ));
+		LogCategory::create(array('uid' => $userSelect, 'name' => 'CS 452 HW', 'color' => '#F00', 'pid' => $homeworkSelect ));
+		LogCategory::create(array('uid' => $userSelect, 'name' => 'CS 436 HW', 'color' => '#F00', 'pid' => $homeworkSelect ));
+
+		$homework425 = DB::table('log_category')->where('uid', $userSelect)->where('name', 'CS 425 HW')->pluck('cid');
+
+		LogCategory::create(array('uid' => $userSelect, 'name' => 'program 2 from hell', 'color' => '#F00', 'pid' => $homework425 ));
 		
 		/* Log Entries with Categories */
 		/* log for MAR 03rd, 2014. All logs are under the user 'test' with the password 'password' */

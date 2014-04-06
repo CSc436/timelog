@@ -1,4 +1,5 @@
 @extends('layout')
+<?php if(!isset($message)) $message = ""; ?>
 
 @section('header')
 <link href="{{ URL::asset('css/addCategory.css') }}" rel="stylesheet"/>
@@ -7,20 +8,12 @@
 @section('content')
 	<div class="container" id="main">
 	<h2 class="title">Add A New Category</h2>
-	@if(!$errors->isEmpty())
-		<div class="alert alert-danger">
+	<!-- 	<div class="alert alert-danger">
 			<strong>Error:</strong>
-			@if($errors->count() == 1)
-				{{ $errors->first() }}
-			@else
-				<ul>
-					@foreach($errors->getMessages() as $msg)
-						<li>{{ $msg[0] }}</li>
-					@endforeach
-				</ul>
+			@if($message)
+				echo ($message);
 			@endif
-		</div>
-	@endif
+		</div> -->
 
 		{{ Form::open(array('url' => 'log/saveCat', 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'style' => 'max-width:500px')) }}
 	  <div class="form-group">
