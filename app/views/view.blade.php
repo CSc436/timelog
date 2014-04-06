@@ -16,9 +16,14 @@
 		}
 
 		table {
-			table-layout: fixed;
+			/*table-layout: fixed;*/
 			width: 80%;
 			padding: 1px;
+		}
+		tr .colorBox {
+			border: solid black 1px;
+			height: 10px;
+			width: 10px;
 		}
 	</style>
 	<script>
@@ -68,17 +73,14 @@
 					});
 				} else {
 					$.get("/api/log/category/" + cid, function(data){
+						console.log(data);
 						var obj = {key: "Your time logs", values: data};
 						setupGraph([obj]);
 					});
 				}
 			}
 
-			$.get("/api/log/data", function(data){
-				var obj = {key: "Your time logs", values: data};
-				setupGraph([obj]);
-			});
-
+			setData();
 
 			function setupGraph(data) {
 
@@ -107,7 +109,7 @@
 		<svg></svg>
 	</div>
 	<select name="category" id="category" onchange="setData()">
-		<option value="--">-----</option>
+		<option value="-----">-----</option>
 		<?php
 			foreach ($categories as $names)
 			{
@@ -119,10 +121,16 @@
 		<svg></svg>
 	</div>
 
+	<select name="displayAmt" id="displayAmt" onchange="updateChart()">
+		<option value="5">5</option>
+		<option value="25">25</option>
+		<option value="50">50</option>
+	</select>
 	<table class="sortable">
 		<tr>
 			<?php
 				if(property_exists($query[0], "name")) {
+					echo ("<th> </th>");
 					echo ("<th> Name </th>");
 				}
 			?>
@@ -137,7 +145,8 @@
 		foreach ($query as $entries)
 		{
 			if(property_exists($entries, "name")) {
-				echo ("<tr><td>".$entries->name."</td>");
+				echo ("<tr><td>"."<div class="."\"colorBox\""."style="."\"background-color: $entries->color\">"."</div>"."</td>");
+				echo ("<td>".$entries->name."</td>");
 				echo ("<td>".$entries->startDateTime."</td>");
 			} else {
 				echo ("<tr><td>".$entries->startDateTime."</td>");
