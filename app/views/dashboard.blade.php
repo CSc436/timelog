@@ -6,6 +6,8 @@
 
 	<h2 class="title">Dashboard</h2>
 
+	<div id="error-container"></div>
+
 	<div id="dashboard-container" class="row">
 
 		<!-- Left sidebar column -->
@@ -57,6 +59,7 @@
 					<h3 class="panel-title">Achievements</h3>
 				</div>
 				<div class="panel-body">
+					<i class="achievement fa fa-trophy fa-4"></i>
 					Congrats! You are like the most productive person in the world.
 				</div>
 			</div>

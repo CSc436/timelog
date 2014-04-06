@@ -1,5 +1,10 @@
 @extends('layout')
 
+@section('header')
+	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
+@stop
+
+
 @section('content')
 
 	<div class="container" id="main">
@@ -46,7 +51,8 @@
 	  <div class="form-group">
 		{{ Form::label('category', 'Category', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			{{ Form::text('category', null, array('class' => 'form-control')) }}
+			{{ Form::select('category', array(), null, array('class' => 'form-control')) }}
+			<i class="fa fa-plus-circle"></i> Add a new category
 		</div>
 	  </div>
 	  <div class="form-group">
@@ -63,5 +69,38 @@
 	{{ Form::close() }}
 	
 	</div>
+
+	<!-- At this point I am not sure where to put the JS code to populate the category box -->
+	<script>
+
+		$(function(){
+
+			// set default values for start and end dates
+			// default date format: yyyy-mm-dd hh:mm
+
+			var i = 0;
+			var currDate = new Date();
+			
+			$("input[id$=DateTime]").each(function(k, v){
+
+				var mins = currDate.getMinutes();
+				var addMins = mins + (i++) * 15;
+				currDate.setMinutes(addMins);
+				$(v).val(moment(currDate).format('YYYY-MM-DD hh:mm'));
+
+			});
+
+			var $cats = $("#category");
+
+			$.getJSON("/api/log/categories", function(data){
+				console.log(data);
+				$.each(data, function(k, v){
+					$cats.append(new Option(v.name, v.name));
+				});
+				
+			});
+
+		});
+	</script>
 	
 @stop

@@ -40,6 +40,13 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 			->orderBy('duration', 'desc')->get();
 		return $data;
 	});
+
+	Route::get('log/categories', function()
+	{
+		$data = DB::table('log_category')->select('name')->where('uid', '=', Auth::user()->id)->get();
+		return $data;
+	});
+
 });
 
 ?>

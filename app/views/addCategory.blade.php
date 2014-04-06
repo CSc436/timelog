@@ -2,6 +2,24 @@
 
 @section('header')
 <link href="{{ URL::asset('css/addCategory.css') }}" rel="stylesheet"/>
+<script src="{{ URL::asset('js/jquery.raty.min.js') }}"></script>
+<script>
+	
+	$(function(){
+		$("#starRating").raty({
+			starOff : '/image/star-off.png',
+  			starOn  : '/image/star-on.png',
+  			cancelOff : '/image/cancel-custom-off.png',
+  			cancelOn : '/image/cancel-custom-on.png',
+  			number: function() {
+			    return $(this).attr('data-number');
+			},
+			size: 24,
+			cancel:true
+		});
+	});
+
+</script>
 @stop
 
 @section('content')
@@ -48,14 +66,9 @@
 		</div>
 	  </div>
 	  <div class="form-group">
-		  {{ Form::label('starRating', 'How would you rate your completion of this task on a 3 star scale (no stars if task is not completed, use the dropdown menu. The stars are not fully implemented).', array('class' => 'col-sm-4 control-label')) }}	  
+		  {{ Form::label('starRating', 'How would you rate your completion of this task on a 3 star scale', array('class' => 'col-sm-4 control-label')) }}	  
 		  <div class="col-sm-8">
-	  		<span class="rating">
-            	<span class="star" onclick="$('#myhidden').set('1')" ></span>
-            	<span class="star"></span>
-            	<span class="star"></span>
-      		</span>
-      		{{Form::select('starRating', array('0' => '0 stars','1' => '1 star (below average)', '2' => '2 stars(average)', '3' => '3  stars(above average)'), '0');}}
+		  	<div id="starRating" data-number="3"></div>
       	  </div>
       </div>
 	  <div class="form-group">

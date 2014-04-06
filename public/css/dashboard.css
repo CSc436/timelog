@@ -30,3 +30,10 @@
 #dashboard-left-sidebar .panel, #dashboard-right-sidebar .panel{
 	height: 300px;
 }
+
+.achievement{
+	font-size: 4em;
+	display: block;
+	text-align: center;
+	color: #ffcb00;
+}
