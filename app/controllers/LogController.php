@@ -42,7 +42,7 @@ class LogController extends BaseController {
 		* A valid name consists of print characters and spaces, not including slashes (\ nor /).
 		* A valid name is also one that is at least of length 1 when not counting white space.
 		*/
-		Validator::extend('validName', function($attribute, $value, $parameters)
+		Validator::extend('valid_name', function($attribute, $value, $parameters)
 		{
 			return Utils::validateName($value);
 		});
@@ -51,20 +51,23 @@ class LogController extends BaseController {
 		* A valid name consists of print characters and spaces, not including slashes (\ nor /).
 		* A valid name is also one that is at least of length 1 when not counting white space.
 		*/
-		Validator::extend('validCategoryID', function($attribute, $value, $parameters)
+		Validator::extend('valid_category', function($attribute, $value, $parameters)
 		{
 			return false;
 		});
 	
 		// validate
 		$validator = Validator::make(Input::all(), array(
-			'category' => 'validCategoryID',
-			'newcat' => 'validName',
-			'startDateTime' => 'required|date',
-			'endDateTime' => 'required|date|after_start:startDateTime',
-			'category' => 'alpha_dash'
+				'category' => 'integer|valid_category',
+				'newcat' => 'valid_name',
+				'startDateTime' => 'required|date',
+				'endDateTime' => 'required|date|after_start:startDateTime'
 			),
-			array('after_start' => 'End date-time must be after start date-time.')
+			array(
+				'after_start' => 'End date-time must be after start date-time.',
+				'valid_category' => 'The category you selected was not valid. Please select a different.',
+				'valid_name' => 'You\'re new category name cannot have slash characters (i.e. \'/\' and \'\\\') and must be at least 1 non-white-space character long'
+			)
 		);
 
 		return $validator;
