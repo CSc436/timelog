@@ -4,6 +4,7 @@
 <link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
 <script src="{{ URL::asset('js/spectrum.js') }}"></script>
 <script src="{{ URL::asset('js/moment.min.js') }}"></script>
+@stop
 
 @section('content')
 
