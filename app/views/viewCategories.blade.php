@@ -10,7 +10,8 @@
 			console.log(item);
 			if(item) {
 				$("."+cid).toggle('2000', 'swing', function(){
-
+					//childs = $(item).child().style;
+					//console.log(childs);
 				});
 			}
 		}
@@ -25,7 +26,7 @@
 			{
 				if ($entries->isTask == 0){
 					if ($entries->PID == NULL){
-						echo ("<li onclick = viewSubcat($entries->CID)>".$entries->name. /*"<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/category".$entries->CID."/modal'})\">Edit</button>*/"</li>");
+						echo ("<li onclick = viewSubcat($entries->CID)>".$entries->name. /*"<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/category".$entries->CID."/modal'})\">Edit</button>*/"</li>\n");
 						subCategories($entries);
 					}
 				}
@@ -33,13 +34,18 @@
 
 			function subCategories($parentCategory) {
 		 	$id = Auth::user()->id;
-		 	echo("<ul class = 'subcat'>");
-				$subCats = DB::select("select * from log_category c where c.pid =  $parentCategory->CID");
+		 	$subCats = DB::select("select * from log_category c where c.pid =  $parentCategory->CID");
+		 	if ($subCats != NULL){
+
+		 		echo("<ul class = 'subcat'>\n");
+				if ($subCats != NULL) {
+				}
 				foreach($subCats as $sub){
-					echo ("<li class = 'subcat $parentCategory->CID' onclick = viewSubcat($sub->CID) style = 'display:none'>" . $sub->name . /*"<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/category".$sub->CID."/modal'})\">Edit</button>*/"</li>");
+					echo ("<li class = 'subcat $parentCategory->CID' onclick = viewSubcat($sub->CID) style = 'display:none'>" . $sub->name . /*"<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/category".$sub->CID."/modal'})\">Edit</button>*/"</li>\n");
 					subCategories($sub);
 			 	}
-		 	echo("</ul>");
+		 		echo("</ul>\n");
+		 	}
 		}
 
 		?>
