@@ -1,5 +1,12 @@
 @extends('layout')
 
+
+@section('header')
+<link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
+<script src="{{ URL::asset('js/spectrum.js') }}"></script>
+<script src="{{ URL::asset('js/moment.min.js') }}"></script>
+@stop
+
 @section('content')
 
 	<div class="container" id="main">
@@ -37,7 +44,7 @@
 			<div class="input-group" style="display:none;margin-top:1em" id="newcatbox">
 				{{ Form::text('newcat', '', array('id' => 'newcat', 'class' => 'form-control', 'placeholder' => 'New Category Name')) }}
 				<span class="input-group-btn">
-					<button class="btn btn-default" type="button"><span class="fa fa-edit"></span></button>
+					<button id="colorPicker" class="btn btn-default" type="button"><span id="colorPickerIcon" class="fa fa-tint"></span></button>
 				</span>
 			</div>
 		</div>
@@ -78,5 +85,46 @@
 	{{ Form::close() }}
 	
 	</div>
+
+	<script>
+
+		$(function(){
+
+			$("#colorPicker").spectrum({
+			    color: getRandomColor()
+			});
+
+			// set default values for start and end dates
+			// default date format: yyyy-mm-dd hh:mm
+
+			var i = 0;
+			var currDate = new Date();
+			
+			$("input[id$=DateTime]").each(function(k, v){
+
+				var mins = currDate.getMinutes();
+				var addMins = mins + (i++) * 15;
+				currDate.setMinutes(addMins);
+				$(v).val(moment(currDate).format('YYYY-MM-DD hh:mm'));
+
+			});
+
+			var $cats = $("#category");
+
+			$.getJSON("/api/log/categories", function(data){
+				console.log(data);
+				$.each(data, function(k, v){
+					$cats.append(new Option(v.name, v.name));
+				});
+				
+			});
+
+		});
+
+		function getRandomColor(){
+			return "#"+((Math.random() * (0xffffff)) << 0).toString(16);
+		}
+
+	</script>
 	
 @stop
