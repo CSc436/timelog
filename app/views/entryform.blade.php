@@ -1,7 +1,9 @@
 @extends('layout')
 
 @section('header')
-	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
+<link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
+<script src="{{ URL::asset('js/spectrum.js') }}"></script>
+<script src="{{ URL::asset('js/moment.min.js') }}"></script>
 @stop
 
 @section('content')
@@ -41,7 +43,7 @@
 			<div class="input-group" style="display:none;margin-top:1em" id="newcatbox">
 				{{ Form::text('newcat', '', array('id' => 'newcat', 'class' => 'form-control', 'placeholder' => 'New Category Name')) }}
 				<span class="input-group-btn">
-					<button class="btn btn-default" type="button"><span class="fa fa-edit"></span></button>
+					<button id="colorPicker" class="btn btn-default" type="button"><span id="colorPickerIcon" class="fa fa-tint"></span></button>
 				</span>
 			</div>
 		</div>
@@ -87,6 +89,10 @@
 
 		$(function(){
 
+			$("#colorPicker").spectrum({
+			    color: getRandomColor()
+			});
+
 			// set default values for start and end dates
 			// default date format: yyyy-mm-dd hh:mm
 
@@ -113,6 +119,11 @@
 			});
 
 		});
+
+		function getRandomColor(){
+			return "#"+((Math.random() * (0xffffff)) << 0).toString(16);
+		}
+
 	</script>
 	
 @stop
