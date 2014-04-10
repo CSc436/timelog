@@ -28,8 +28,12 @@ class LogController extends BaseController {
 		*/
 		Validator::extend('after_start', function($attribute, $value, $parameters)
 		{
-			$start = new DateTime(Input::get($parameters[0]));
-			$end = new DateTime($value);
+			try{
+				$start = new DateTime(Input::get($parameters[0]));
+				$end = new DateTime($value);
+			}catch(Exception $e){
+				return false;
+			}
 
 			return $end > $start;
 		});
@@ -102,38 +106,40 @@ class LogController extends BaseController {
 			$entry->UID = Auth::user()->id;
 			$entry->save();
 			$LID = $entry->LID;
-			return $LID;
+			return array($LID,$validator);
 		}
 
-		return null;
+		return array(null,$validator);
 	}
 
 	public function saveEntryFromAddPage($id = null){
-		if($this->saveEntry($id)){
+		$val = $this->saveEntry($id); // returns [LID, $validator], where LID is NULL on error
+		if($val[0]){
 			return Redirect::to('log/view');
 		}else if($id == null) {
 			// validation has failed, display error messages
 			Input::flash();
-			return Redirect::to('log/add')->withErrors($validator);
+			return Redirect::to('log/add')->withErrors($val[1]);
 		}else{
 			// validation has failed, display error messages
 			Input::flash();
-			return Redirect::to('log/edit/'.$id)->withErrors($validator);
+			return Redirect::to('log/edit/'.$id)->withErrors($val[1]);
 		}
 	}
 
 	//This function bypasses returning a page upon successful submission to optimize for speed.
 	public function saveEntryFromCalendar($id = null){
-		if($LID = $this->saveEntry($id)){
-			return $LID;
+		$val = $this->saveEntry($id); // returns [LID, $validator], where LID is NULL on error
+		if($val[0]){
+			return $val[0];
 		}else if($id == null) {
 			//TODO: validation has failed, display error messages
 			Input::flash();
-			return Redirect::to('log/add')->withErrors($validator);
+			return Redirect::to('log/add')->withErrors($val[1]);
 		}else{
 			//TODO: validation has failed, display error messages
 			Input::flash();
-			return Redirect::to('log/edit/'.$id)->withErrors($validator);
+			return Redirect::to('log/edit/'.$id)->withErrors($val[1]);
 		}
 	}
 
