@@ -3,6 +3,7 @@
 class DashboardTest extends TestCase {
 	
 	public function testGetting(){
+		
 		$post_data = array('email'=>'timeloguser@gmail.com', 'password'=>'secure password');
 
 		Input::replace($post_data);
@@ -14,11 +15,4 @@ class DashboardTest extends TestCase {
 
 		$this->assertTrue($this->client->getResponse()->isOk());
 	}
-	
-	
-	
-	
-	
-	
-	
 }

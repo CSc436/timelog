@@ -1,11 +1,9 @@
 @extends('layout')
 
-
 @section('header')
 <link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
 <script src="{{ URL::asset('js/spectrum.js') }}"></script>
 <script src="{{ URL::asset('js/moment.min.js') }}"></script>
-@stop
 
 @section('content')
 
@@ -36,7 +34,7 @@
 		{{ Form::label('category', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group">
-				{{Form::select('category', array('NULL' => 'Unnamed', '0' => 'Category 1','1' => '&nbsp;&nbsp;&nbsp;&nbsp;Category 1/Category 2', '2' => 'Category 3', '3' => 'Category 4'), 'NULL', array('id' => 'category', 'class' => 'form-control'));}}
+				{{Form::select('category', array('NULL' => 'Unnamed'), 'NULL', array('id' => 'category', 'class' => 'form-control'));}}
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button" onclick="$('#newcatbox').toggle();$('#newcat').focus();"><span class="fa fa-plus"></span></button>
 				</span>
