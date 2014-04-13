@@ -36,6 +36,7 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 		$data = DB::table('log_entry')
 			->select(DB::raw('DATE_FORMAT(startDateTime,\'%m-%d-%y\') as label'),'duration AS value')
 			->where('log_entry.uid', '=', Auth::user()->id)
+			->where(DB::RAW('MONTH(startDateTime)'), '=', '2')
 			->orderBy('label', 'asc')
 			->orderBy('duration', 'desc')->get();
 		return $data;

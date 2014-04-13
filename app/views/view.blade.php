@@ -103,6 +103,10 @@
 				  return chart;
 				});
 			}
+
+			function setupChart() {
+				
+			}
 		};
 	</script>
 	<div id="pie">
@@ -121,11 +125,15 @@
 		<svg></svg>
 	</div>
 
-<!-- 	<select name="displayAmt" id="displayAmt" onchange="updateChart()">
-		<option value="5">5</option>
-		<option value="25">25</option>
-		<option value="50">50</option>
-	</select> -->
+	<select name="month" id="month" onchange="updateChart()">
+		<option value="all">-----</option>
+		<?php
+			foreach ($dates as $date)
+			{
+				echo ("<option value=".$date->month."/".$date->year.">".$date->month."/".$date->year."</option>");
+			}
+		?>
+	</select>
 	<table class="sortable">
 		<tr>
 			<?php

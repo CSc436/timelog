@@ -73,12 +73,14 @@ Route::group(array('before' => 'auth'), function(){
 	{
 		$id = Auth::user()->id;
 		$categories = DB::select("select name, cid from log_category c where c.uid = $id");
+		$months = DB::select("select YEAR(startDateTime) as year, MONTH(startDateTime) as month from log_entry GROUP BY YEAR(startDateTime), MONTH(startDateTime) ORDER BY YEAR(startDateTime), MONTH(startDateTime)");
 		if($categories) {
 			// $query = DB::select("select color, name, startDateTime, endDateTime, duration, notes from log_entry e, log_category c where e.cid = c.cid AND e.uid = $id");
 			$query = DB::table('log_entry')
 				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
 				->select('LID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
 				->where('log_entry.uid', '=', "$id")
+				->where(DB::RAW('MONTH(startDateTime)'), '=', '3')
 				->paginate(15);
 		} else {
 			// $query = DB::select("select startDateTime, endDateTime, duration, notes from log_entry where uid = $id");
@@ -88,7 +90,7 @@ Route::group(array('before' => 'auth'), function(){
 				->where('log_entry.uid', '=', "$id")
 				->paginate(15);
 		}
-		return View::make('view')->with('query', $query)->with('categories', $categories)->with('active', 'viewlog');
+		return View::make('view')->with('query', $query)->with('categories', $categories)->with('dates',$months)->with('active', 'viewlog');
 	});
 
 	//This should be named better, the naming scheme for the function is confusing
