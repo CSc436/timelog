@@ -103,15 +103,13 @@
 				  return chart;
 				});
 			}
-
-			function setupChart() {
-				
-			}
 		};
 	</script>
+	<?php echo $input[0]; ?>
 	<div id="pie">
 		<svg></svg>
 	</div>
+
 	<select name="category" id="category" onchange="setData()">
 		<option value="-----">-----</option>
 		<?php
@@ -125,16 +123,12 @@
 		<svg></svg>
 	</div>
 
-	<select name="month" id="month" onchange="updateChart()">
-		<option value="all">-----</option>
-		<?php
-			foreach ($dates as $date)
-			{
-				echo ("<option value=".$date->month."/".$date->year.">".$date->month."/".$date->year."</option>");
-			}
-		?>
-	</select>
-	<table class="sortable">
+	{{ Form::open(array('url' => 'log/view', 'method' => 'get', 'role' => 'form')) }}
+	{{ Form::select('dates', $dates); }}
+	{{ Form::submit('Submit',['class'=>'btn btn-default']) }}
+	{{ Form::close() }}
+
+	<table class="sortable" id="removable">
 		<tr>
 			<?php
 				if(property_exists($query[0], "name")) {
@@ -149,7 +143,6 @@
 		</tr>
 
 	<?php
-
 		foreach ($query as $entries)
 		{
 			if(property_exists($entries, "name")) {
@@ -165,6 +158,7 @@
 		}
 	?>
 	</table>
+</div>
 	<?php echo $query->links(); ?>
 	<script>
 		$(function() {
