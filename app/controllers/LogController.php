@@ -47,6 +47,10 @@ class LogController extends BaseController {
 			return Utils::validateName($value);
 		});
 		
+		Validator::extend('valid_color', function($attribute, $value, $parameters)
+		{
+			return Utils::validateColor($value);
+		});
 		/*
 		* A valid name consists of print characters and spaces, not including slashes (\ nor /).
 		* A valid name is also one that is at least of length 1 when not counting white space.
@@ -69,12 +73,14 @@ class LogController extends BaseController {
 				'category' => 'integer|valid_category',
 				'newcat' => 'valid_name',
 				'startDateTime' => 'required|date',
-				'endDateTime' => 'required|date|after_start:startDateTime'
+				'endDateTime' => 'required|date|after_start:startDateTime',
+				'color' => 'valid_color'
 			),
 			array(
 				'after_start' => 'End date-time must be after start date-time.',
 				'valid_category' => 'The category you selected was not valid. Please select a different.',
-				'valid_name' => 'You\'re new category name cannot have slash characters (i.e. \'/\' and \'\\\') and must be at least 1 non-white-space character long'
+				'valid_name' => 'You\'re new category name cannot have slash characters (i.e. \'/\' and \'\\\') and must be at least 1 non-white-space character long',
+				'valid_color' => 'You have used an invalid color scheme'
 			)
 		);
 
@@ -117,6 +123,7 @@ class LogController extends BaseController {
 				}
 			}
 
+			$colorstr = Input::get('color');
 			$newcatstr = trim(Input::get('newcat'));
 			if($newcatstr != ''){
 				try{
@@ -127,7 +134,7 @@ class LogController extends BaseController {
 					$newcat->UID = Auth::user()->id;
 					$newcat->PID = $cid;
 					$newcat->name = $newcatstr;
-					$newcat->color = '0066FF';
+					$newcat->color = $colorstr;
 					$newcat->save();
 					$cid = $newcat->CID;
 				}

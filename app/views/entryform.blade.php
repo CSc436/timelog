@@ -14,7 +14,7 @@
 	@if(!$errors->isEmpty())
 		<div class="alert alert-danger">
 			<strong>Error:</strong>
-			@if($errors->count() >= 1)
+			@if($errors->count() == 1)
 				{{{ $errors->first() }}}
 			@else
 				<ul>
@@ -45,6 +45,7 @@
 				<span class="input-group-btn">
 					<button id="colorPicker" class="btn btn-default" type="button"><span id="colorPickerIcon" class="fa fa-tint"></span></button>
 				</span>
+				{{ Form::text('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => '#CCCCCC')) }}
 			</div>
 		</div>
 	  </div>
@@ -90,7 +91,11 @@
 		$(function(){
 
 			$("#colorPicker").spectrum({
-			    color: getRandomColor()
+			    color: getRandomColor(),
+			    change: function(color) {
+ 					console.log(color.toHex()); // #ff0000
+ 					$("#color").val(color.toHex());
+				}
 			});
 
 			// set default values for start and end dates
@@ -104,7 +109,7 @@
 				var mins = currDate.getMinutes();
 				var addMins = mins + (i++) * 15;
 				currDate.setMinutes(addMins);
-				$(v).val(moment(currDate).format('YYYY-MM-DD hh:mm'));
+				$(v).val(moment(currDate).format('YYYY-MM-DD HH:mm'));
 
 			});
 
