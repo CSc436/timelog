@@ -58,6 +58,7 @@
 						.transition().duration(350)
 						.call(chart);
 				 
+				 	console.log(customColors);
 					return chart;
 				});
 			}
