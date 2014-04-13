@@ -6,9 +6,11 @@
 @section('content')
 	
 	<script type = "text/javascript">
+
 		$(function(){
 		$(".collapsible").collapsibleList();
 		});
+
 	</script>
 	<div class="container" id="main">
 
@@ -28,18 +30,21 @@
 			}
 
 			function subCategories($parentCategory) {
-		 	$id = Auth::user()->id;
-		 	echo("<ul>");
+				$id = Auth::user()->id;
+				echo("<ul>");
 				$subCats = DB::select("select * from log_category c where c.pid =  $parentCategory->CID");
-				foreach($subCats as $sub){
-					/*"<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/category".$sub->CID."/modal'})\">Edit</button>*/
-					echo ("<li>" . $sub->name);
-					subCategories($sub);
-					echo("</li>");
+				if ($subCats != NULL){
+					foreach($subCats as $sub){
+						/*"<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: 	'/log/edit/category".$sub->CID."/modal'})\">Edit</button>*/
+						echo ("<li>" . $sub->name);
+						subCategories($sub);
+						echo("</li>");
 					
-			 	}
-		 	echo("</ul>");
-		}
+					}
+				}
+		 	echo("</ul>\n");
+		 	}
+		
 
 		?>
 	</ul>

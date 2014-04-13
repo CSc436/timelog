@@ -193,6 +193,29 @@ class LogController extends BaseController {
 	}
 
 
+
+	/* The checkCatCycle Function should be called whenever any category changes it's
+	   parent category (e.g., changing a categorie's possible subcategory). This will recursively
+	   check to make sure that a category is not it's own subcategory. $inputCatID is the current category of
+	   the current category ID you're working with, and subCatId is the category ID of the new parent category the user
+	   wants the category to be a part of. */
+	public function checkCatCycle($inputCatID, $newParentCatID) {
+		$subCategoryPID = DB::table('log_category')->where('CID',$newParentCatID)->where('UID',Auth::user()->id)->pluck('PID');
+		
+		if ($subCategoryPID == NULL){
+			return 0;
+		}
+
+		if($subCategoryPID == $inputcatID){
+			return 1;
+		}
+
+		else {
+			return checkCatCycle($inputCatID, $subCategoryPID);
+		}
+	}
+
+
 	public function saveCategory($id = null) {
 		
 		if(!Auth::check()){
@@ -209,6 +232,9 @@ class LogController extends BaseController {
 			// validation has passed, save category in DB
 			$catEntry->UID = Auth::user()->id;
 			$catEntry->name = Input::get('categoryName');
+
+
+
 			$testName = DB::select("select * from log_category c where c.name ='" . "$catEntry->name' AND c.uid = '" . "$catEntry->UID'");
 			if ($testName != NULL){
 				Input::flash();
