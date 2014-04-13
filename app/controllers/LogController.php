@@ -53,7 +53,15 @@ class LogController extends BaseController {
 		*/
 		Validator::extend('valid_category', function($attribute, $value, $parameters)
 		{
-			return false;
+			if($value === '0')
+				return true;
+			// load existing LogCategory
+			try{
+				$entry = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $value)->firstOrFail();
+			}catch(ModelNotFoundException $e){
+				return false;
+			}
+			return true;
 		});
 	
 		// validate
@@ -90,15 +98,42 @@ class LogController extends BaseController {
 			try{
 				$entry = LogEntry::where('UID', '=', Auth::user()->id)->findOrFail($id);
 			}catch(ModelNotFoundException $e){
-				return Response::make('Not Found', 404);
+				return NULL;
 			}
 		}
 		
 		$validator = $this->validateInput(); // validate input from Input::all()
 		
 		if ($validator->passes()) {
-			// validation has passed, save user in DB
+			// validation has passed, save data in DB
+			$catstr = Input::get('category');
+			$cid = NULL;
+			if($catstr != '0'){
+				try{
+					$cat = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $catstr)->firstOrFail();
+					$cid = $cat->CID;
+				}catch(ModelNotFoundException $e){
+					return NULL;
+				}
+			}
 
+			$newcatstr = trim(Input::get('newcat'));
+			if($newcatstr != ''){
+				try{
+					$existingcat = LogCategory::where('UID', '=', Auth::user()->id)->where('PID', '=', $cid)->where('name', '=', $newcatstr)->firstOrFail();
+					$cid = $existingcat->CID;
+				}catch(ModelNotFoundException $e){
+					$newcat = new LogCategory;
+					$newcat->UID = Auth::user()->id;
+					$newcat->PID = $cid;
+					$newcat->name = $newcatstr;
+					$newcat->color = '0066FF';
+					$newcat->save();
+					$cid = $newcat->CID;
+				}
+			}
+
+			$entry->CID = $cid;
 			$entry->startDateTime = Input::get('startDateTime');
 			$entry->endDateTime = Input::get('endDateTime');
 			
@@ -127,6 +162,8 @@ class LogController extends BaseController {
 
 	public function saveEntryFromAddPage($id = null){
 		$val = $this->saveEntry($id); // returns [LID, $validator], where LID is NULL on error
+		if($val == NULL)
+			return Response::make('Not Found', 404);
 		if($val[0]){
 			return Redirect::to('log/view');
 		}else if($id == null) {
@@ -143,6 +180,8 @@ class LogController extends BaseController {
 	//This function bypasses returning a page upon successful submission to optimize for speed.
 	public function saveEntryFromCalendar($id = null){
 		$val = $this->saveEntry($id); // returns [LID, $validator], where LID is NULL on error
+		if($val == NULL)
+			return Response::make('Not Found', 404);
 		if($val[0]){
 			return $val[0];
 		}else if($id == null) {

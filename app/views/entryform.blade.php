@@ -35,7 +35,7 @@
 		{{ Form::label('category', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group">
-				{{Form::select('category', array('0' => 'Unnamed'), 'NULL', array('id' => 'category', 'class' => 'form-control'));}}
+				{{Form::select('category', array('0' => ''), 'NULL', array('id' => 'category', 'class' => 'form-control'));}}
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button" onclick="$('#newcatbox').toggle();$('#newcat').focus();"><span class="fa fa-plus"></span></button>
 				</span>

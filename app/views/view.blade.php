@@ -145,7 +145,7 @@
 		foreach ($query as $entries)
 		{
 			if(property_exists($entries, "name")) {
-				echo ("<tr><td>"."<div class="."\"colorBox\""."style="."\"background-color: $entries->color\">"."</div>"."</td>");
+				echo ("<tr><td>"."<div class="."\"colorBox\""."style="."\"background-color: #$entries->color\">"."</div>"."</td>");
 				echo ("<td>".$entries->name."</td>");
 				echo ("<td>".$entries->startDateTime."</td>");
 			} else {
