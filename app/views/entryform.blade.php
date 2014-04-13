@@ -14,7 +14,7 @@
 	@if(!$errors->isEmpty())
 		<div class="alert alert-danger">
 			<strong>Error:</strong>
-			@if($errors->count() == 1)
+			@if($errors->count() >= 1)
 				{{{ $errors->first() }}}
 			@else
 				<ul>
