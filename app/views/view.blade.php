@@ -105,7 +105,7 @@
 			}
 		};
 	</script>
-	<?php echo $input[0]; ?>
+	<?php echo $input[1]; ?>
 	<div id="pie">
 		<svg></svg>
 	</div>
