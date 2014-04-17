@@ -47,9 +47,21 @@ class LogController extends BaseController {
 			return Utils::validateName($value);
 		});
 		
+		/* 
+		* A valid color is a hexadecimal string of six characters without the # sign, no more,
+		* no less.
+		*/
 		Validator::extend('valid_color', function($attribute, $value, $parameters)
 		{
 			return Utils::validateColor($value);
+		});
+
+		/* 
+		* A valid rating is a char between 1 and 3, no more, no less.
+		*/
+		Validator::extend('valid_rating', function($attribute, $value, $parameters)
+		{
+			return Utils::validateRating($value);
 		});
 		/*
 		* A valid name consists of print characters and spaces, not including slashes (\ nor /).
@@ -74,13 +86,15 @@ class LogController extends BaseController {
 				'newcat' => 'valid_name',
 				'startDateTime' => 'required|date',
 				'endDateTime' => 'required|date|after_start:startDateTime',
-				'color' => 'valid_color'
+				'color' => 'valid_color',
+				'rating' => 'valid_rating'
 			),
 			array(
 				'after_start' => 'End date-time must be after start date-time.',
 				'valid_category' => 'The category you selected was not valid. Please select a different.',
 				'valid_name' => 'You\'re new category name cannot have slash characters (i.e. \'/\' and \'\\\') and must be at least 1 non-white-space character long',
-				'valid_color' => 'You have used an invalid color scheme'
+				'valid_color' => 'You have used an invalid color scheme',
+				'valid_rating' => 'Your rating is invalid... Whoa, How did you manage to do that?'
 			)
 		);
 
@@ -124,6 +138,7 @@ class LogController extends BaseController {
 			}
 
 			$colorstr = Input::get('color');
+			$rating = Input::get('rating');
 			$newcatstr = trim(Input::get('newcat'));
 			if($newcatstr != ''){
 				try{
@@ -135,6 +150,7 @@ class LogController extends BaseController {
 					$newcat->PID = $cid;
 					$newcat->name = $newcatstr;
 					$newcat->color = $colorstr;
+					$newcat->rating = $rating;
 					$newcat->save();
 					$cid = $newcat->CID;
 				}

@@ -4,6 +4,8 @@
 <link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
 <script src="{{ URL::asset('js/spectrum.js') }}"></script>
 <script src="{{ URL::asset('js/moment.min.js') }}"></script>
+<link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
+<script src="{{ URL::asset('js/jquery.raty.min.js') }}"></script>
 @stop
 
 @section('content')
@@ -45,10 +47,21 @@
 				<span class="input-group-btn">
 					<button id="colorPicker" class="btn btn-default" type="button"><span id="colorPickerIcon" class="fa fa-tint"></span></button>
 				</span>
-				{{ Form::text('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => '#CCCCCC')) }}
+				{{ Form::hidden('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => '#CCCCCC')) }}
 			</div>
 		</div>
 	  </div>
+	  
+	  <div class="form-group">
+		{{ Form::label('Rating', 'Rating', array('class' => 'col-sm-4 control-label')) }}		
+		    <div class="col-sm-8">
+				<div class="input-group">
+				<div class="star"></div>
+				{{ Form::hidden('rating', '', array('id' => 'rating', 'class' => 'form-control', 'placeholder' => '0')) }}
+				</div>
+			</div>
+	  </div>
+
 	  <div class="form-group">
 		{{ Form::label('startDateTime', 'Start', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
@@ -97,7 +110,14 @@
  					$("#color").val(color.toHex());
 				}
 			});
-
+			$('.star').raty({ 
+				number: 3,
+				hints: ['poor', 'good', 'excellent'],
+				click: function(score) {
+ 					$("#rating").val(score);
+				}
+			});
+			//$('#star').raty({ number: 3 });
 			// set default values for start and end dates
 			// default date format: yyyy-mm-dd hh:mm
 

@@ -9,6 +9,13 @@ class Utils{
 			return count(str_replace(' ','',$name)) > 0;
 	}
 
+	public static function validateRating($rating){
+		$validchars = preg_match('/([1-3]{1})/', $rating);
+			if($validchars == 0 OR $validchars === false)
+				return false;
+			return count(str_replace(' ','',$rating)) > 0;
+	}
+
 	public static function validateColor($color){
 		//$validchars = true;
 		$validchars = preg_match('/([0-9a-fA-F]{6})/', $color);
