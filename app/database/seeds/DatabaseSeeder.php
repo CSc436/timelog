@@ -48,7 +48,7 @@ class LogEntrySeeder extends Seeder {
 
 
 		/* log for FEB 03rd, 2014. All logs are under the user 'test@test.com' with the password 'password' */
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 04:30:00.000000', 'endDateTime'=> '2014-02-03 04:45:00.004444', 'notes'=>'test', 'duration'=> '15'));
+		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 04:30:00.000000', 'CID', 'endDateTime'=> '2014-02-03 04:45:00.004444', 'notes'=>'test', 'duration'=> '15'));
 		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 04:45:00.000000', 'endDateTime'=> '2014-02-03 05:45:00.004444', 'notes'=>'test', 'duration'=> '60'));
 		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 05:45:00.000000', 'endDateTime'=> '2014-02-03 06:00:00.004444', 'notes'=>'test', 'duration'=> '15'));
 		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 06:00:00.000000', 'endDateTime'=> '2014-02-03 06:45:00.004444', 'notes'=>'test', 'duration'=> '45'));
@@ -94,11 +94,11 @@ class LogCategorySeeder extends Seeder {
 		$userSelect = DB::table('user')->where('email', 'test@test.com')->pluck('id');
 
 		/* Create Categories */
-		LogCategory::create(array('uid' => $userSelect, 'name' => 'Homework', 'color' => '#F00'));
-		LogCategory::create(array('uid' => $userSelect, 'name' => 'Sleep', 'color' => '#FF0'));
-		LogCategory::create(array('uid' => $userSelect, 'name' => 'Social', 'color' => '#F0F'));
-		LogCategory::create(array('uid' => $userSelect, 'name' => 'Work', 'color' => '#0FF'));
-		LogCategory::create(array('uid' => $userSelect, 'name' => 'Misc', 'color' => '#0F0'));
+		LogCategory::create(array('uid' => $userSelect, 'name' => 'Homework', 'color' => 'FFFF00'));
+		LogCategory::create(array('uid' => $userSelect, 'name' => 'Sleep', 'color' => 'FFFF00'));
+		LogCategory::create(array('uid' => $userSelect, 'name' => 'Social', 'color' => 'FF00FF'));
+		LogCategory::create(array('uid' => $userSelect, 'name' => 'Work', 'color' => '00FFFF'));
+		LogCategory::create(array('uid' => $userSelect, 'name' => 'Misc', 'color' => '00FF00'));
 
 		$homeworkSelect = DB::table('log_category')->where('uid', $userSelect)->where('name', 'Homework')->pluck('cid');
 		$sleepSelect = DB::table('log_category')->where('uid', $userSelect)->where('name', 'Sleep')->pluck('cid');

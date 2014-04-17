@@ -1,7 +1,9 @@
 @extends('layout')
 
 @section('header')
-	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
+<link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
+<script src="{{ URL::asset('js/spectrum.js') }}"></script>
+<script src="{{ URL::asset('js/moment.min.js') }}"></script>
 @stop
 
 @section('content')
@@ -30,10 +32,10 @@
 		{{ Form::model($editThis, array('url' => 'log/save/'.$editThis->LID, 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'style' => 'max-width:500px')) }}
 	@endif
 	  <div class="form-group">
-		{{ Form::label('entryname', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
+		{{ Form::label('category', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group">
-				{{Form::select('category', array('NULL' => 'Unnamed'), 'NULL', array('id' => 'category', 'class' => 'form-control'));}}
+				{{Form::select('category', array('0' => ''), 'NULL', array('id' => 'category', 'class' => 'form-control'));}}
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button" onclick="$('#newcatbox').toggle();$('#newcat').focus();"><span class="fa fa-plus"></span></button>
 				</span>
@@ -41,8 +43,9 @@
 			<div class="input-group" style="display:none;margin-top:1em" id="newcatbox">
 				{{ Form::text('newcat', '', array('id' => 'newcat', 'class' => 'form-control', 'placeholder' => 'New Category Name')) }}
 				<span class="input-group-btn">
-					<button class="btn btn-default" type="button"><span class="fa fa-edit"></span></button>
+					<button id="colorPicker" class="btn btn-default" type="button"><span id="colorPickerIcon" class="fa fa-tint"></span></button>
 				</span>
+				{{ Form::text('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => '#CCCCCC')) }}
 			</div>
 		</div>
 	  </div>
@@ -87,6 +90,14 @@
 
 		$(function(){
 
+			$("#colorPicker").spectrum({
+			    color: getRandomColor(),
+			    change: function(color) {
+ 					console.log(color.toHex()); // #ff0000
+ 					$("#color").val(color.toHex());
+				}
+			});
+
 			// set default values for start and end dates
 			// default date format: yyyy-mm-dd hh:mm
 
@@ -98,7 +109,7 @@
 				var mins = currDate.getMinutes();
 				var addMins = mins + (i++) * 15;
 				currDate.setMinutes(addMins);
-				$(v).val(moment(currDate).format('YYYY-MM-DD hh:mm'));
+				$(v).val(moment(currDate).format('YYYY-MM-DD HH:mm'));
 
 			});
 
@@ -107,12 +118,17 @@
 			$.getJSON("/api/log/categories", function(data){
 				console.log(data);
 				$.each(data, function(k, v){
-					$cats.append(new Option(v.name, v.name));
+					$cats.append(new Option(v.name, v.cid));
 				});
 				
 			});
 
 		});
+
+		function getRandomColor(){
+			return "#"+((Math.random() * (0xffffff)) << 0).toString(16);
+		}
+
 	</script>
 	
 @stop

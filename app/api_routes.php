@@ -44,7 +44,7 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 	// Returns all the categories for the current logged in user
 	Route::get('log/categories', function()
 	{
-		$data = DB::table('log_category')->select('name')->where('uid', '=', Auth::user()->id)->get();
+		$data = DB::table('log_category')->select('cid', 'name')->where('uid', '=', Auth::user()->id)->get();
 		return $data;
 	});
 
