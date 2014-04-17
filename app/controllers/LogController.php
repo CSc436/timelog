@@ -106,21 +106,23 @@ class LogController extends BaseController {
 			$entry->UID = Auth::user()->id;
 			$entry->save();
 			$LID = $entry->LID;
-			return array($LID,$validator);
+			return array($LID, $validator);
 		}
 
-		return array(null,$validator);
+		return array(null, $validator);
 	}
 
 	public function saveEntryFromAddPage($id = null){
+		
 		$val = $this->saveEntry($id); // returns [LID, $validator], where LID is NULL on error
+		
 		if($val[0]){
 			return Redirect::to('log/view');
-		}else if($id == null) {
+		} else if($id == null) {
 			// validation has failed, display error messages
 			Input::flash();
 			return Redirect::to('log/add')->withErrors($val[1]);
-		}else{
+		} else {
 			// validation has failed, display error messages
 			Input::flash();
 			return Redirect::to('log/edit/'.$id)->withErrors($val[1]);
@@ -129,17 +131,15 @@ class LogController extends BaseController {
 
 	//This function bypasses returning a page upon successful submission to optimize for speed.
 	public function saveEntryFromCalendar($id = null){
+		
 		$val = $this->saveEntry($id); // returns [LID, $validator], where LID is NULL on error
-		if($val[0]){
-			return $val[0];
-		}else if($id == null) {
+		
+		if($val[0] && !$val[1]->messages()){
+			return 1;
+		} else if($id == null) {
 			//TODO: validation has failed, display error messages
 			Input::flash();
-			return Redirect::to('log/add')->withErrors($val[1]);
-		}else{
-			//TODO: validation has failed, display error messages
-			Input::flash();
-			return Redirect::to('log/edit/'.$id)->withErrors($val[1]);
+			return $val[1]->messages();
 		}
 	}
 

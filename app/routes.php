@@ -109,6 +109,7 @@ Route::group(array('before' => 'auth'), function(){
 	//Route::post('log/save/{id?}/{getPage?}', 'LogController@saveEntry')->where('id', '[0-9]+')->where('getPage', 'false');
 	
 	Route::post('log/save/{id?}', 'LogController@saveEntryFromAddPage')->where('id', '[0-9]+');
+	
 	Route::get('log/edit/{id}', 'LogController@editEntry')->where('id', '[0-9]+');
 	Route::get('log/edit/{id}/modal', function($id){return (new LogController)->editEntry($id, true);})->where('id', '[0-9]+');
 
@@ -129,8 +130,9 @@ Route::group(array('before' => 'auth'), function(){
 		return View::make('dashboard')->with('active', 'profile');
 	});
 
-		Route::post('log/saveCat{id?}','logController@saveCategory')->where('id', '[0-9]+');
-		Route::get('log/addCategory', function(){
+	Route::post('log/saveCat{id?}','logController@saveCategory')->where('id', '[0-9]+');
+
+	Route::get('log/addCategory', function(){
 		return View::make('addCategory');
 	});
 });

@@ -77,10 +77,6 @@
 	</footer>
 
 <div class="modal fade" id="thisModal" tabindex="-1" role="dialog" aria-labelledby="thisModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    </div>
-  </div>
 </div>
 </body>
 </html>

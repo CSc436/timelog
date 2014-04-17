@@ -41,11 +41,20 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 		return $data;
 	});
 
+	// Returns all the categories for the current logged in user
 	Route::get('log/categories', function()
 	{
 		$data = DB::table('log_category')->select('name')->where('uid', '=', Auth::user()->id)->get();
 		return $data;
 	});
+
+	// Returns a HTML view for the modal to add log entry
+	Route::get('log/edit/modal', function()
+	{
+		return View::make('entryform_modal');
+	});
+
+	Route::post('log/save/{id?}', 'LogController@saveEntryFromCalendar')->where('id', '[0-9]+');
 
 });
 
