@@ -75,6 +75,13 @@ Route::group(array('before' => 'auth'), function(){
 		$id = Auth::user()->id;
 		$categories = DB::select("select name, cid from log_category c where c.uid = $id");
 		$timeFrame = DB::select("select YEAR(startDateTime) as year, MONTH(startDateTime) as month from log_entry GROUP BY YEAR(startDateTime), MONTH(startDateTime) ORDER BY YEAR(startDateTime), MONTH(startDateTime)");
+		// $timeFrame = DB::table("log_entry")
+		// 	->select(DB::RAW("YEAR(startDateTime) as year"))
+		// 	->select(DB::RAW("MONTH(startDateTime) as month"))
+		// 	->groupBy(DB::RAW("YEAR(startDateTime"))
+		// 	->groupBy(DB::RAW("MONTH(startDateTime"))
+		// 	->orderBy(DB::RAW("YEAR(startDateTime"))
+		// 	->orderBy(DB::RAW("MONTH(startDateTime"));
 		$selectedMonth = array();
 		$selectedMonth["0/0"] = "-----";
 		foreach ($timeFrame as $time) {

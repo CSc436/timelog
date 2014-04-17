@@ -106,7 +106,7 @@
 			}
 		};
 	</script>
-	<?php echo $input[1]; ?>
+
 	<div id="pie">
 		<svg></svg>
 	</div>
@@ -129,14 +129,10 @@
 	{{ Form::submit('Submit',['class'=>'btn btn-default']) }}
 	{{ Form::close() }}
 
-	<table class="sortable" id="removable">
+	<table class="sortable">
 		<tr>
-			<?php
-				if(property_exists($query[0], "name")) {
-					echo ("<th> </th>");
-					echo ("<th> Name </th>");
-				}
-			?>
+			<th> </th>
+			<th> Name </th>
 			<th> Start Date </th>
 			<th> End Date </th>
 			<th> Duration </th>
@@ -146,16 +142,12 @@
 	<?php
 		foreach ($query as $entries)
 		{
-			if(property_exists($entries, "name")) {
-				echo ("<tr><td>"."<div class="."\"colorBox\""."style="."\"background-color: #$entries->color\">"."</div>"."</td>");
-				echo ("<td>".$entries->name."</td>");
-				echo ("<td>".$entries->startDateTime."</td>");
-			} else {
-				echo ("<tr><td>".$entries->startDateTime."</td>");
-			}
-			echo ("<td>".$entries->endDateTime."</td>");
-			echo ("<td>".$entries->duration."</td>");
-			echo ("<td>".$entries->notes."</td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/".$entries->LID."/modal'})\">Edit</button></td></tr>");
+			// echo ("<tr><td> <div class=\"colorBox\" style=\"background-color: #$entries->color\"> </div> </td>");
+			// echo ("<td>".$entries->name."</td>");
+			// echo ("<td>".$entries->startDateTime."</td>");
+			// echo ("<td>".$entries->endDateTime."</td>");
+			// echo ("<td>".$entries->duration."</td>");
+			// echo ("<td>".$entries->notes."</td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/".$entries->LID."/modal'})\">Edit</button></td></tr>");
 		}
 	?>
 	</table>
