@@ -48,7 +48,7 @@ class LogEntrySeeder extends Seeder {
 
 
 		/* log for FEB 03rd, 2014. All logs are under the user 'test@test.com' with the password 'password' */
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 04:30:00.000000', 'CID', 'endDateTime'=> '2014-02-03 04:45:00.004444', 'notes'=>'test', 'duration'=> '15'));
+		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 04:30:00.000000', 'endDateTime'=> '2014-02-03 04:45:00.004444', 'notes'=>'test', 'duration'=> '15'));
 		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 04:45:00.000000', 'endDateTime'=> '2014-02-03 05:45:00.004444', 'notes'=>'test', 'duration'=> '60'));
 		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 05:45:00.000000', 'endDateTime'=> '2014-02-03 06:00:00.004444', 'notes'=>'test', 'duration'=> '15'));
 		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 06:00:00.000000', 'endDateTime'=> '2014-02-03 06:45:00.004444', 'notes'=>'test', 'duration'=> '45'));
