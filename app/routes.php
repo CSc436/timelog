@@ -68,6 +68,16 @@ Route::group(array('before' => 'auth'), function(){
 		return Auth::check() != null ? $query : Redirect::to('login');
 	});
 
+	//Retrieves catagories for calendar interface desplay
+	Route::get('log/view_cat_cal', function()
+	{	
+		$user = Auth::user();
+		$uid = $user->id;
+		$query = DB::table('log_category')->where('UID', '=', $uid)->get();
+
+		return Auth::check() != null ? $query : Redirect::to('login');
+	});
+
 	//Get logs for view logs page 
 	Route::get('log/view', function()
 	{
