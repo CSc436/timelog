@@ -68,20 +68,20 @@ class LogController extends BaseController {
 			}
 			return true;
 		});
-	
+
 		// validate
 		$validator = Validator::make(Input::all(), array(
-				'category' => 'integer|valid_category',
-				'newcat' => 'valid_name',
-				'startDateTime' => 'required|date',
-				'endDateTime' => 'required|date|after_start:startDateTime',
-				'color' => 'valid_color'
+			'category' => 'integer|valid_category',
+			'newcat' => 'valid_name',
+			'startDateTime' => 'required|date',
+			'endDateTime' => 'required|date|after_start:startDateTime',
+			'color' => 'valid_color'
 			),
-			array(
-				'after_start' => 'End date-time must be after start date-time.',
-				'valid_category' => 'The category you selected was not valid. Please select a different.',
-				'valid_name' => 'You\'re new category name cannot have slash characters (i.e. \'/\' and \'\\\') and must be at least 1 non-white-space character long',
-				'valid_color' => 'You have used an invalid color scheme'
+		array(
+			'after_start' => 'End date-time must be after start date-time.',
+			'valid_category' => 'The category you selected was not valid. Please select a different.',
+			'valid_name' => 'Your new category name cannot have slash characters (i.e. \'/\' and \'\\\') and must be at least 1 non-white-space character long',
+			'valid_color' => 'You have used an invalid color scheme'
 			)
 		);
 
@@ -90,22 +90,25 @@ class LogController extends BaseController {
 
 	public function saveEntry($id = null)
 	{
-		// getPage argument is yet to be used.
-		// user must be logged in!
+		$save_entry_result = array("success" => 0, "errors" => array(), "log_id" => 0);
 		
 		if(!Auth::check()){
-			return Response::make('Not Found', 404);
+			$save_entry_result["errors"] = array('You need to be logged in to perform this operation');
+			return $save_entry_result;
 		}
+
+		$entry = null;
 
 		if($id == null){
 			// create new LogEntry
 			$entry = new LogEntry;
-		}else{
+		} else {
 			// load existing LogEntry
 			try{
 				$entry = LogEntry::where('UID', '=', Auth::user()->id)->findOrFail($id);
 			}catch(ModelNotFoundException $e){
-				return NULL;
+				$save_entry_result["errors"] = array("ModelNotFoundException");
+				return $save_entry_result;
 			}
 		}
 		
@@ -115,17 +118,20 @@ class LogController extends BaseController {
 			// validation has passed, save data in DB
 			$catstr = Input::get('category');
 			$cid = NULL;
+
 			if($catstr != '0'){
 				try{
 					$cat = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $catstr)->firstOrFail();
 					$cid = $cat->CID;
 				}catch(ModelNotFoundException $e){
-					return NULL;
+					$save_entry_result["errors"] = array("ModelNotFoundException");
+					return $save_entry_result;
 				}
 			}
 
 			$colorstr = Input::get('color');
 			$newcatstr = trim(Input::get('newcat'));
+
 			if($newcatstr != ''){
 				try{
 					$existingcat = LogCategory::where('UID', '=', Auth::user()->id)->where('PID', '=', $cid)->where('name', '=', $newcatstr)->firstOrFail();
@@ -162,10 +168,10 @@ class LogController extends BaseController {
 			$entry->UID = Auth::user()->id;
 			$entry->save();
 			$LID = $entry->LID;
-			return array($LID, $validator);
+			return array("success" => 1, "errors" => array(), "log_id" => $LID);
+		} else {
+			return array("success" => 0, "errors" => $validator->messages(), "log_id" => 0);
 		}
-
-		return array(null, $validator);
 	}
 
 	public function saveEntryFromAddPage($id = null){
@@ -190,24 +196,13 @@ class LogController extends BaseController {
 	//This function bypasses returning a page upon successful submission to optimize for speed.
 	public function saveEntryFromCalendar($id = null){
 		
-		$val = $this->saveEntry($id); // returns [LID, $validator], where LID is NULL on error
+		$save_entry_result = $this->saveEntry($id);
 		
-		if($val[0] && !$val[1]->messages()){
-			return 1;
-		} else if($id == null) {
-
-		if($val == NULL)
-			return Response::make('Not Found', 404);
-		if($val[0]){
-			return $val[0];
-		}else if($id == null) {
-			//TODO: validation has failed, display error messages
+		if($save_entry_result["success"] == 1){
+			return $save_entry_result["log_id"];
+		} else{
 			Input::flash();
-			return Redirect::to('log/add')->withErrors($val[1]);
-		}else{
-			//TODO: validation has failed, display error messages
-			Input::flash();
-			return $val[1]->messages();
+			return $save_entry_result["errors"];
 		}
 	}
 
@@ -249,7 +244,7 @@ class LogController extends BaseController {
 		{
 			return Utils::validateName($value);
 		});
-	
+
 		// validate
 		$validator = Validator::make(Input::all(), array(
 			'categoryName' => 'required|validName',
@@ -266,7 +261,7 @@ class LogController extends BaseController {
 		if(!Auth::check()){
 			return Response::make('Must be logged int to save a category', 404);
 		}
-		
+
 		if($id == null){
 			// create new category entry
 			$catEntry = new logCategory;
