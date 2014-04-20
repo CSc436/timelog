@@ -156,7 +156,6 @@
 			}
 			echo ("<td>".$entries->endDateTime."</td>");
 			echo ("<td>".$entries->duration."</td>");
-			echo ("<td>".$entries->rating."</td>");
 			echo ("<td>".$entries->notes."</td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/".$entries->LID."/modal'})\">Edit</button></td></tr>");
 		}
 	?>

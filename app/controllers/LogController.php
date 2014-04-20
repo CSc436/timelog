@@ -138,7 +138,7 @@ class LogController extends BaseController {
 			}
 
 			$colorstr = Input::get('color');
-			$rating = Input::get('rating');
+			//$rating = Input::get('rating');
 			$newcatstr = trim(Input::get('newcat'));
 			if($newcatstr != ''){
 				try{
@@ -150,7 +150,7 @@ class LogController extends BaseController {
 					$newcat->PID = $cid;
 					$newcat->name = $newcatstr;
 					$newcat->color = $colorstr;
-					$newcat->rating = $rating;
+					//$newcat->rating = $rating;
 					$newcat->save();
 					$cid = $newcat->CID;
 				}

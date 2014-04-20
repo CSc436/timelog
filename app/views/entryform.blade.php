@@ -110,6 +110,7 @@
  					$("#color").val(color.toHex());
 				}
 			});
+			
 			$('.star').raty({ 
 				number: 3,
 				hints: ['poor', 'good', 'excellent'],
@@ -117,6 +118,7 @@
  					$("#rating").val(score);
 				}
 			});
+
 			//$('#star').raty({ number: 3 });
 			// set default values for start and end dates
 			// default date format: yyyy-mm-dd hh:mm
