@@ -1,10 +1,14 @@
 @extends('layout')
 
+@section('header')
+	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
+@stop
+
 @section('content')
 
 	<div class="container" id="main">
 
-	<h2 class="title">Add New Time Entry</h2>
+	  <h2 class="title">Add New Time Entry</h2>
 	@if(!$errors->isEmpty())
 		<div class="alert alert-danger">
 			<strong>Error:</strong>
@@ -28,25 +32,40 @@
 	  <div class="form-group">
 		{{ Form::label('entryname', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			{{ Form::text('entryname', 'Not Used Yet', array('class' => 'form-control', 'placeholder' => 'Name')) }}
+			<div class="input-group">
+				{{Form::select('category', array('NULL' => 'Unnamed'), 'NULL', array('id' => 'category', 'class' => 'form-control'));}}
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" onclick="$('#newcatbox').toggle();$('#newcat').focus();"><span class="fa fa-plus"></span></button>
+				</span>
+			</div>
+			<div class="input-group" style="display:none;margin-top:1em" id="newcatbox">
+				{{ Form::text('newcat', '', array('id' => 'newcat', 'class' => 'form-control', 'placeholder' => 'New Category Name')) }}
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button"><span class="fa fa-edit"></span></button>
+				</span>
+			</div>
 		</div>
 	  </div>
 	  <div class="form-group">
 		{{ Form::label('startDateTime', 'Start', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			{{ Form::text('startDateTime', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
+			<div class="input-group">
+				{{ Form::text('startDateTime', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" onclick="var d = new Date();$('#startDateTime').val(d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes());">Now</button>
+				</span>
+			</div>
 		</div>
 	  </div>
 	  <div class="form-group">
 		{{ Form::label('endDateTime', 'End', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			{{ Form::text('endDateTime', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
-		</div>
-	  </div>
-	  <div class="form-group">
-		{{ Form::label('category', 'Category', array('class' => 'col-sm-4 control-label')) }}
-		<div class="col-sm-8">
-			{{ Form::text('category', null, array('class' => 'form-control')) }}
+			<div class="input-group">
+				{{ Form::text('endDateTime', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" onclick="var d = new Date();$('#endDateTime').val(d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes());">Now</button>
+				</span>
+			</div>
 		</div>
 	  </div>
 	  <div class="form-group">
@@ -59,9 +78,41 @@
 		<div class="col-sm-offset-4 col-sm-8">
 			{{ Form::submit('Submit', array('class' => 'btn btn-default')) }}
 		</div>
-	</div>
+	  </div>
 	{{ Form::close() }}
 	
 	</div>
+
+	<script>
+
+		$(function(){
+
+			// set default values for start and end dates
+			// default date format: yyyy-mm-dd hh:mm
+
+			var i = 0;
+			var currDate = new Date();
+			
+			$("input[id$=DateTime]").each(function(k, v){
+
+				var mins = currDate.getMinutes();
+				var addMins = mins + (i++) * 15;
+				currDate.setMinutes(addMins);
+				$(v).val(moment(currDate).format('YYYY-MM-DD hh:mm'));
+
+			});
+
+			var $cats = $("#category");
+
+			$.getJSON("/api/log/categories", function(data){
+				console.log(data);
+				$.each(data, function(k, v){
+					$cats.append(new Option(v.name, v.name));
+				});
+				
+			});
+
+		});
+	</script>
 	
 @stop

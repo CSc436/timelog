@@ -28,8 +28,12 @@ class LogController extends BaseController {
 		*/
 		Validator::extend('after_start', function($attribute, $value, $parameters)
 		{
-			$start = new DateTime(Input::get($parameters[0]));
-			$end = new DateTime($value);
+			try{
+				$start = new DateTime(Input::get($parameters[0]));
+				$end = new DateTime($value);
+			}catch(Exception $e){
+				return false;
+			}
 
 			return $end > $start;
 		});
@@ -102,38 +106,40 @@ class LogController extends BaseController {
 			$entry->UID = Auth::user()->id;
 			$entry->save();
 			$LID = $entry->LID;
-			return $LID;
+			return array($LID,$validator);
 		}
 
-		return null;
+		return array(null,$validator);
 	}
 
 	public function saveEntryFromAddPage($id = null){
-		if($this->saveEntry($id)){
+		$val = $this->saveEntry($id); // returns [LID, $validator], where LID is NULL on error
+		if($val[0]){
 			return Redirect::to('log/view');
 		}else if($id == null) {
 			// validation has failed, display error messages
 			Input::flash();
-			return Redirect::to('log/add')->withErrors($validator);
+			return Redirect::to('log/add')->withErrors($val[1]);
 		}else{
 			// validation has failed, display error messages
 			Input::flash();
-			return Redirect::to('log/edit/'.$id)->withErrors($validator);
+			return Redirect::to('log/edit/'.$id)->withErrors($val[1]);
 		}
 	}
 
 	//This function bypasses returning a page upon successful submission to optimize for speed.
 	public function saveEntryFromCalendar($id = null){
-		if($LID = $this->saveEntry($id)){
-			return $LID;
+		$val = $this->saveEntry($id); // returns [LID, $validator], where LID is NULL on error
+		if($val[0]){
+			return $val[0];
 		}else if($id == null) {
 			//TODO: validation has failed, display error messages
 			Input::flash();
-			return Redirect::to('log/add')->withErrors($validator);
+			return Redirect::to('log/add')->withErrors($val[1]);
 		}else{
 			//TODO: validation has failed, display error messages
 			Input::flash();
-			return Redirect::to('log/edit/'.$id)->withErrors($validator);
+			return Redirect::to('log/edit/'.$id)->withErrors($val[1]);
 		}
 	}
 
@@ -271,10 +277,12 @@ class LogController extends BaseController {
 		}
 
 		if($modal === false){
+			//return "HERE1";
 			return View::make('addCategory')->with('editThis', $entry);
 		}
-		else
+		else{
 			return View::make('editCategory_modal')->with('editThis', $entry);
+		}
 
 	}
 
@@ -284,22 +292,30 @@ class LogController extends BaseController {
 	   the current category ID you're working with, and subCatId is the category ID of the new parent category the user
 	   wants the category to be a part of. This returns 1 if there's a cycle and 0 if there is not */
 	public function checkCatCycle($inputCatID, $newParentCatID) {
+
+
+		if($inputCatID == $newParentCatID){
+			return 1;
+		}
+
 		$subCategoryPID = DB::table('log_category')->where('CID',$newParentCatID)->where('UID',Auth::user()->id)->pluck('PID');
 		
 		if ($subCategoryPID == NULL){
+			return "WAIT HERE";
 			return 0;
 		}
 
-		if($subCategoryPID == $inputcatID){
+		if($subCategoryPID == $inputCatID){
 			return 1;
 		}
 
 		else {
-			return checkCatCycle($inputCatID, $subCategoryPID);
+			return "CALLED HERE";
+			return $this->checkCatCycle($inputCatID, $subCategoryPID);
 		}
 	}
 
-	public function updateCategory($catID = null) {
+	public function updateCategory($catID) {
 
 		if (!Auth::check()){
 			return Response::make('Not Found', 404);
@@ -324,15 +340,24 @@ class LogController extends BaseController {
 			$entry->name = Input::get('categoryName');
 			$entry->CID = $catID;
 
-			$superCategory = Input::get('superCategory');
+			$superCategory = Input::get('subCategory');
 
-			$entry->PID = DB::table('log_category')->where('name',$superCategory)->where('UID',Auth::user()->id)->pluck('CID');
-
-			$returnValue = $this->checkCatCycle($entry->catID, $entry->PID);
-			
-			if ($returnValue == 1){
-				return "Response::make('Subcategory Cycle', 404)";
+			if ($superCategory == null){
+				$entry->PID = null;
 			}
+
+			else{
+
+				$entry->PID = DB::table('log_category')->where('name',$superCategory)->where('UID',Auth::user()->id)->pluck('CID');
+				if ($entry->PID == null)
+					return "Response::make('parent category name doesn't exist', 404)";
+				$returnValue = $this->checkCatCycle($entry->CID, $entry->PID);
+				if ($returnValue == 1){
+					return "Response::make('Subcategory Cycle', 404)";
+				}
+
+			}
+
 
 			$entry->deadline = Input::get('taskDeadline');
 

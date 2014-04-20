@@ -58,6 +58,7 @@
 							{{ Form::checkbox('isTask', null, array('class' => 'form-control')) }}
 						@else
 							{{ Form::checkbox('isTask', null, array('class' => 'form-control')) }}
+						@endif
 					</div>
 				  </div>
 				  <div class="form-group">
