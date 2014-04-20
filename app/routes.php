@@ -47,16 +47,6 @@ Route::group(array('before' => 'auth'), function(){
 	{
 		return View::make('dashboard')->with('active', 'dashboard');
 	});
-	
-	//Get logs for view logs page
-	Route::get('log/view', function()
-	{	
-		$user = Auth::user();
-		$uid = $user->id;
-		$query = DB::table('log_entry')->where('UID', '=', $uid)->orderBy('endDateTime', 'asc')->get();
-
-		return Auth::check() != null ? View::make('view')->with('query', $query)->with('active', 'viewlog') : Redirect::to('login');
-	});
 
 	//Retrieves entries for calendar interface desplay
 	Route::get('log/view_cal', function()
@@ -71,22 +61,40 @@ Route::group(array('before' => 'auth'), function(){
 	//Get logs for view logs page 
 	Route::get('log/view', function()
 	{
+		$date = explode("/", Input::get('dates'));
 		$id = Auth::user()->id;
 		$categories = DB::select("select name, cid from log_category c where c.uid = $id");
-		if($categories) {
-			// $query = DB::select("select color, name, startDateTime, endDateTime, duration, notes from log_entry e, log_category c where e.cid = c.cid AND e.uid = $id");
+		$timeFrame = DB::select("select YEAR(startDateTime) as year, MONTH(startDateTime) as month from log_entry GROUP BY YEAR(startDateTime), MONTH(startDateTime) ORDER BY YEAR(startDateTime), MONTH(startDateTime)");
+		// $timeFrame = DB::table("log_entry")
+		// 	->select(DB::RAW("YEAR(startDateTime) AS year"))
+		// 	->select(DB::RAW("MONTH(startDateTime) AS month"))
+		// 	->groupBy(DB::RAW("YEAR(startDateTime)"))
+		// 	->groupBy(DB::RAW("MONTH(startDateTime)"))
+		// 	->orderBy(DB::RAW("YEAR(startDateTime)", "asc"))
+		// 	->orderBy(DB::RAW("MONTH(startDateTime)", "asc"))->get();
+		$selectedMonth = array();
+		$selectedMonth["0/0"] = "-----";
+		foreach ($timeFrame as $time) {
+			$selectedMonth[$time->month."/".$time->year] = $time->month."/".$time->year;
+		}
+
+		if($date[0] == 0) { // Determines the month and year that want to be inspected
 			$query = DB::table('log_entry')
 				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
 				->select('LID','log_entry.CID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
 				->where('log_entry.uid', '=', "$id")->get();
 		} else {
-			// $query = DB::select("select startDateTime, endDateTime, duration, notes from log_entry where uid = $id");
 			$query = DB::table('log_entry')
 				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
-				->select('LID', 'startDateTime', 'endDateTime', 'duration', 'notes')
+				->select('LID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
+				->where(DB::RAW('MONTH(startDateTime)'), '=', $date[0])
+				->where(DB::RAW('YEAR(startDateTime)'), '=', $date[1])
 				->where('log_entry.uid', '=', "$id")->get();
 		}
-		return View::make('view')->with('query', $query)->with('categories', $categories)->with('active', 'viewlog');
+
+		
+
+		return View::make('view')->with(array('query' => $query, 'categories' => $categories, 'dates' => $selectedMonth, 'active' =>'viewlog'));
 	});
 
 	//This should be named better, the naming scheme for the function is confusing

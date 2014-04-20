@@ -5,6 +5,28 @@
 
 	<h2 class="title">View</h2>
 	<div id="mainChart" style="width:100%;height:400px"></div>
+
+	<select name="category" id="category" onchange="setData()">
+		<option value="-1">-----</option>
+		<?php
+			foreach ($categories as $names)
+			{
+				echo ("<option value=".$names->cid.">".$names->name."</option>");
+			}
+		?>
+	</select>
+
+	<select name="time" id="time" onchange="setData()">
+		<option value="1">Days</option>
+		<option value="2">Months</option>
+		<option value="3">Years</option>
+	</select>
+
+	{{ Form::open(array('url' => 'log/view', 'method' => 'get', 'role' => 'form')) }}
+	{{ Form::select('dates', $dates); }}
+	{{ Form::submit('Submit',['class'=>'btn btn-default']) }}
+	{{ Form::close() }}
+
 	<div class="table-responsive"><table class="table table-striped table-condensed table-hover">
 		<tr>
 			<th> Name </th>
@@ -85,6 +107,81 @@
 				series: [<?= $seriesJson ?>],
 	        });
 		});
+	</script>
+
+	<script>
+		window.onload = function() {
+			/* Pie Graph */
+			$.get("/api/log/pie", function(pieData) {
+				if(pieData) {
+					var customColors = [];
+
+					for(var i = 0; i < pieData.length; i++) {
+						customColors.push(pieData[i].color);
+					}
+
+					setupPieGraph(pieData, customColors);
+				} else {
+					$("#pie").html("<h2>No data</h2>");
+				}
+			});
+
+			function setupPieGraph(pieData, customColors) {
+				nv.addGraph(function() {
+					var chart = nv.models.pieChart()
+						.x(function(d) { return d.label })
+						.y(function(d) { return ((+d.value)/60) })
+						.color(customColors)
+						.showLabels(true)
+						.labelType("percent");
+						
+				 
+					d3.select('#pie svg')
+						.datum(pieData)
+						.transition().duration(350)
+						.call(chart);
+				 
+				 	console.log(customColors);
+					return chart;
+				});
+			}
+
+			/* Bar Graph */
+		
+			window.setData = function() {
+				var cid = document.getElementById("category").value;
+				var time = document.getElementById("time").value;
+				$.get("/api/log/data/" + cid + "/" + time, function(data){
+					console.log(data);
+					var obj = {key: "Your time logs", values: data};
+					setupGraph([obj]);
+				});
+			}
+
+			setData();
+
+			function setupGraph(data) {
+
+				nv.addGraph(function() {
+					chart = nv.models.discreteBarChart()
+					  .x(function(d) { return d.label })    //Specify the data accessors.
+					  .y(function(d) { return (+d.value) })
+					  .staggerLabels(false)    //Too many bars and not enough room? Try staggering labels.
+					  .tooltips(false)        //Don't show tooltips
+					  .showValues(true)       //...instead, show the bar value right on top of each bar.
+					  .transitionDuration(350)
+					  ;
+
+					d3.select('#chart svg')
+					  .datum(data)
+					  .call(chart);
+				 
+					nv.utils.windowResize(chart.update);
+				 
+				  return chart;
+				});
+			}
+		};
 	</script>
 
 	</div>

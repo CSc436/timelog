@@ -8,14 +8,30 @@
 Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 
 
-	Route::get('log/category/{cid}', function($cid)
+	Route::get('log/data/{cid}/{time}', function($cid, $time)
 	{
 		// $data = DB::select("select DATE_FORMAT(startDateTime,'%m-%d-%y') as label, duration as value from log_entry where cid = $cid order by label asc, duration desc");
-		$data = DB::table('log_entry')
-			->select(DB::raw('DATE_FORMAT(startDateTime,\'%m-%d-%y\') as label'), 'duration AS value')
-			->where('cid', '=', "$cid")
-			->orderBy('label', 'asc')
-			->orderBy('duration', 'desc')->get();
+		$data = DB::table('log_entry');
+
+		if($time == 1) { // Days
+			$data = $data->select(DB::raw('DATE_FORMAT(startDateTime,\'%m-%d-%y\') as label'), 'duration AS value');
+		} elseif($time == 2) { // Months
+			$data = $data->select(DB::raw('DATE_FORMAT(startDateTime,\'%M-%Y\') as label'), 'duration AS value');
+		} elseif($time == 3) { // Years
+			$data = $data->select(DB::raw('DATE_FORMAT(startDateTime,\'%Y\') as label'), 'duration AS value');
+		}
+
+		if($cid != -1) // If there is no category selected, then print all data
+			$data = $data->where('cid', '=', "$cid");
+
+		$data = $data->where('log_entry.uid', '=', Auth::user()->id); // Data matches user
+
+		if($time < 3) // If there is a month in the data, sort first by month
+			$data = $data->orderBy(DB::RAW('MONTH(startDateTime)'), 'asc');
+		if($time <= 3) // Sort by year
+			$data = $data->orderBy(DB::RAW('YEAR(startDateTime)'), 'asc');
+
+		$data = $data->orderBy('duration', 'desc')->get();
 		return $data;
 	});
 
@@ -27,17 +43,6 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 			->select('name AS label', DB::raw('CAST(SUM(duration) as unsigned) as value'), 'color')
 			->where('log_entry.uid', '=', Auth::user()->id)
 			->groupBy('label')->get();
-		return $data;
-	});
-
-	Route::get('log/data', function()
-	{ 
-		// $data = DB::select("select DATE_FORMAT(startDateTime,'%m-%d-%y') as label, duration as value from log_entry order by label asc, duration desc");
-		$data = DB::table('log_entry')
-			->select(DB::raw('DATE_FORMAT(startDateTime,\'%m-%d-%y\') as label'),'duration AS value')
-			->where('log_entry.uid', '=', Auth::user()->id)
-			->orderBy('label', 'asc')
-			->orderBy('duration', 'desc')->get();
 		return $data;
 	});
 
