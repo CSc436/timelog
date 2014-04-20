@@ -71,46 +71,38 @@ Route::group(array('before' => 'auth'), function(){
 	//Get logs for view logs page 
 	Route::get('log/view', function()
 	{
-		$input = explode("/", Input::get('dates'));
+		$date = explode("/", Input::get('dates'));
 		$id = Auth::user()->id;
 		$categories = DB::select("select name, cid from log_category c where c.uid = $id");
 		$timeFrame = DB::select("select YEAR(startDateTime) as year, MONTH(startDateTime) as month from log_entry GROUP BY YEAR(startDateTime), MONTH(startDateTime) ORDER BY YEAR(startDateTime), MONTH(startDateTime)");
 		// $timeFrame = DB::table("log_entry")
-		// 	->select(DB::RAW("YEAR(startDateTime) as year"))
-		// 	->select(DB::RAW("MONTH(startDateTime) as month"))
-		// 	->groupBy(DB::RAW("YEAR(startDateTime"))
-		// 	->groupBy(DB::RAW("MONTH(startDateTime"))
-		// 	->orderBy(DB::RAW("YEAR(startDateTime"))
-		// 	->orderBy(DB::RAW("MONTH(startDateTime"));
+		// 	->select(DB::RAW("YEAR(startDateTime) AS year"))
+		// 	->select(DB::RAW("MONTH(startDateTime) AS month"))
+		// 	->groupBy(DB::RAW("YEAR(startDateTime)"))
+		// 	->groupBy(DB::RAW("MONTH(startDateTime)"))
+		// 	->orderBy(DB::RAW("YEAR(startDateTime)", "asc"))
+		// 	->orderBy(DB::RAW("MONTH(startDateTime)", "asc"))->get();
 		$selectedMonth = array();
 		$selectedMonth["0/0"] = "-----";
 		foreach ($timeFrame as $time) {
 			$selectedMonth[$time->month."/".$time->year] = $time->month."/".$time->year;
 		}
 
-		if($input[0] == 0) {
-			if($categories) {
-				$query = DB::table('log_entry')
-					->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
-					->select('LID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
-					->where('log_entry.uid', '=', "$id")
-					->paginate(15);
-			} else {
-				$query = DB::table('log_entry')
-					->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
-					->select('LID', 'startDateTime', 'endDateTime', 'duration', 'notes')
-					->where('log_entry.uid', '=', "$id")
-					->paginate(15);
-			}
+		if($date[0] == 0) { // Determines the month and year that want to be inspected
+			$query = DB::table('log_entry')
+				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
+				->select('LID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
+				->where('log_entry.uid', '=', "$id")->get();
 		} else {
-				$query = DB::table('log_entry')
-					->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
-					->select('LID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
-					->where('log_entry.uid', '=', "$id")
-					->paginate(15);
+			$query = DB::table('log_entry')
+				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
+				->select('LID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
+				->where(DB::RAW('MONTH(startDateTime)'), '=', $date[0])
+				->where(DB::RAW('YEAR(startDateTime)'), '=', $date[1])
+				->where('log_entry.uid', '=', "$id")->get();
 		}
 
-		return View::make('view')->with(array('query' => $query, 'categories' => $categories, 'dates' => $selectedMonth, 'active' =>'viewlog', 'input' => $input));
+		return View::make('view')->with(array('query' => $query, 'categories' => $categories, 'dates' => $selectedMonth, 'active' =>'viewlog'));
 	});
 
 	//This should be named better, the naming scheme for the function is confusing

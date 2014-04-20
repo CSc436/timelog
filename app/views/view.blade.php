@@ -51,7 +51,7 @@
 						.color(customColors)
 						.showLabels(true)
 						.labelType("percent");
-						;
+						
 				 
 					d3.select('#pie svg')
 						.datum(pieData)
@@ -67,18 +67,12 @@
 		
 			window.setData = function() {
 				var cid = document.getElementById("category").value;
-				if(cid == "-----") {
-					$.get("/api/log/data", function(data){
-						var obj = {key: "Your time logs", values: data};
-						setupGraph([obj]);
-					});
-				} else {
-					$.get("/api/log/category/" + cid, function(data){
-						console.log(data);
-						var obj = {key: "Your time logs", values: data};
-						setupGraph([obj]);
-					});
-				}
+				var time = document.getElementById("time").value;
+				$.get("/api/log/data/" + cid + "/" + time, function(data){
+					console.log(data);
+					var obj = {key: "Your time logs", values: data};
+					setupGraph([obj]);
+				});
 			}
 
 			setData();
@@ -112,7 +106,7 @@
 	</div>
 
 	<select name="category" id="category" onchange="setData()">
-		<option value="-----">-----</option>
+		<option value="-1">-----</option>
 		<?php
 			foreach ($categories as $names)
 			{
@@ -120,6 +114,14 @@
 			}
 		?>
 	</select>
+
+	<select name="time" id="time" onchange="setData()">
+		<option value="1">Days</option>
+		<option value="2">Months</option>
+		<option value="3">Years</option>
+	</select>
+
+
 	<div id="chart">
 		<svg></svg>
 	</div>
@@ -142,17 +144,16 @@
 	<?php
 		foreach ($query as $entries)
 		{
-			// echo ("<tr><td> <div class=\"colorBox\" style=\"background-color: #$entries->color\"> </div> </td>");
-			// echo ("<td>".$entries->name."</td>");
-			// echo ("<td>".$entries->startDateTime."</td>");
-			// echo ("<td>".$entries->endDateTime."</td>");
-			// echo ("<td>".$entries->duration."</td>");
-			// echo ("<td>".$entries->notes."</td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/".$entries->LID."/modal'})\">Edit</button></td></tr>");
+			echo ("<tr><td> <div class=\"colorBox\" style=\"background-color: #$entries->color\"> </div> </td>");
+			echo ("<td>".$entries->name."</td>");
+			echo ("<td>".$entries->startDateTime."</td>");
+			echo ("<td>".$entries->endDateTime."</td>");
+			echo ("<td>".$entries->duration."</td>");
+			echo ("<td>".$entries->notes."</td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/".$entries->LID."/modal'})\">Edit</button></td></tr>");
 		}
 	?>
 	</table>
 </div>
-	<?php echo $query->links(); ?>
 	<script>
 		$(function() {
 			$('body').on('hidden.bs.modal', '.modal', function () {
