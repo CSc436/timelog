@@ -9,18 +9,16 @@
 	<title>Time Log</title>
 	<link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('css/font-awesome.min.css') }}" rel="stylesheet">
-	<link href="{{ URL::asset('css/nv.d3.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('css/main.css') }}" rel="stylesheet">
-	<script src="{{ URL::asset('js/d3.min.js') }}"></script>
-	<script src="{{ URL::asset('js/nv.d3.min.js') }}"></script>
 	<script src="{{ URL::asset('js/jquery-2.1.0.min.js') }}"></script>
+	<script src="{{ URL::asset('js/highcharts.js') }}"></script>
 	<script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
 	<script src="{{ URL::asset('js/main.js') }}"></script>
 	@yield('header')
 </head>
 <body>
 	<div class="navbar navbar-default navbar-fixed-top">
-		<div class="container">				
+		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 					<span class="icon-bar"></span>

@@ -77,7 +77,7 @@ Route::group(array('before' => 'auth'), function(){
 			// $query = DB::select("select color, name, startDateTime, endDateTime, duration, notes from log_entry e, log_category c where e.cid = c.cid AND e.uid = $id");
 			$query = DB::table('log_entry')
 				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
-				->select('LID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
+				->select('LID','log_entry.CID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
 				->where('log_entry.uid', '=', "$id")->get();
 		} else {
 			// $query = DB::select("select startDateTime, endDateTime, duration, notes from log_entry where uid = $id");
