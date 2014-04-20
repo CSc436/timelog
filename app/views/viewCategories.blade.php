@@ -26,7 +26,7 @@
 			{
 				if ($entries->isTask == 0){
 					if ($entries->PID == NULL){
-						echo ("<li onclick = viewSubcat($entries->CID)>".$entries->name. /*"<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/category".$entries->CID."/modal'})\">Edit</button>*/"</li>\n");
+						echo ("<li onclick = viewSubcat($entries->CID)>".$entries->name. "<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entries->CID."/modal'})\">Edit</button></li>\n");
 						subCategories($entries);
 					}
 				}
@@ -41,7 +41,7 @@
 				if ($subCats != NULL) {
 				}
 				foreach($subCats as $sub){
-					echo ("<li class = 'subcat $parentCategory->CID' onclick = viewSubcat($sub->CID) style = 'display:none'>" . $sub->name . /*"<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/category".$sub->CID."/modal'})\">Edit</button>*/"</li>\n");
+					echo ("<li class = 'subcat $parentCategory->CID' onclick = viewSubcat($sub->CID) style = 'display:none'>" . $sub->name . "<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$sub->CID."/modal'})\">Edit</button></li>\n");
 					subCategories($sub);
 			 	}
 		 		echo("</ul>\n");
@@ -74,7 +74,8 @@
 							echo ("<td> no </td>");
 							echo ("<td> N/A </td>");
 						}
-						echo ("<td></td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/".$entries->CID."/modal'})\">Edit</button></td></tr>");
+						
+						echo ("<td></td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entries->CID."/modal'})\">Edit</button></td></tr>");
 					}
 				}
 			?>

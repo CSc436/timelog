@@ -187,29 +187,6 @@ class LogController extends BaseController {
 	}
 
 
-
-	/* The checkCatCycle Function should be called whenever any category changes it's
-	   parent category (e.g., changing a categorie's possible subcategory). This will recursively
-	   check to make sure that a category is not it's own subcategory. $inputCatID is the current category of
-	   the current category ID you're working with, and subCatId is the category ID of the new parent category the user
-	   wants the category to be a part of. */
-	public function checkCatCycle($inputCatID, $newParentCatID) {
-		$subCategoryPID = DB::table('log_category')->where('CID',$newParentCatID)->where('UID',Auth::user()->id)->pluck('PID');
-		
-		if ($subCategoryPID == NULL){
-			return 0;
-		}
-
-		if($subCategoryPID == $inputcatID){
-			return 1;
-		}
-
-		else {
-			return checkCatCycle($inputCatID, $subCategoryPID);
-		}
-	}
-
-
 	public function saveCategory($id = null) {
 		
 		if(!Auth::check()){
@@ -279,4 +256,140 @@ class LogController extends BaseController {
 		}
 
 	}
+
+	public function editCat($catID, $modal = false){
+		// user must be logged in!
+		if(!Auth::check()){
+			return Response::make('Not Found', 404);
+		}
+
+		try{
+			$entry = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $catID)->findOrFail($catID);
+
+		}catch(ModelNotFoundException $e){
+			return Response::make('Not Found', 404);
+		}
+
+		if($modal === false){
+			return View::make('addCategory')->with('editThis', $entry);
+		}
+		else
+			return View::make('editCategory_modal')->with('editThis', $entry);
+
+	}
+
+		/* The checkCatCycle Function should be called whenever any category changes it's
+	   parent category (e.g., changing a categorie's possible subcategory). This will recursively
+	   check to make sure that a category is not it's own subcategory. $inputCatID is the current category of
+	   the current category ID you're working with, and subCatId is the category ID of the new parent category the user
+	   wants the category to be a part of. This returns 1 if there's a cycle and 0 if there is not */
+	public function checkCatCycle($inputCatID, $newParentCatID) {
+		$subCategoryPID = DB::table('log_category')->where('CID',$newParentCatID)->where('UID',Auth::user()->id)->pluck('PID');
+		
+		if ($subCategoryPID == NULL){
+			return 0;
+		}
+
+		if($subCategoryPID == $inputcatID){
+			return 1;
+		}
+
+		else {
+			return checkCatCycle($inputCatID, $subCategoryPID);
+		}
+	}
+
+	public function updateCategory($catID = null) {
+
+		if (!Auth::check()){
+			return Response::make('Not Found', 404);
+		}
+
+		if ($catID == null){
+			$entry = new LogCategory;
+		}
+		else{
+			try{
+				$entry = LogCategory::where('CID', '=', $catID)->findOrFail($catID);
+			}catch(ModelNotFoundException $e){
+				return "Response::make('Not Found', 404)";
+			}			
+		}
+
+		$validator = $this->validateCategory();
+
+		if($validator->passes()){
+
+			$entry->UID= Auth::user()->id;
+			$entry->name = Input::get('categoryName');
+			$entry->CID = $catID;
+
+			$superCategory = Input::get('superCategory');
+
+			$entry->PID = DB::table('log_category')->where('name',$superCategory)->where('UID',Auth::user()->id)->pluck('CID');
+
+			$returnValue = $this->checkCatCycle($entry->catID, $entry->PID);
+			
+			if ($returnValue == 1){
+				return "Response::make('Subcategory Cycle', 404)";
+			}
+
+			$entry->deadline = Input::get('taskDeadline');
+
+			if ($entry->deadline == NULL)
+				$entry->isTask = 0;
+			else
+				$entry->isTask = 1;
+
+			$star = Input::get('starRating');
+
+			if(!$entry->isTask == 1){
+				$entry->isTask = 0;
+				$entry->isCompleted = 0;
+				$entry->rating = 0;
+			}
+			else {
+				$entry->rating= $star;
+				if ($star == 0) {
+					$entry->isCompleted = 0;
+				}
+				else {
+					$entry->isCompleted = 1;
+				}
+			}
+
+			//$updateThis = DB::table('log_category')->where('CID', '=', $catID);
+			$updateThis = LogCategory::find($entry->CID);
+
+
+
+			/*$updateThis->update(array('PID' =>$entry->PID,
+									  'name' =>$entry->name,
+									  'color' =>$entry->color,
+									  'isTask' =>$entry->isTask,
+									  'deadline' =>$entry->deadline,
+									  'isCompleted' =>$entry->isCompleted,
+									  'rating' =>$entry->rating));*/
+
+			$updateThis->PID = $entry->PID;
+			$updateThis->name = $entry->name;
+			$updateThis->color = $entry->color;
+			$updateThis->isTask = $entry->isTask;
+			$updateThis->deadline = $entry->deadline;
+			$updateThis->isCompleted = $entry->isCompleted;
+			$updateThis->rating = $entry->rating;
+			$updateThis->save();
+
+			return Redirect::to('log/viewCategory');
+		} else if($catID == null) {
+			// validation has failed, display error messages
+			Input::flash();
+			return Redirect::to('log/viewCategory')->withErrors($validator);
+		}else{
+			// validation has failed, display error messages
+			Input::flash();
+			return Redirect::to('log/editCat/'.$catID.'/modal')->withErrors($validator);
+		}
+
+		}
 }
