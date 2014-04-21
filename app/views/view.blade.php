@@ -38,8 +38,7 @@
 	<?php
 		$toPlot = array();
 		$toPlotSeries = array();
-		foreach ($query as $entries)
-		{
+		foreach ($query as $entries){
 			$startDT = new DateTime($entries->startDateTime);
 			$endDT = new DateTime($entries->endDateTime);
 			echo ("<tr>");
@@ -47,10 +46,12 @@
 			echo ("<td>{$startDT->format('D, m/d')}</td>");
 			echo ("<td><strong>{$endDT->format('g:i a')}</strong> for {$entries->duration} minutes</td>");
 			echo ("<td>{$entries->notes}</td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/{$entries->LID}/modal'})\">Edit</button></td></tr>");
-
+		}
+		foreach ($query_chart as $entries){
 			// build JSON for chart data
+			$startDT = new DateTime($entries->startDateTime);
+			$toPlot[$entries->CID][] = array("Date.UTC({$startDT->format('Y, ')}".($startDT->format('m')-1)."{$startDT->format(', d')})", intval($entries->duration));
 			if(!isset($toPlotSeries[$entries->CID])){
-				$toPlot[$entries->CID][] = array("Date.UTC({$startDT->format('Y, ')}".($startDT->format('m')-1)."{$startDT->format(', d')})", $entries->duration);
 				$toPlotSeries[$entries->CID] = array(
 					'name' => $entries->name,
 					'color' => $entries->color,
@@ -73,19 +74,17 @@
 				$('#thisModal').html("");
 			});
 
-
 			// initialize mainChart
 			$('#mainChart').highcharts({
-	            chart: {
-					type: 'column',
-					ignoreHiddenSeries: false
+				chart: {
+					type: 'column'
 				},
 				title: {
 					text: null
 				},
 				xAxis: {
 					type: 'datetime',
-					tickInterval: 86400000,
+					tickInterval: 86400000, // 1 day in milliseconds
 					startOnTick: true,
 					endOnTick: true,
 					labels: {
@@ -93,7 +92,7 @@
 			            	if (new Date(this.value).getDay() == 0)
 			                	 return Highcharts.dateFormat('%m/%d', this.value);
 			                else
-			                	return null;
+			                	return '';
 			            }
 			        }
 				},
@@ -101,10 +100,11 @@
 					column: {
                 		stacking: 'normal',
                 		groupPadding: null,
-                		pointPadding: null
+                		pointPadding: null,
+                		pointRange: 86400000 // 1 day in milliseconds
                 	}
                 },
-				series: [<?= $seriesJson ?>],
+				series: [<?= $seriesJson ?>]
 	        });
 		});
 	</script>

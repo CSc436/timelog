@@ -82,19 +82,41 @@ Route::group(array('before' => 'auth'), function(){
 			$query = DB::table('log_entry')
 				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
 				->select('LID','log_entry.CID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
-				->where('log_entry.uid', '=', "$id")->get();
+				->where('log_entry.uid', '=', "$id")
+				->orderBy('startDateTime','ASC')
+				->get();
+			$query_chart = DB::table('log_entry')
+				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
+				->select(DB::RAW("`log_entry`.`CID`, `name`, `color`, SUM(`duration`) AS 'duration', MIN(`startDateTime`) AS 'startDateTime'")) //, COUNT(`LID`) AS 'count'"))
+				->where('log_entry.uid', '=', "$id")
+				->groupBy('log_entry.CID')
+				->groupBy(DB::RAW("YEAR(startDateTime)"))
+				->groupBy(DB::RAW("MONTH(startDateTime)"))
+				->groupBy(DB::RAW("DAY(startDateTime)"))
+				->orderBy('startDateTime','ASC')
+				->get();
 		} else {
 			$query = DB::table('log_entry')
 				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
-				->select('LID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
+				->select('LID','log_entry.CID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
 				->where(DB::RAW('MONTH(startDateTime)'), '=', $date[0])
 				->where(DB::RAW('YEAR(startDateTime)'), '=', $date[1])
-				->where('log_entry.uid', '=', "$id")->get();
+				->where('log_entry.uid', '=', "$id")
+				->orderBy('startDateTime','DESC')
+				->get();
+			$query_chart = DB::table('log_entry')
+				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
+				->select('LID','log_entry.CID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
+				->where(DB::RAW('MONTH(startDateTime)'), '=', $date[0])
+				->where(DB::RAW('YEAR(startDateTime)'), '=', $date[1])
+				->where('log_entry.uid', '=', "$id")
+				->orderBy('startDateTime','DESC')
+				->get();
 		}
 
 		
 
-		return View::make('view')->with(array('query' => $query, 'categories' => $categories, 'dates' => $selectedMonth, 'active' =>'viewlog'));
+		return View::make('view')->with(array('query' => $query, 'query_chart' => $query_chart, 'categories' => $categories, 'dates' => $selectedMonth, 'active' =>'viewlog'));
 	});
 
 	//This should be named better, the naming scheme for the function is confusing
