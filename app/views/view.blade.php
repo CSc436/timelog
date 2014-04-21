@@ -84,9 +84,15 @@
 				},
 				xAxis: {
 					type: 'datetime',
-					tickInterval: 86400000, // 1 day in milliseconds
 					startOnTick: true,
 					endOnTick: true,
+					tickInterval: 604800000, // 7 days in milliseconds
+					tickWidth: 4,
+					gridLineWidth: 1,
+					gridLineDashStyle: "LongDash",
+					minorTickInterval: 86400000, // 1 day in milliseconds
+					minorTickWidth: 2,
+					minorGridLineWidth: 0,
 					labels: {
 						formatter: function() { // only output a label Mondays
 			            	if (new Date(this.value).getDay() == 0)
@@ -96,12 +102,27 @@
 			            }
 			        }
 				},
+				yAxis: {
+					tickInterval: 60,
+					labels: {
+						formatter: function() { // only output a label Mondays
+			            	return (this.value / 60) + " hr";
+			            }
+			        },
+		            title: {
+		                text: "Recorded Productivity",
+		                style: {
+		                    "color": "#444"
+		                }
+		            }
+				},
 				plotOptions: {
 					column: {
                 		stacking: 'normal',
                 		groupPadding: null,
                 		pointPadding: null,
-                		pointRange: 86400000 // 1 day in milliseconds
+                		pointRange: 86400000, // 1 day in milliseconds
+                		borderWidth: 0
                 	}
                 },
 				series: [<?= $seriesJson ?>]
