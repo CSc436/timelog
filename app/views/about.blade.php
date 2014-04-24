@@ -15,17 +15,17 @@
 
 		<?php $arr = array(
 			"Haily De La Cruz" => array("email" => "haily@email.arizona.edu", 
-				"desc" => "I Rally developers to Scrum together to Git the world the gift of Time Log. We are Agile PHP Artisans that Laravel our users.", "image_url" => "/image/heads/haily.jpeg"),
+				"title" => "Title", "desc" => "I Rally developers to Scrum together to Git the world the gift of Time Log. We are Agile PHP Artisans that Laravel our users.", "image_url" => "/image/heads/haily.jpeg"),
 			"Gopal Adhikari" => array("email" => "gopala@email.arizona.edu", 
-				"desc" => "I like developing functional web applications and I am a tea enthusiast.", "image_url" => "/image/heads/gopala.jpg"),
+				"title" => "Specialized Tea Enthusiast", "desc" => "I like developing functional web applications and I am a tea enthusiast.", "image_url" => "/image/heads/gopala.jpg"),
 			"Zuoming Shi" => array("email" => "zuomingshi@email.arizona.edu", 
-				"desc" => "Zuoming is awesome", "image_url" => "/image/heads/zuomings.jpg"),
+				"title" => "Title", "desc" => "Zuoming is awesome", "image_url" => "/image/heads/zuomings.jpg"),
 			"Victor Nguyen" => array("email" => "victornguyen@email.arizona.edu", 
-				"desc" => "Victor is awesome", "image_url" => "http://placehold.it/150x150"),
+				"title" => "Executive Ra Worshiper", "desc" => "Praise the sun!", "image_url" => "http://placehold.it/150x150"),
 			"Michael Knatz" => array("email" => "michaelcknatz@email.arizona.edu", 
-				"desc" => "Michael is awesome", "image_url" => "http://placehold.it/150x150"),
+				"title" => "Director of Moonbase Operations", "desc" => "I dedicate my life on the moon to determining how effective sundials can be on both the dark and bright side of the moon.", "image_url" => "http://placehold.it/150x150"),
 			"James Yoshida" => array("email" => "yoshida@email.arizona.edu", 
-				"desc" => "James is awesome", "image_url" => "http://placehold.it/150x150")); 
+				"title" => "Title", "desc" => "James is awesome", "image_url" => "http://placehold.it/150x150")); 
 			?>
 			
 		<div id="dev-profiles" class="container">
@@ -34,8 +34,9 @@
 
 			@foreach($arr as $key => $value)
 			<div class="dev col-md-3">
+				<h3>{{ $value["title"] }}</h3>
 				<img class="dev-head" src="{{ $value['image_url'] }}">
-				<h3>{{ $key }}</h3>
+				<h4>{{ $key }}</h4>
 				<div class="dev-description">			
 					<p>{{ $value["desc"] }}</p>
 					<?php $email = $value["email"]; ?>
@@ -59,8 +60,7 @@
 				box-shadow: 0 0 2px #999;
 				padding: 20px;
 				box-sizing: border-box;
-				min-height: 360px;
-				max-height: 360px;
+				height: 440px;
 				overflow: auto;
 			}
 		</style>
