@@ -99,6 +99,14 @@ Route::group(array('before' => 'auth'), function(){
 		return View::make('view')->with('query', $query)->with('categories', $categories)->with('active', 'viewlog');
 	});
 
+		//Get logs for viewCategories logs page 
+	Route::get('log/viewCategory', function()
+	{
+		$id = Auth::user()->id;
+		$categories = DB::select("select * from log_category c where c.uid = $id");
+		return View::make('viewCategories')->with('categories', $categories);
+	});
+
 	//This should be named better, the naming scheme for the function is confusing
 	Route::get('log/add', 'LogController@getLogAdd');
 	Route::get('log/add/modal', function(){return (new LogController)->getLogAdd(true);});
@@ -141,9 +149,12 @@ Route::group(array('before' => 'auth'), function(){
 	});
 
 	Route::post('log/saveCat{id?}','logController@saveCategory')->where('id', '[0-9]+');
+		Route::get('log/editCat/{catID}/modal', function($catID){return (new LogController)->editCat($catID, true);})->where('catID', '[0-9]+');
+		Route::post('log/updateCat/{catID?}', 'logController@updateCategory')->where('catID', '[0-9]+');
+		//Route::get('log/edit/{id}', 'LogController@editCat')->where('id', '[0-9]+');
 
 	Route::get('log/addCategory', function(){
-		return View::make('addCategory');
+			return View::make('addCategory');
 	});
 });
 

@@ -275,18 +275,29 @@ class LogController extends BaseController {
 			$catEntry->UID = Auth::user()->id;
 			$catEntry->name = Input::get('categoryName');
 
+
+
+			$testName = DB::select("select * from log_category c where c.name ='" . "$catEntry->name' AND c.uid = '" . "$catEntry->UID'");
+			if ($testName != NULL){
+				Input::flash();
+				return Redirect::to('log/addCategory')->with('message','Category name already taken')->withErrors($validator);
+			}
+
 			
 			$superCategory = Input::get('superCategory');
 
 			$catEntry->PID = DB::table('log_category')->where('name',$superCategory)->where('UID',Auth::user()->id)->pluck('CID');
-
-			$catEntry->isTask = Input::get('isTask');
 			
 			$catEntry->deadline = Input::get('taskDeadline');
 
+			if ($catEntry->deadline == NULL)
+				$catEntry->isTask = 0;
+			else
+				$catEntry->isTask = 1;
+
 			$star = Input::get('starRating');
 
-			if(!$catEntry->isTask == 'on'){
+			if(!$catEntry->isTask == 1){
 				$catEntry->isTask = 0;
 				$catEntry->isCompleted = 0;
 				$catEntry->rating = 0;
@@ -316,4 +327,159 @@ class LogController extends BaseController {
 		}
 
 	}
+
+	public function editCat($catID, $modal = false){
+		// user must be logged in!
+		if(!Auth::check()){
+			return Response::make('Not Found', 404);
+		}
+
+		try{
+			$entry = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $catID)->findOrFail($catID);
+
+		}catch(ModelNotFoundException $e){
+			return Response::make('Not Found', 404);
+		}
+
+		if($modal === false){
+			//return "HERE1";
+			return View::make('addCategory')->with('editThis', $entry);
+		}
+		else{
+			return View::make('editCategory_modal')->with('editThis', $entry);
+		}
+
+	}
+
+		/* The checkCatCycle Function should be called whenever any category changes it's
+	   parent category (e.g., changing a categorie's possible subcategory). This will recursively
+	   check to make sure that a category is not it's own subcategory. $inputCatID is the current category of
+	   the current category ID you're working with, and subCatId is the category ID of the new parent category the user
+	   wants the category to be a part of. This returns 1 if there's a cycle and 0 if there is not */
+	public function checkCatCycle($inputCatID, $newParentCatID) {
+
+
+		if($inputCatID == $newParentCatID){
+			return 1;
+		}
+
+		$subCategoryPID = DB::table('log_category')->where('CID',$newParentCatID)->where('UID',Auth::user()->id)->pluck('PID');
+		
+		if ($subCategoryPID == NULL){
+			return "WAIT HERE";
+			return 0;
+		}
+
+		if($subCategoryPID == $inputCatID){
+			return 1;
+		}
+
+		else {
+			return "CALLED HERE";
+			return $this->checkCatCycle($inputCatID, $subCategoryPID);
+		}
+	}
+
+	public function updateCategory($catID) {
+
+		if (!Auth::check()){
+			return Response::make('Not Found', 404);
+		}
+
+		if ($catID == null){
+			$entry = new LogCategory;
+		}
+		else{
+			try{
+				$entry = LogCategory::where('CID', '=', $catID)->findOrFail($catID);
+			}catch(ModelNotFoundException $e){
+				return "Response::make('Not Found', 404)";
+			}			
+		}
+
+		$validator = $this->validateCategory();
+
+		if($validator->passes()){
+
+			$entry->UID= Auth::user()->id;
+			$entry->name = Input::get('categoryName');
+			$entry->CID = $catID;
+
+			$superCategory = Input::get('subCategory');
+
+			if ($superCategory == null){
+				$entry->PID = null;
+			}
+
+			else{
+
+				$entry->PID = DB::table('log_category')->where('name',$superCategory)->where('UID',Auth::user()->id)->pluck('CID');
+				if ($entry->PID == null)
+					return "Response::make('parent category name doesn't exist', 404)";
+				$returnValue = $this->checkCatCycle($entry->CID, $entry->PID);
+				if ($returnValue == 1){
+					return "Response::make('Subcategory Cycle', 404)";
+				}
+
+			}
+
+
+			$entry->deadline = Input::get('taskDeadline');
+
+			if ($entry->deadline == NULL)
+				$entry->isTask = 0;
+			else
+				$entry->isTask = 1;
+
+			$star = Input::get('starRating');
+
+			if(!$entry->isTask == 1){
+				$entry->isTask = 0;
+				$entry->isCompleted = 0;
+				$entry->rating = 0;
+			}
+			else {
+				$entry->rating= $star;
+				if ($star == 0) {
+					$entry->isCompleted = 0;
+				}
+				else {
+					$entry->isCompleted = 1;
+				}
+			}
+
+			//$updateThis = DB::table('log_category')->where('CID', '=', $catID);
+			$updateThis = LogCategory::find($entry->CID);
+
+
+
+			/*$updateThis->update(array('PID' =>$entry->PID,
+									  'name' =>$entry->name,
+									  'color' =>$entry->color,
+									  'isTask' =>$entry->isTask,
+									  'deadline' =>$entry->deadline,
+									  'isCompleted' =>$entry->isCompleted,
+									  'rating' =>$entry->rating));*/
+
+			$updateThis->PID = $entry->PID;
+			$updateThis->name = $entry->name;
+			$updateThis->color = $entry->color;
+			$updateThis->isTask = $entry->isTask;
+			$updateThis->deadline = $entry->deadline;
+			$updateThis->isCompleted = $entry->isCompleted;
+			$updateThis->rating = $entry->rating;
+			$updateThis->save();
+
+			return Redirect::to('log/viewCategory');
+		} else if($catID == null) {
+			// validation has failed, display error messages
+			Input::flash();
+			return Redirect::to('log/viewCategory')->withErrors($validator);
+		}else{
+			// validation has failed, display error messages
+			Input::flash();
+			return Redirect::to('log/editCat/'.$catID.'/modal')->withErrors($validator);
+		}
+
+		}
 }
