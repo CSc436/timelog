@@ -1,29 +1,20 @@
 $(function() {
 
-	$(document).on("submit", "#thisModal form", function() {
+	$(document).on("submit", "#thisModal form", function(event) {
+		
+		event.preventDefault();
 
-		$.post('/api/log/save/', $(this).serialize(), function(data) {
-			console.log(data);
-			$("#thisModal").modal('hide');
+		$('#thisModal').modal({
+			remote: '/api/log/edit/modal'
 		});
 
-		event.preventDefault();
+		return saveEntry();
 	});
 
 	$('body').on('hidden.bs.modal', '.modal', function() {
 		$(this).removeData('bs.modal');
 		$('#thisModal').html("");
 	});
-
-	jQuery.ajaxSetup({
-		async: false
-	});
-
-	var date = new Date();
-	var d = date.getDate();
-	var m = date.getMonth();
-	var y = date.getFullYear();
-
 
 	var categories = [];
 
@@ -104,10 +95,9 @@ $(function() {
 			var title;
 			var description;
 
+			var x = $("#thisModal form").submit();
 
-			$('#thisModal').modal({
-				remote: '/api/log/edit/modal'
-			});
+			console.log(x);
 
 		},
 		eventDrop: function(calEvent, dayDelta, minuteDelta, allDay, revertFunc) {
@@ -149,14 +139,18 @@ function saveEntry(){
 
 	var formData = $("#thisModal form").serialize();
 
-	$.post('/api/log/save/', $("#thisModal form").serialize(), function(data) {
+	$.post('/api/log/save/', formData, function(data) {
 
 		var entryId = +data;
 
 		if($.isNumeric(entryId)){
 			$("#thisModal").modal('hide');
-			return formData;
+			var event = $("#thisModal form").serializeArray();
+			console.log(event);
+			localStorage.setItem("eventData", event);
+			return event;
 		} else{
+			localStorage.setItem("eventMessage", data);
 			return data;
 		}
 	});
