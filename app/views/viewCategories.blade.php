@@ -31,17 +31,17 @@
 
 			function subCategories($parentCategory) {
 				$id = Auth::user()->id;
-				echo("<ul>");
 				$subCats = DB::select("select * from log_category c where c.pid =  $parentCategory->CID");
 				if ($subCats != NULL){
+					echo("<ul>");
 					foreach($subCats as $sub){
 						echo ("<li>" . $sub->name. "<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$sub->CID."/modal'})\">Edit</button>");
 						subCategories($sub);
 						echo("</li>");
 					
 					}
+					echo("</ul>\n");
 				}
-		 	echo("</ul>\n");
 		 	}
 		
 
