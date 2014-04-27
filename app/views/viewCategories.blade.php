@@ -71,7 +71,7 @@
 							echo ("<td> no </td>");
 							echo ("<td> N/A </td>");
 						}
-						echo ("<td></td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/".$entry->CID."/modal'})\">Edit</button></td></tr>");
+						echo ("<td></td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entry->CID."/modal'})\">Edit</button></td></tr>");
 					}
 				}
 			?>
