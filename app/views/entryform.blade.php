@@ -1,11 +1,12 @@
 @extends('layout')
 
 @section('header')
-<link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
 <script src="{{ URL::asset('js/spectrum.js') }}"></script>
-<script src="{{ URL::asset('js/moment.min.js') }}"></script>
 <link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
+<script src="{{ URL::asset('js/moment.min.js') }}"></script>
 <script src="{{ URL::asset('js/jquery.raty.min.js') }}"></script>
+<link href="{{ URL::asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet"/>
+<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
 @stop
 
 @section('content')
@@ -33,11 +34,13 @@
 	@else
 		{{ Form::model($editThis, array('url' => 'log/save/'.$editThis->LID, 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'style' => 'max-width:500px')) }}
 	@endif
+
 	  <div class="form-group">
 		{{ Form::label('category', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group">
 				{{Form::select('category', array('0' => ''), 'NULL', array('id' => 'category', 'class' => 'form-control'));}}
+
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button" onclick="$('#newcatbox').toggle();$('#newcat').focus();"><span class="fa fa-plus"></span></button>
 				</span>
@@ -52,6 +55,7 @@
 		</div>
 	  </div>
 	  
+	<!--
 	  <div class="form-group">
 		{{ Form::label('Rating', 'Rating', array('class' => 'col-sm-4 control-label')) }}		
 		    <div class="col-sm-8">
@@ -61,29 +65,50 @@
 				</div>
 			</div>
 	  </div>
+	-->
 
-	  <div class="form-group">
+	<div class="form-group">
 		{{ Form::label('startDateTime', 'Start', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			<div class="input-group">
-				{{ Form::text('startDateTime', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="button" onclick="var d = new Date();$('#startDateTime').val(d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes());">Now</button>
-				</span>
+			<div class="input-group date">
+
+				    <span id='datetimepickerStart'>
+				    	{{ Form::text('startDateTime', null, array('class' => 'form-control')) }}
+				    </span>
+
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" onclick="var d = new Date();$('#startDateTime').val(moment(d).format('MM/DD/YYYY hh:mm A'));">Now</button>
+					</span>
+
 			</div>
 		</div>
-	  </div>
+	</div>
+
 	  <div class="form-group">
 		{{ Form::label('endDateTime', 'End', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			<div class="input-group">
-				{{ Form::text('endDateTime', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="button" onclick="var d = new Date();$('#endDateTime').val(d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes());">Now</button>
-				</span>
+			<div class="input-group date">
+				    <span id='datetimepickerEnd'>
+				    	{{ Form::text('endDateTime', null, array('class' => 'form-control')) }}
+				    </span>
+
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" onclick="var d = new Date();$('#endDateTime').val(moment(d).format('MM/DD/YYYY hh:mm A'));">Now</button>
+					</span>
+
+				    <!--<button id="timePicker" class="btn btn-default" type="button"><span id="timeßPickerIcon" class="fa fa-calendar"></span></button>-->
+				    <!--
+					{{ Form::text('startDateTime', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
+
+					<span class="input-group-btn">
+						<button id="timePicker" class="btn btn-default" type="button"><span id="timeßPickerIcon" class="fa fa-calendar"></span></button>
+					</span>
+					-->
+
 			</div>
 		</div>
 	  </div>
+
 	  <div class="form-group">
 		{{ Form::label('notes', 'Notes', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
@@ -103,6 +128,13 @@
 
 		$(function(){
 
+			$(document).on('submit', 'form', function(e) {
+				var databaseStartTimeStirng = convertToDatabaseTime( $("#startDateTime").val() );
+				$("#startDateTime").val(databaseStartTimeStirng);
+				var databaseEndTimeStirng = convertToDatabaseTime( $("#endDateTime").val() );
+				$("#endDateTime").val(databaseEndTimeStirng);
+			});
+
 			$("#colorPicker").spectrum({
 			    color: getRandomColor(),
 			    change: function(color) {
@@ -110,15 +142,15 @@
  					$("#color").val(color.toHex());
 				}
 			});
-			
-			$('.star').raty({ 
-				number: 3,
-				hints: ['poor', 'good', 'excellent'],
-				click: function(score) {
- 					$("#rating").val(score);
-				}
-			});
 
+			$("#datetimepickerStart").datetimepicker({
+    		    language: 'en'
+    		});
+
+
+			$("#datetimepickerEnd").datetimepicker({
+    		    language: 'en'
+    		});
 			//$('#star').raty({ number: 3 });
 			// set default values for start and end dates
 			// default date format: yyyy-mm-dd hh:mm
@@ -131,7 +163,7 @@
 				var mins = currDate.getMinutes();
 				var addMins = mins + (i++) * 15;
 				currDate.setMinutes(addMins);
-				$(v).val(moment(currDate).format('YYYY-MM-DD HH:mm'));
+				$(v).val(moment(currDate).format('MM/DD/YYYY hh:mm A'));
 
 			});
 
@@ -146,6 +178,11 @@
 			});
 
 		});
+	
+		function convertToDatabaseTime(usTime){
+			console.log(usTime);
+			return moment(usTime, 'MM/DD/YYYY hh:mm A').format("YYYY-MM-DD HH:mm");
+		}
 
 		function getRandomColor(){
 			return "#"+((Math.random() * (0xffffff)) << 0).toString(16);
