@@ -33,6 +33,7 @@
 				<div class="form-group">
 					{{ Form::label('categoryName', 'What Category is this?', array('class' => 'col-sm-4 control-label')) }}
 					<div class="col-sm-8">
+						{{ $namesList = DB::table('log_category')->get()}}
 						@if(!isset($editThis))
 							{{ Form::text('categoryName', 'Not Used Yet', array('class' => 'form-control', 'placeholder' => 'Name')) }}
 						@else
