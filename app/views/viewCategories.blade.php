@@ -16,7 +16,7 @@
 
 	<h2 class="title">Categories</h2>
 	<div name="category" id="category">
-	<ul class="collapsible" >
+	<ul class="collapsible collapsibleList" >
 		<?php
 			foreach ($categories as $entry)
 			{
