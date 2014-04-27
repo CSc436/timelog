@@ -7,6 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Time Log</title>
+	<link rel="shortcut icon" href="{{ asset('image/favicon.ico') }}">
 	<link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('css/font-awesome.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('css/nv.d3.min.css') }}" rel="stylesheet">
@@ -31,13 +32,13 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li <?php if ($active == "home") echo"class=active" ?>><a href="/">Home</a></li>
+					<!--<li <?php if ($active == "home") echo"class=active" ?>><a href="/">Home</a></li>-->
 					<li <?php if ($active == "addlog") echo"class=active" ?>><a href="/log/add">Add Logs</a></li>
 					<li <?php if ($active == "category") echo"class=active" ?>><a href="/log/addCategory">Add a Category</a></li>
 					<li <?php if ($active == "viewCat") echo"class=active" ?>><a href="/log/viewCategory">View Category</a></li>
 					<li <?php if ($active == "addlog_cal") echo"class=active" ?>><a href="/log/addlog_cal">Calendar</a></li>
 					<li <?php if ($active == "viewlog") echo"class=active" ?>><a href="/log/view">View Logs</a></li>
-					<li <?php if ($active == "dashboard") echo"class=active" ?>><a href="/dashboard">Dashboard</a></li>
+					<!--<li <?php if ($active == "dashboard") echo"class=active" ?>><a href="/dashboard">Dashboard</a></li>-->
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					@if(!Auth::check())  
