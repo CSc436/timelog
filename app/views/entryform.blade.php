@@ -88,23 +88,13 @@
 		{{ Form::label('endDateTime', 'End', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group date">
-				    <span id='datetimepickerEnd'>
-				    	{{ Form::text('endDateTime', null, array('class' => 'form-control')) }}
-				    </span>
+			    <span id='datetimepickerEnd'>
+			    	{{ Form::text('endDateTime', null, array('class' => 'form-control')) }}
+			    </span>
 
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="button" onclick="var d = new Date();$('#endDateTime').val(moment(d).format('MM/DD/YYYY hh:mm A'));">Now</button>
-					</span>
-
-				    <!--<button id="timePicker" class="btn btn-default" type="button"><span id="timeßPickerIcon" class="fa fa-calendar"></span></button>-->
-				    <!--
-					{{ Form::text('startDateTime', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
-
-					<span class="input-group-btn">
-						<button id="timePicker" class="btn btn-default" type="button"><span id="timeßPickerIcon" class="fa fa-calendar"></span></button>
-					</span>
-					-->
-
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" onclick="var d = new Date();$('#endDateTime').val(moment(d).format('MM/DD/YYYY hh:mm A'));">Now</button>
+				</span>
 			</div>
 		</div>
 	  </div>
@@ -151,9 +141,6 @@
 			$("#datetimepickerEnd").datetimepicker({
     		    language: 'en'
     		});
-			//$('#star').raty({ number: 3 });
-			// set default values for start and end dates
-			// default date format: yyyy-mm-dd hh:mm
 
 			var i = 0;
 			var currDate = new Date();
@@ -177,6 +164,24 @@
 				
 			});
 
+			$("#colorPicker").spectrum({
+			    color: "rgb(234, 209, 220)",
+			    showPalette: true,
+			    palette: [
+					["rgb(234, 209, 220)", "rgb(221, 126, 107)", "rgb(234, 153, 153)"], 
+					["rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(202, 235, 188)"],
+					["rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)"], 
+					["rgb(180, 167, 214)", "rgb(213, 166, 189)", "rgb(235, 137, 234)"]
+			    ],
+				change: function(color) {
+					$("#newcat").css('background-color', color.toHexString());
+					$("#color").val(color.toHex());
+				}
+			});
+
+			var defaultColor = "9fc5e8";
+			$("#color").val(defaultColor);
+			$("#newcat").css('background-color', "#"+defaultColor);
 		});
 	
 		function convertToDatabaseTime(usTime){
