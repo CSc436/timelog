@@ -21,7 +21,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, legend {
 }
 
 .title{
-	border-bottom: 2px solid #5DCAD3;
+	border-bottom: 2px solid #f4726d;
 }
 
 .feature-title{
@@ -136,4 +136,17 @@ footer .social i:hover{
 	margin-right: 10px;
 	text-align: center;
 	color: #1485c3;
+}
+.navbar-default {
+  background-color: #ffa500;
+  border-color: #ff0000;
+}
+.navbar-default .navbar-text {
+  color: #000000;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #000000;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #000000;
 }
