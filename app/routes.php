@@ -68,8 +68,9 @@ Route::group(array('before' => 'auth'), function(){
 		return Auth::check() != null ? $query : Redirect::to('login');
 	});
 
-	//Get logs for view logs page 
-	Route::get('log/view', function()
+	//Get logs for view logs page
+	Route::get('log/view', 'VisController@visualize');
+	/*Route::get('log/view', function()
 	{
 		$date = explode("/", Input::get('dates'));
 		$id = Auth::user()->id;
@@ -127,7 +128,7 @@ Route::group(array('before' => 'auth'), function(){
 		
 
 		return View::make('view')->with(array('query' => $query, 'query_chart' => $query_chart, 'categories' => $categories, 'dates' => $selectedMonth, 'active' =>'viewlog'));
-	});
+	});*/
 
 		//Get logs for viewCategories logs page 
 	Route::get('log/viewCategory', function()

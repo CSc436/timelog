@@ -38,7 +38,7 @@
 	<?php
 		$toPlot = array();
 		$toPlotSeries = array();
-		foreach ($query as $entries){
+		foreach ($table_rows as $entries){
 			$startDT = new DateTime($entries->startDateTime);
 			$endDT = new DateTime($entries->endDateTime);
 			echo ("<tr>");
@@ -47,14 +47,14 @@
 			echo ("<td><strong>{$endDT->format('g:i a')}</strong> for {$entries->duration} minutes</td>");
 			echo ("<td>{$entries->notes}</td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/{$entries->LID}/modal'})\">Edit</button></td></tr>");
 		}
-		foreach ($query_chart as $entries){
+		foreach ($chart_rows as $entries){
 			// build JSON for chart data
 			$startDT = new DateTime($entries->startDateTime);
 			$toPlot[$entries->CID][] = array("Date.UTC({$startDT->format('Y, ')}".($startDT->format('m')-1)."{$startDT->format(', d')})", intval($entries->duration));
 			if(!isset($toPlotSeries[$entries->CID])){
 				$toPlotSeries[$entries->CID] = array(
 					'name' => $entries->name,
-					'color' => $entries->color,
+					'color' => $entries->color
 				);
 			}
 		}
@@ -100,6 +100,20 @@
 			                else
 			                	return '';
 			            }
+			        },
+			        plotBands: {
+			        	from: <?= $todayStart ?>,
+			        	to: <?= $todayEnd ?>,
+			        	color: '#ddd',
+			        	label: {
+			        		text: 'Today',
+			        		rotation: -90,
+			        		x: 3,
+			        		y: 25,
+			                style: {
+			                    "color": "#999"
+			                }
+			        	}
 			        }
 				},
 				yAxis: {
