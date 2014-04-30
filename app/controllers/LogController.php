@@ -90,7 +90,7 @@ class LogController extends BaseController {
 
 	public function saveEntry($id = null)
 	{
-		$save_entry_result = array("success" => 0, "errors" => array(), "log_id" => 0);
+		$save_entry_result = array("success" => 0, "errors" => array(), "log" => null);
 		
 		if(!Auth::check()){
 			$save_entry_result["errors"] = array('You need to be logged in to perform this operation');
@@ -168,9 +168,11 @@ class LogController extends BaseController {
 			$entry->UID = Auth::user()->id;
 			$entry->save();
 			$LID = $entry->LID;
-			return array("success" => 1, "errors" => array(), "log_id" => $LID);
+
+			return array("success" => 1, "errors" => array(), "log" => $entry);
+
 		} else {
-			return array("success" => 0, "errors" => $validator->messages(), "log_id" => 0);
+			return array("success" => 0, "errors" => $validator->messages(), "log" => null);
 		}
 	}
 
@@ -199,7 +201,7 @@ class LogController extends BaseController {
 		$save_entry_result = $this->saveEntry($id);
 		
 		if($save_entry_result["success"] == 1){
-			return $save_entry_result["log_id"];
+			return $save_entry_result["log"];
 		} else{
 			Input::flash();
 			return $save_entry_result["errors"];

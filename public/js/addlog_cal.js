@@ -1,14 +1,10 @@
 $(function() {
 
+	window.SundialCalendar = {};
+
 	$(document).on("submit", "#thisModal form", function(event) {
-		
+		submitNewEvent(SundialCalendar.calendar);
 		event.preventDefault();
-
-		$('#thisModal').modal({
-			remote: '/api/log/edit/modal'
-		});
-
-		return saveEntry();
 	});
 
 	$('body').on('hidden.bs.modal', '.modal', function() {
@@ -19,9 +15,9 @@ $(function() {
 	var categories = [];
 
 	$.get("/log/view_cat_cal", function(cats) {
-		//TODO: do selective querying when real dates are used, so we don't have to
-		//get all events, however, it is unclear yet how much of a performance bottleneck
-		//this will be.
+		// TODO: do selective querying when real dates are used, so we don't have to
+		// get all events, however, it is unclear yet how much of a performance bottleneck
+		// this will be.
 		for (var i = 0; i < cats.length; i++) {
 			categories.push({
 				title: cats[i].name,
@@ -36,9 +32,8 @@ $(function() {
 
 	$.get("/log/view_cal", function(events) {
 
-		console.log(categories);
 		eventsBeforeParsed = events;
-		console.log(events);
+
 		//TODO: do selective querying when real dates are used, so we don't have to
 		//get all events, however, it is unclear yet how much of a performance bottleneck
 		//this will be.
@@ -63,7 +58,7 @@ $(function() {
 		}
 	});
 
-	var calendar = $('#calendar').fullCalendar({
+	SundialCalendar.calendar = $('#calendar').fullCalendar({
 		header: {
 			left: 'prev,next today',
 			center: 'title'
@@ -76,26 +71,17 @@ $(function() {
 		editable: true,
 		events: eventsAfterParsed,
 		select: function(start, end, allDay) {
-
-			$("#thisModal").on("shown.bs.modal", function() {
-				$("#startDateTime").val($.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm"));
-				$("#endDateTime").val($.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm"));
-			});
-
-			$('#thisModal').modal({
-				remote: '/api/log/edit/modal'
-			});
-
-			calendar.fullCalendar('unselect');
+			eventEditorModal(start, end, SundialCalendar.calendar);			
 		},
 		eventClick: function(calEvent, jsEvent, view) {
+
 			//Edit existing event
 
 			var tmp;
 			var title;
 			var description;
 
-			var x = $("#thisModal form").submit();
+			//var x = $("#thisModal form").submit();
 
 			console.log(x);
 
@@ -135,28 +121,43 @@ $(function() {
 
 });
 
-function saveEntry(){
+function eventEditorModal(start, end, calendar) {
 
-	var formData = $("#thisModal form").serialize();
+	console.log('on eventEditorModal');
 
-	$.post('/api/log/save/', formData, function(data) {
+	$("#thisModal").on("shown.bs.modal", function() {
+		$("#startDateTime").val($.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm"));
+		$("#endDateTime").val($.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm"));
+	});
 
-		var entryId = +data;
-
-		if($.isNumeric(entryId)){
-			$("#thisModal").modal('hide');
-			var event = $("#thisModal form").serializeArray();
-			console.log(event);
-			localStorage.setItem("eventData", event);
-			return event;
-		} else{
-			localStorage.setItem("eventMessage", data);
-			return data;
-		}
+	$('#thisModal').modal({
+		remote: '/api/log/edit/modal'
 	});
 }
 
 
+function submitNewEvent(fc) {
 
+	var form = $("#thisModal form");
 
+	$.post('/api/log/save', form.serialize(), function(data) {
 
+		console.log("server returned", data);
+
+		SundialCalendar.calendar.fullCalendar('renderEvent', {
+				
+				title: data.CID,
+				description: data.notes,
+				start: data.startDateTime,
+				end: data.endDateTime,
+				id: data.LID,
+				allDay: false
+			},
+			true // make the event "stick"
+		);
+
+	});
+
+	SundialCalendar.calendar.fullCalendar('unselect');
+
+}

@@ -117,6 +117,16 @@ Route::group(array('before' => 'auth'), function(){
 		return View::make('addlog_cal')->with('active', 'addlog_cal');
 	});
 
+	// Return a single log
+	
+	/* Route::get('log/{id}', function($id)
+	{
+		$user_id = Auth::user()->id;
+		$log = LogEntry::where(array('uid' => $user_id, 'lid' => $id));
+		return $log;
+
+	})->where('id', '[0-9]+'); */
+
 	//Route::post('log/add_call', 'LogController@saveEntryFromAddPage');
 	
 	//Add an event from the calendar interface
