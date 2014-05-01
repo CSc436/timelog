@@ -7,6 +7,9 @@
 <script src="{{ URL::asset('js/moment.min.js') }}"></script>
 <link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
 <script src="{{ URL::asset('js/jquery.raty.min.js') }}"></script>
+<link href="{{ URL::asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet"/>
+<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+
 @stop
 
 @section('content')
@@ -27,10 +30,16 @@
 		</div>
 	@endif
 
-	{{ Form::open(array('url' => 'log/saveCat', 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'style' => 'max-width:500px')) }}
+		{{ Form::open(array('url' => 'log/saveCat', 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'style' => 'max-width:500px')) }}
 
 	<div class="form-group">
-		{{ Form::label('categoryName', 'What Task is this?', array('class' => 'col-sm-4 control-label')) }}
+		<div class="col-sm-8">
+			{{ Form::hidden('isTask', '1') }}
+		</div>
+	</div>
+
+	<div class="form-group">
+		{{ Form::label('categoryName', 'Task Name', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group">
 				{{ Form::text('categoryName', '', array('id' => 'newcat', 'class' => 'form-control', 'placeholder' => 'New Task Name')) }}
@@ -38,99 +47,91 @@
 				<span class="input-group-btn">
 					<button id="colorPicker" class="btn btn-default" type="button"><span id="colorPickerIcon" class="fa fa-tint"></span></button>
 				</span>
-				{{ Form::hidden('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => '#CCCCCC')) }}
+				{{ Form::hidden('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => 'FFFFFF')) }}
 			</div>
 		</div>
 	</div>
 
 	<div class="form-group">
-		{{ Form::label('superCategory', 'Parent Category/Task', array('class' => 'col-sm-4 control-label')) }}
+		{{ Form::label('superCategory', 'Parent Category', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			{{Form::select('superCategory', array('0' => ''), 'NULL', array('id' => 'superCategory', 'class' => 'form-control'));}}
-	    </div>
+		</div>
 	</div>
 	  
-	  <!--
-	  <div class="form-group">
-		{{ Form::label('isTask', 'Is there a deadline?', array('class' => 'col-sm-4 control-label')) }}
-		<div class="col-sm-8">
-			{{ Form::checkbox('isTask', null, array('class' => 'form-control')) }}
-		</div>
-	  </div>
-	  -->
 
-	  <div class="form-group">
-		{{ Form::label('taskDeadline', 'Duedate', array('class' => 'col-sm-4 control-label')) }}
+	<div class="form-group">
+		{{ Form::label('hasDuedate', 'Has Duedate', array('class' => 'col-sm-4 control-label')) }}	  
 		<div class="col-sm-8">
-			{{ Form::text('taskDeadline', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
+			{{ Form::checkbox('hasDuedate') }}
 		</div>
-	  </div>
-	  
-	  <div class="form-group">
-		  {{ Form::label('starRating', 'How would you rate your completion of this task on a 3 star scale', array('class' => 'col-sm-4 control-label')) }}	  
-		  <div class="col-sm-8">
-		  	<div id="starRating" data-number="3"></div>
-      	  </div>
-      </div>
-	  <div class="form-group">
+	</div>
+
+	<div class="form-group" id="duedate-form">
+		{{ Form::label('dueDateTime', 'Duedate', array('class' => 'col-sm-4 control-label')) }}
+		<div class="col-sm-8">
+			<div class="input-group date">
+
+					<span id='datetimepickerDue'>
+						{{ Form::text('dueDateTime', null, array('class' => 'form-control')) }}
+					</span>
+
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" onclick="var d = new Date();$('#dueDateTime').val(moment(d).format('MM/DD/YYYY hh:mm A'));">Now</button>
+					</span>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group">
+		{{ Form::label('completed', 'Completed', array('class' => 'col-sm-4 control-label')) }}	  
+		<div class="col-sm-8">
+			{{ Form::checkbox('isCompleted') }}
+		</div>
+	</div>
+
+	<div class="form-group" id="star-form">
+		{{ Form::label('starRating', 'Rate Your Productivity', array('class' => 'col-sm-4 control-label')) }}	  
+		<div class="col-sm-8">
+			<div id="starRatingDiv" data-number="3"></div>
+			{{ Form::hidden('starRating') }}
+		</div>
+	</div>
+
+	<div class="form-group">
 		<div class="col-sm-offset-4 col-sm-8">
 			{{ Form::submit('Submit', array('class' => 'btn btn-default')) }}
 		</div>
 	</div>
-
-
-	<div class="form-group">
-		{{ Form::label('Rating', 'Rating', array('class' => 'col-sm-4 control-label')) }}		
-	    <div class="col-sm-8">
-			<div class="input-group">
-				<div class="star">
-				</div>
-				{{ Form::hidden('rating', '', array('id' => 'rating', 'class' => 'form-control', 'placeholder' => '0')) }}
-			</div>
-		</div>
-	</div>
-
 	{{ Form::close() }}
 	
 	</div>
 
 	<script>
 	$(function(){
-		$("#starRating").raty({
-			starOff : '/image/star-off.png',
-  			starOn  : '/image/star-on.png',
-  			cancelOff : '/image/cancel-custom-off.png',
-  			cancelOn : '/image/cancel-custom-on.png',
-  			number: function() {
-			    return $(this).attr('data-number');
-			},
-			size: 24,
-			cancel:true
-		});
-		
-		$("#colorPicker").spectrum({
-		    color: getRandomColor(),
-		    change: function(color) {
-				console.log(color.toHex()); // #ff0000
-				$("#color").val(color.toHex());
-			}
+
+		$(document).on('submit', 'form', function(e) {
+			var databaseDueTimeStirng = convertToDatabaseTime( $("#dueDateTime").val() );
+			$("#dueDateTime").val(databaseDueTimeStirng);
 		});
 
-		//$('#star').raty({ number: 3 });
-		// set default values for start and end dates
-		// default date format: yyyy-mm-dd hh:mm
+		function convertToDatabaseTime(usTime){
+			console.log(usTime);
+			return moment(usTime, 'MM/DD/YYYY hh:mm A').format("YYYY-MM-DD HH:mm");
+		}
 
-		var i = 0;
-		var currDate = new Date();
-		
-		$("input[id$=DateTime]").each(function(k, v){
+		$("#star-form").toggle($('#isCompleted').checked);
+		$('[name = isCompleted]').click(function() {
+			console.log("toggle");
+			$("#star-form").fadeToggle(this.checked);
+		}); 
 
-			var mins = currDate.getMinutes();
-			var addMins = mins + (i++) * 15;
-			currDate.setMinutes(addMins);
-			$(v).val(moment(currDate).format('YYYY-MM-DD HH:mm'));
-
-		});
+		$("#duedate-form").toggle($('#hasDuedate').checked);
+		$('[name = hasDuedate]').click(function() {
+			console.log("toggle");
+			$("#duedate-form").fadeToggle(this.checked);
+		}); 
 
 		var $cats = $("#superCategory");
 
@@ -142,10 +143,49 @@
 			
 		});
 
-		function getRandomColor(){
-			return "#"+((Math.random() * (0xffffff)) << 0).toString(16);
-		}
+		$("#datetimepickerDue").datetimepicker({
+			language: 'en'
+		});
 
+		$("#starRatingDiv").raty({
+			starOff : '/image/star-off.png',
+			starOn  : '/image/star-on.png',
+			cancelOff : '/image/cancel-custom-off.png',
+			cancelOn : '/image/cancel-custom-on.png',
+			number: function() {
+				return $(this).attr('data-number');
+			},
+			size: 24,
+			cancel:true,
+			click: function(score, evt) {
+    			$("#starRating").val(score);
+    			console.log("rating");
+  			}
+		});
+
+
+		function initializeColorPicker(){
+			$("#colorPicker").spectrum({
+				color: "rgb(255, 255, 255)",
+				showPalette: true,
+				palette: [
+					["rgb(255, 255, 255)", "rgb(221, 126, 107)", "rgb(234, 153, 153)"], 
+					["rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(202, 235, 188)"],
+					["rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)"], 
+					["rgb(180, 167, 214)", "rgb(213, 166, 189)", "rgb(235, 137, 234)"]
+				],
+				change: function(color) {
+					$("#newcat").css('background-color', color.toHexString());
+					$("#color").val(color.toHex());
+				}
+			});
+
+			var defaultColor = "ffffff";
+			$("#color").val(defaultColor);
+			$("#newcat").css('background-color', "#" + defaultColor);
+		}
+	
+		initializeColorPicker();
 	});
 	</script>
 

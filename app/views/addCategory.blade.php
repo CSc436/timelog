@@ -29,8 +29,15 @@
 
 		{{ Form::open(array('url' => 'log/saveCat', 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'style' => 'max-width:500px')) }}
 
+
 	<div class="form-group">
-		{{ Form::label('categoryName', 'What Category is this?', array('class' => 'col-sm-4 control-label')) }}
+		<div class="col-sm-8">
+			{{ Form::hidden('isTask', '0') }}
+		</div>
+	</div>
+
+	<div class="form-group">
+		{{ Form::label('categoryName', 'Category Name', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group">
 				{{ Form::text('categoryName', '', array('id' => 'newcat', 'class' => 'form-control', 'placeholder' => 'New Category Name')) }}
@@ -72,29 +79,29 @@
 			
 		});
 
+		function initializeColorPicker(){
+			$("#colorPicker").spectrum({
+			    color: "rgb(255, 255, 255)",
+			    showPalette: true,
+			    palette: [
+					["rgb(255, 255, 255)", "rgb(221, 126, 107)", "rgb(234, 153, 153)"], 
+					["rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(202, 235, 188)"],
+					["rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)"], 
+					["rgb(180, 167, 214)", "rgb(213, 166, 189)", "rgb(235, 137, 234)"]
+			    ],
+				change: function(color) {
+					$("#newcat").css('background-color', color.toHexString());
+					$("#color").val(color.toHex());
+				}
+			});
+
+			var defaultColor = "ffffff";
+			$("#color").val(defaultColor);
+			$("#newcat").css('background-color', "#" + defaultColor);
+		}
+
 		initializeColorPicker();
 	});
-
-	function initializeColorPicker(){
-		$("#colorPicker").spectrum({
-		    color: "rgb(234, 209, 220)",
-		    showPalette: true,
-		    palette: [
-				["rgb(234, 209, 220)", "rgb(221, 126, 107)", "rgb(234, 153, 153)"], 
-				["rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(202, 235, 188)"],
-				["rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)"], 
-				["rgb(180, 167, 214)", "rgb(213, 166, 189)", "rgb(235, 137, 234)"]
-		    ],
-			change: function(color) {
-				$("#newcat").css('background-color', color.toHexString());
-				$("#color").val(color.toHex());
-			}
-		});
-
-		var defaultColor = "ffffff";
-		$("#color").val(defaultColor);
-		$("#newcat").css('background-color', "#" + defaultColor);
-	}
 	</script>
 
 @stop

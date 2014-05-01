@@ -129,7 +129,6 @@
     		    language: 'en'
     		});
 
-
 			$("#datetimepickerEnd").datetimepicker({
     		    language: 'en'
     		});
@@ -159,6 +158,11 @@
 			initializeColorPicker();
 		});
 		
+		function convertToDatabaseTime(usTime){
+			console.log(usTime);
+			return moment(usTime, 'MM/DD/YYYY hh:mm A').format("YYYY-MM-DD HH:mm");
+		}
+
 		function initializeColorPicker(){
 			$("#colorPicker").spectrum({
 			    color: "rgb(234, 209, 220)",
@@ -178,11 +182,6 @@
 			var defaultColor = "ffffff";
 			$("#color").val(defaultColor);
 			$("#newcat").css('background-color', "#"+defaultColor);
-		}
-		
-		function convertToDatabaseTime(usTime){
-			console.log(usTime);
-			return moment(usTime, 'MM/DD/YYYY hh:mm A').format("YYYY-MM-DD HH:mm");
 		}
 
 		function getRandomColor(){

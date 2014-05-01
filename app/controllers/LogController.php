@@ -291,23 +291,25 @@ class LogController extends BaseController {
 
 			$catEntry->color = Input::get('color');
 			$catEntry->isTask = Input::get('isTask');
-			
-			$catEntry->deadline = Input::get('taskDeadline');
 
-			$star = Input::get('starRating');
+			$catEntry->isCompleted = Input::get('isCompleted');
+			$duedate = Input::get('hasDuedate');
 
-			if(!$catEntry->isTask == 'on'){
+			if($catEntry->isTask == '0'){
 				$catEntry->isTask = 0;
 				$catEntry->isCompleted = 0;
 				$catEntry->rating = 0;
-			}
-			else {
-				$catEntry->rating= $star;
-				if ($star == 0) {
-					$catEntry->isCompleted = 0;
+			}else {
+				if ($catEntry->isCompleted == 0) {
+					$catEntry->rating = 0;
+				}else {
+					$catEntry->rating = Input::get('starRating');
 				}
-				else {
-					$catEntry->isCompleted = 1;
+				
+				if ($duedate == 0) {
+					$catEntry->deadline = NULL;
+				}else {
+					$catEntry->deadline = Input::get('dueDateTime');
 				}
 			}
 
@@ -318,7 +320,11 @@ class LogController extends BaseController {
 		} else if($id == null) {
 			// validation has failed, display error messages
 			Input::flash();
-			return Redirect::to('log/addCategory')->withErrors($validator);
+			if(Input::get('isTask') == '0'){
+				return Redirect::to('log/addCategory')->withErrors($validator);
+			}else{
+				return Redirect::to('log/addTask')->withErrors($validator);
+			}
 		}else{
 			// validation has failed, display error messages
 			Input::flash();
