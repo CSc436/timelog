@@ -33,8 +33,9 @@
 				<ul class="nav navbar-nav">
 					<li <?php if ($active == "home") echo"class=active" ?>><a href="/">Home</a></li>
 					<li <?php if ($active == "addlog") echo"class=active" ?>><a href="/log/add">Add Logs</a></li>
-					<li <?php if ($active == "category") echo"class=active" ?>><a href="/log/addCategory">Add a Category</a></li>
 					<li <?php if ($active == "viewCat") echo"class=active" ?>><a href="/log/viewCategory">View Category</a></li>
+					<li <?php if ($active == "category") echo"class=active" ?>><a href="/log/addCategory">Add a Category</a></li>
+					<li <?php if ($active == "task") echo"class=active" ?>><a href="/log/addTask">Add a Task</a></li>
 					<li <?php if ($active == "addlog_cal") echo"class=active" ?>><a href="/log/addlog_cal">Calendar</a></li>
 					<li <?php if ($active == "viewlog") echo"class=active" ?>><a href="/log/view">View Logs</a></li>
 					<li <?php if ($active == "dashboard") echo"class=active" ?>><a href="/dashboard">Dashboard</a></li>
