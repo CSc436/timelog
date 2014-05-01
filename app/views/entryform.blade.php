@@ -50,7 +50,7 @@
 				<span class="input-group-btn">
 					<button id="colorPicker" class="btn btn-default" type="button"><span id="colorPickerIcon" class="fa fa-tint"></span></button>
 				</span>
-				{{ Form::hidden('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => '#CCCCCC')) }}
+				{{ Form::hidden( 'color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => '#CCCCCC') ) }}
 			</div>
 		</div>
 	  </div>
@@ -125,14 +125,6 @@
 				$("#endDateTime").val(databaseEndTimeStirng);
 			});
 
-			$("#colorPicker").spectrum({
-			    color: getRandomColor(),
-			    change: function(color) {
- 					console.log(color.toHex()); // #ff0000
- 					$("#color").val(color.toHex());
-				}
-			});
-
 			$("#datetimepickerStart").datetimepicker({
     		    language: 'en'
     		});
@@ -164,6 +156,10 @@
 				
 			});
 
+			initializeColorPicker();
+		});
+		
+		function initializeColorPicker(){
 			$("#colorPicker").spectrum({
 			    color: "rgb(234, 209, 220)",
 			    showPalette: true,
@@ -179,11 +175,11 @@
 				}
 			});
 
-			var defaultColor = "9fc5e8";
+			var defaultColor = "ffffff";
 			$("#color").val(defaultColor);
 			$("#newcat").css('background-color', "#"+defaultColor);
-		});
-	
+		}
+		
 		function convertToDatabaseTime(usTime){
 			console.log(usTime);
 			return moment(usTime, 'MM/DD/YYYY hh:mm A').format("YYYY-MM-DD HH:mm");

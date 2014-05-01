@@ -111,8 +111,8 @@
 		$("#colorPicker").spectrum({
 		    color: getRandomColor(),
 		    change: function(color) {
-					console.log(color.toHex()); // #ff0000
-					$("#color").val(color.toHex());
+				console.log(color.toHex()); // #ff0000
+				$("#color").val(color.toHex());
 			}
 		});
 

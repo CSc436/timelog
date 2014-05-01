@@ -38,7 +38,7 @@
 				<span class="input-group-btn">
 					<button id="colorPicker" class="btn btn-default" type="button"><span id="colorPickerIcon" class="fa fa-tint"></span></button>
 				</span>
-				{{ Form::hidden('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => '#CCCCCC')) }}
+				{{ Form::hidden('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => 'FFFFFF')) }}
 			</div>
 		</div>
 	</div>
@@ -61,26 +61,6 @@
 
 	<script>
 	$(function(){
-		
-		$("#colorPicker").spectrum({
-		    color: getRandomColor(),
-		    change: function(color) {
-					console.log(color.toHex()); // #ff0000
-					$("#color").val(color.toHex());
-			}
-		});
-
-		var i = 0;
-		var currDate = new Date();
-		
-		$("input[id$=DateTime]").each(function(k, v){
-
-			var mins = currDate.getMinutes();
-			var addMins = mins + (i++) * 15;
-			currDate.setMinutes(addMins);
-			$(v).val(moment(currDate).format('YYYY-MM-DD HH:mm'));
-
-		});
 
 		var $cats = $("#superCategory");
 
@@ -92,11 +72,29 @@
 			
 		});
 
-		function getRandomColor(){
-			return "#"+((Math.random() * (0xffffff)) << 0).toString(16);
-		}
-
+		initializeColorPicker();
 	});
+
+	function initializeColorPicker(){
+		$("#colorPicker").spectrum({
+		    color: "rgb(234, 209, 220)",
+		    showPalette: true,
+		    palette: [
+				["rgb(234, 209, 220)", "rgb(221, 126, 107)", "rgb(234, 153, 153)"], 
+				["rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(202, 235, 188)"],
+				["rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)"], 
+				["rgb(180, 167, 214)", "rgb(213, 166, 189)", "rgb(235, 137, 234)"]
+		    ],
+			change: function(color) {
+				$("#newcat").css('background-color', color.toHexString());
+				$("#color").val(color.toHex());
+			}
+		});
+
+		var defaultColor = "ffffff";
+		$("#color").val(defaultColor);
+		$("#newcat").css('background-color', "#" + defaultColor);
+	}
 	</script>
 
 @stop
