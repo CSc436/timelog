@@ -137,3 +137,13 @@ footer .social i:hover{
 	text-align: center;
 	color: #1485c3;
 }
+
+/* Visualization Page */
+
+#daterange {
+	background:white;
+	border:1px solid #999;
+	cursor: pointer;
+	padding:4px 8px;
+	font-size:16px;
+}

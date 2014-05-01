@@ -25,8 +25,17 @@ class VisController extends BaseController {
 		}
 
 		// default value
-		$startRange = date('Y-m-d 00:00:00', strtotime('today -8 weeks'));
-		$endRange = date('Y-m-d 23:59:59', strtotime('today'));
+		$startDT = strtotime('today -8 weeks');
+		$endDT = strtotime('today');
+
+		if(Input::has('start'))
+			$startDT = strtotime(Input::get('start').' 00:00:00');
+
+		if(Input::has('end'))
+			$endDT = strtotime(Input::get('end').' 23:59:59');
+
+		$startRange = date('Y-m-d 00:00:00', $startDT);
+		$endRange = date('Y-m-d 23:59:59', $endDT);
 
 		$table_rows = DB::table('log_entry')
 				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
@@ -58,8 +67,13 @@ class VisController extends BaseController {
 			'chart_rows' => $chart_rows,
 			'categories' => $categories,
 			'dates' => $selectedMonth,
+			// for dates ranges filter
+			'startDT' => $startDT,
+			'endDT' => $endDT,
+			// for highlighting today's date on the chart
 			'todayStart' => $todayStart,
 			'todayEnd' => $todayEnd,
+			// for the top tab
 			'active' =>'viewlog'
 		);
 

@@ -11,7 +11,6 @@
 	<link href="{{ URL::asset('css/font-awesome.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('css/main.css') }}" rel="stylesheet">
 	<script src="{{ URL::asset('js/jquery-2.1.0.min.js') }}"></script>
-	<script src="{{ URL::asset('js/highcharts.js') }}"></script>
 	<script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
 	<script src="{{ URL::asset('js/main.js') }}"></script>
 	@yield('header')
