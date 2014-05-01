@@ -1,16 +1,10 @@
 $(function() {
 
+	$.ajaxSetup({
+		aync: false
+	});
+
 	window.SundialCalendar = {};
-
-	$(document).on("submit", "#thisModal form", function(event) {
-		submitNewEvent(SundialCalendar.calendar);
-		event.preventDefault();
-	});
-
-	$('body').on('hidden.bs.modal', '.modal', function() {
-		$(this).removeData('bs.modal');
-		$('#thisModal').html("");
-	});
 
 	var categories = [];
 
@@ -71,20 +65,11 @@ $(function() {
 		editable: true,
 		events: eventsAfterParsed,
 		select: function(start, end, allDay) {
-			eventEditorModal(start, end, SundialCalendar.calendar);			
+			eventEditorModal(start, end, null);
 		},
 		eventClick: function(calEvent, jsEvent, view) {
-
-			//Edit existing event
-
-			var tmp;
-			var title;
-			var description;
-
-			//var x = $("#thisModal form").submit();
-
-			console.log(x);
-
+			eventEditorModal(start, end, calEvent);
+			console.log(calEvent);
 		},
 		eventDrop: function(calEvent, dayDelta, minuteDelta, allDay, revertFunc) {
 
@@ -119,9 +104,19 @@ $(function() {
 		}
 	});
 
+	$(document).on("submit", "#thisModal form", function(event) {
+		submitNewEvent();
+		event.preventDefault();
+	});
+
+	$('body').on('hidden.bs.modal', '.modal', function() {
+		$(this).removeData('bs.modal');
+		$('#thisModal').html("");
+	});
+
 });
 
-function eventEditorModal(start, end, calendar) {
+function eventEditorModal(start, end, id) {
 
 	console.log('on eventEditorModal');
 
@@ -136,7 +131,7 @@ function eventEditorModal(start, end, calendar) {
 }
 
 
-function submitNewEvent(fc) {
+function submitNewEvent() {
 
 	var form = $("#thisModal form");
 
@@ -145,19 +140,20 @@ function submitNewEvent(fc) {
 		console.log("server returned", data);
 
 		SundialCalendar.calendar.fullCalendar('renderEvent', {
-				
-				title: data.CID,
+				title: data.notes,
 				description: data.notes,
+				id: data.LID,
 				start: data.startDateTime,
 				end: data.endDateTime,
-				id: data.LID,
-				allDay: false
+				allDay: false,
 			},
-			true // make the event "stick"
-		);
+			true);
 
 	});
 
 	SundialCalendar.calendar.fullCalendar('unselect');
 
+	if ($('#thisModal')) {
+		$('#thisModal').modal('hide');
+	}
 }
