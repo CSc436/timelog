@@ -9,9 +9,6 @@ $(function() {
 	var categories = [];
 
 	$.get("/log/view_cat_cal", function(cats) {
-		// TODO: do selective querying when real dates are used, so we don't have to
-		// get all events, however, it is unclear yet how much of a performance bottleneck
-		// this will be.
 		for (var i = 0; i < cats.length; i++) {
 			categories.push({
 				title: cats[i].name,
@@ -28,20 +25,22 @@ $(function() {
 
 		eventsBeforeParsed = events;
 
-		//TODO: do selective querying when real dates are used, so we don't have to
-		//get all events, however, it is unclear yet how much of a performance bottleneck
-		//this will be.
-
 		for (var i = 0; i < events.length; i++) {
+
 			events[i].color = "#FFFFFF";
-			for (var i2 = 0; i2 < categories.length; i2++) {
-				if (events[i].CID == categories[i2].id) {
-					events[i].color = "#" + categories[i2].color;
+			
+			for (var j = 0; j < categories.length; j++) {
+				if (events[i].CID == categories[j].id) {
+					events[i].color = "#" + categories[j].color;
+					events[i].category = categories[j].title;
+					events[i].categoryId = categories[j].id;
+					// console.log("cat", categories[j]);
 				}
 			}
 
 			eventsAfterParsed.push({
-				title: "placeholder title",
+				title: events[i].category,
+				categoryId: events[i].categoryId,
 				start: new Date(events[i].startDateTime),
 				end: new Date(events[i].endDateTime),
 				allDay: false,
@@ -68,7 +67,7 @@ $(function() {
 			eventEditorModal(start, end, null);
 		},
 		eventClick: function(calEvent, jsEvent, view) {
-			eventEditorModal(start, end, calEvent);
+			eventEditorModal(calEvent.start, calEvent.end, calEvent);
 			console.log(calEvent);
 		},
 		eventDrop: function(calEvent, dayDelta, minuteDelta, allDay, revertFunc) {
@@ -91,7 +90,7 @@ $(function() {
 
 			$.post("/log/save_from_calendar/" + calEvent.id, {
 				entryname: calEvent.title,
-				category: "placeholder",
+				category: calEvent.categoryId,
 				startDateTime: stFromatted,
 				endDateTime: etFromatted,
 				notes: calEvent.description
@@ -105,7 +104,7 @@ $(function() {
 	});
 
 	$(document).on("submit", "#thisModal form", function(event) {
-		submitNewEvent();
+		submitEvent();
 		event.preventDefault();
 	});
 
@@ -116,39 +115,75 @@ $(function() {
 
 });
 
-function eventEditorModal(start, end, id) {
+function eventEditorModal(start, end, calEvent) {
 
-	console.log('on eventEditorModal');
+	var start, end;
 
-	$("#thisModal").on("shown.bs.modal", function() {
-		$("#startDateTime").val($.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm"));
-		$("#endDateTime").val($.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm"));
-	});
+	if (calEvent) {
+		start = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm");
+		end = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm");
+
+		$("#thisModal").on("shown.bs.modal", function() {
+			$("#startDateTime").val(start);
+			$("#endDateTime").val(end);
+			$("#category").val(calEvent.categoryId);
+			$("#notes").val(calEvent.description);
+		});
+
+	} else {
+
+		start = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm");
+		end = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm");
+
+		$("#thisModal").on("shown.bs.modal", function() {
+			$("#startDateTime").val(start);
+			$("#endDateTime").val(end);
+		});
+	}
+
+	
 
 	$('#thisModal').modal({
 		remote: '/api/log/edit/modal'
 	});
 }
 
-
-function submitNewEvent() {
+function submitEvent(update, id) {
 
 	var form = $("#thisModal form");
 
-	$.post('/api/log/save', form.serialize(), function(data) {
+	var url = '/api/log/save';
 
-		console.log("server returned", data);
+	if (update) {
+
+		url = '/log/save_from_calendar/' + id;
+		
+		form.append($("<input>", {
+			value: id,
+			type: "hidden",
+			name: "id"
+		}));
+	}
+
+	$.post(url, form.serialize(), function(data) {
+
+		if (update) {
+			console.log("Event updated!", data);
+		}
+		else {
+			console.log("New event created!", data);
+		}
 
 		SundialCalendar.calendar.fullCalendar('renderEvent', {
 				title: data.notes,
 				description: data.notes,
 				id: data.LID,
+				category: data.CID,
 				start: data.startDateTime,
 				end: data.endDateTime,
 				allDay: false,
 			},
 			true);
-
 	});
 
 	SundialCalendar.calendar.fullCalendar('unselect');
