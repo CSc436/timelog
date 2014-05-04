@@ -7,56 +7,47 @@
 
 	<div class="well">
 		{{ Form::open(array('url' => 'log/view', 'method' => 'get', 'role' => 'form', 'class' => 'form-horizontal', 'id' => 'chart_options')) }}
-			<div class="daterange pull-right" id="daterange"><i class="fa fa-calendar"></i> <span>{{ date('F d, Y', $startDT) }} - {{ date('F d, Y', $endDT) }}</span> <i class="fa fa-caret-down"></i></div>
-			{{ Form::hidden('start', '2014-04-24', array('id' => 'daterange_start')) }}
-			{{ Form::hidden('end', '2014-04-30', array('id' => 'daterange_end')) }}
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#daterange').daterangepicker({
-    	ranges: {
-			'Last 7 Days': [moment().subtract('days', 6), moment()],
-			'Last 30 Days': [moment().subtract('days', 29), moment()],
-			'This Month': [moment().startOf('month'), moment().endOf('month')],
-			'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
-		},
-		format: "YYYY-MM-DD",
-		startDate: "{{date('Y-m-d', $startDT)}}",
-		endDate: "{{date('Y-m-d', $endDT)}}"
-    },
-    function(start, end) {
-		$('#daterange_start').val(start.format('YYYY-MM-DD'));
-		$('#daterange_end').val(end.format('YYYY-MM-DD'));
-		$('#chart_options').submit();
-	});
-});
-</script>
+		<div class="daterange pull-right" id="daterange"><i class="fa fa-calendar"></i> <span>{{ date('F d, Y', $startDT) }} - {{ date('F d, Y', $endDT) }}</span> <i class="fa fa-caret-down"></i></div>
+		{{ Form::hidden('start', '2014-04-24', array('id' => 'daterange_start')) }}
+		{{ Form::hidden('end', '2014-04-30', array('id' => 'daterange_end')) }}
 
-	<p>&nbsp;</p>
+		<script type="text/javascript">
+			$(document).ready(function() {
+			    $('#daterange').daterangepicker({
+			    	ranges: {
+						'Last 7 Days': [moment().subtract('days', 6), moment()],
+						'Last 30 Days': [moment().subtract('days', 29), moment()],
+						'This Month': [moment().startOf('month'), moment().endOf('month')],
+						'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+					},
+					format: "YYYY-MM-DD",
+					startDate: "{{date('Y-m-d', $startDT)}}",
+					endDate: "{{date('Y-m-d', $endDT)}}"
+			    },
+			    function(start, end) {
+					$('#daterange_start').val(start.format('YYYY-MM-DD'));
+					$('#daterange_end').val(end.format('YYYY-MM-DD'));
+					$('#chart_options').submit();
+				});
+			});
+		</script>
+
+		<p>&nbsp;</p>
 		{{ Form::close() }}
 	</div>
 
 	<div id="mainChart" style="width:100%;height:400px"></div>
 
-	<select name="category" id="category" onchange="setData()">
-		<option value="-1">-----</option>
-		<?php
-			foreach ($categories as $names)
-			{
-				echo ("<option value=".$names->cid.">".$names->name."</option>");
-			}
-		?>
-	</select>
+	{{ Form::open(array('url' => 'log/view', 'method' => 'get', 'role' => 'form', 'class' => 'form-horizontal')) }}
+	{{ Form::select('category', $categories); }}
+	{{ Form::submit('Submit',['class'=>'btn btn-default']) }}
+	{{ Form::close() }}
 
 	<select name="time" id="time" onchange="setData()">
 		<option value="1">Days</option>
 		<option value="2">Months</option>
 		<option value="3">Years</option>
 	</select>
-
-	{{ Form::open(array('url' => 'log/view', 'method' => 'get', 'role' => 'form')) }}
-	{{ Form::select('dates', $dates); }}
-	{{ Form::submit('Submit',['class'=>'btn btn-default']) }}
-	{{ Form::close() }}
 
 	<div class="table-responsive"><table class="table table-striped table-condensed table-hover">
 		<tr>

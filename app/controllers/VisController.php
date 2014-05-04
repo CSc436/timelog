@@ -14,14 +14,14 @@ class VisController extends BaseController {
 
 	public function visualize(){
 
-		$date = explode("/", Input::get('dates'));
 		$id = Auth::user()->id;
 		$categories = DB::select("select name, cid from log_category c where c.uid = $id");
-		$timeFrame = DB::select("select YEAR(startDateTime) as year, MONTH(startDateTime) as month from log_entry GROUP BY YEAR(startDateTime), MONTH(startDateTime) ORDER BY YEAR(startDateTime), MONTH(startDateTime)");
-		$selectedMonth = array();
-		$selectedMonth["0/0"] = "-----";
-		foreach ($timeFrame as $time) {
-			$selectedMonth[$time->month."/".$time->year] = $time->month."/".$time->year;
+		
+		$selectCat = array();
+		$selectCat["Error"] = "-----";
+		
+		foreach($categories as $cat) {
+				$selectCat[$cat->name] = $cat->name;
 		}
 
 		// default value
@@ -65,8 +65,8 @@ class VisController extends BaseController {
 		$sendToView = array(
 			'table_rows' => $table_rows,
 			'chart_rows' => $chart_rows,
-			'categories' => $categories,
-			'dates' => $selectedMonth,
+			'categories' => $selectCat,
+			// 'dates' => $selectedMonth,
 			// for dates ranges filter
 			'startDT' => $startDT,
 			'endDT' => $endDT,
