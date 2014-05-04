@@ -21,10 +21,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, legend {
 }
 
 .title{
-	border-bottom: 2px solid #f4726d;
+	border-bottom: 2px solid #f4645f;
 }
 
 .feature-title{
+	color: #f4645f;
 	text-align: center;
 }
 
@@ -39,19 +40,33 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, legend {
 }
 
 .timelog-jumbotron{
-	background: #0084c5; /* Old browsers */
-	background: -moz-linear-gradient(45deg,  #0084c5 0%, #0489c3 36%, #30cabf 66%, #2fbcb2 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#0084c5), color-stop(36%,#0489c3), color-stop(66%,#30cabf), color-stop(100%,#2fbcb2)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(45deg,  #0084c5 0%,#0489c3 36%,#30cabf 66%,#2fbcb2 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(45deg,  #0084c5 0%,#0489c3 36%,#30cabf 66%,#2fbcb2 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(45deg,  #0084c5 0%,#0489c3 36%,#30cabf 66%,#2fbcb2 100%); /* IE10+ */
-	background: linear-gradient(45deg,  #0084c5 0%,#0489c3 36%,#30cabf 66%,#2fbcb2 100%); /* W3C */
+
+/* IE10 Consumer Preview */ 
+background-image: -ms-linear-gradient(bottom, #8AD0FF 0%, #0C5AA6 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(bottom, #8AD0FF 0%, #0C5AA6 100%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(bottom, #8AD0FF 0%, #0C5AA6 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #8AD0FF), color-stop(1, #0C5AA6));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(bottom, #8AD0FF 0%, #0C5AA6 100%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: linear-gradient(to top, #8AD0FF 0%, #0C5AA6 100%);
+
+
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0084c5', endColorstr='#2fbcb2',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
 	color: #fff;
 }
 .jumbotron p{
 	font-weight: 300;
+	color: #fff;
 }
 
 #social-signup{
@@ -138,15 +153,33 @@ footer .social i:hover{
 	color: #1485c3;
 }
 .navbar-default {
-  background-color: #ffa500;
-  border-color: #ff0000;
+/* IE10 Consumer Preview */ 
+background-image: -ms-linear-gradient(left, #FFCC00 0%, #0C5AA6 100%);
+
+/* Mozilla Firefox */ 
+background-image: -moz-linear-gradient(left, #FFCC00 0%, #0C5AA6 100%);
+
+/* Opera */ 
+background-image: -o-linear-gradient(left, #FFCC00 0%, #0C5AA6 100%);
+
+/* Webkit (Safari/Chrome 10) */ 
+background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #FFCC00), color-stop(1, #0C5AA6));
+
+/* Webkit (Chrome 11+) */ 
+background-image: -webkit-linear-gradient(left, #FFCC00 0%, #0C5AA6 100%);
+
+/* W3C Markup, IE10 Release Preview */ 
+background-image: linear-gradient(to right, #FFCC00 0%, #0C5AA6 100%);
 }
 .navbar-default .navbar-text {
-  color: #000000;
+  color: #ffffff;
 }
 .navbar-default .navbar-toggle .icon-bar {
-  background-color: #000000;
+  background-color: #ffffff;
 }
 .navbar-default .navbar-nav > li > a {
-  color: #000000;
+  color: #ffffff;
+}
+.col-md-4 h2{
+	color: #f4645f;
 }
