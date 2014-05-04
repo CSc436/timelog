@@ -432,6 +432,10 @@ class LogController extends BaseController {
 
 			}
 
+			if($entry->PID == 0){
+				$entry->PID = null;
+			}
+
 			if(Input::get('color') != null){
 				$entry->color = Input::get('color');
 			}
@@ -472,7 +476,8 @@ class LogController extends BaseController {
 									  'deadline' =>$entry->deadline,
 									  'isCompleted' =>$entry->isCompleted,
 									  'rating' =>$entry->rating));*/
-
+			
+			$updateThis->CID = $entry->CID;
 			$updateThis->PID = $entry->PID;
 			$updateThis->name = $entry->name;
 			$updateThis->color = $entry->color;

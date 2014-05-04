@@ -47,12 +47,12 @@
 						@if(!isset($editThis))
 							{{ Form::text('categoryName', 'Not Used Yet', array('id' => 'newcat', 'class' => 'form-control', 'placeholder' => 'Name')) }}
 						@else
-							{{ Form::text('categoryName', "$editThis->name", array('id' => 'newcat', 'style' => "background-color: $editThis->color", 'class' => 'form-control', 'placeholder' => 'Name')) }}
+							{{ Form::text('categoryName', "$editThis->name", array('id' => 'newcat', 'style' => "background-color: #$editThis->color", 'class' => 'form-control', 'placeholder' => 'Name')) }}
 						@endif
 						<span class="input-group-btn">
 							<button id="colorPicker" class="btn btn-default" type="button"><span id="colorPickerIcon" class="fa fa-tint"></span></button>
 						</span>
-						{{ Form::hidden('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => 'FFFFFF')) }}
+						{{ Form::hidden('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => "$editThis->color")) }}
 					</div>
 				</div>
 			</div>
@@ -103,10 +103,10 @@
 				}
 			});
 
-			var defaultColor = "ffffff";
+/*			var defaultColor = "ffffff";
 			$("#color").val(defaultColor);
 			$("#newcat").css('background-color', "#" + defaultColor);
-		}
+*/		}
 
 		initializeColorPicker();
 	});
