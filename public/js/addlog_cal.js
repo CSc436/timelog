@@ -79,7 +79,7 @@ $(function() {
 
 			$.post("/log/save_from_calendar/" + calEvent.id, {
 				entryname: calEvent.title,
-				category: "placeholder",
+				category: calEvent.categoryId,
 				startDateTime: stFromatted,
 				endDateTime: etFromatted,
 				notes: calEvent.description
