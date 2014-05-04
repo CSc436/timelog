@@ -11,13 +11,15 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 
+		// Set appropriate timezone for Tucson, AZ
+		date_default_timezone_set('America/Phoenix');
+
         $this->call('UserTableSeeder');
         $this->command->info('User table seeded!');
         $this->call('LogEntrySeeder');
         $this->command->info('log_entry table seeded!');
         $this->call('LogCategorySeeder');
         $this->command->info('log_category table seeded!');
-		// $this->call('UserTableSeeder');
 	}
 
 }
@@ -42,6 +44,7 @@ class UserTableSeeder extends Seeder {
 class LogEntrySeeder extends Seeder {
 
 	public function run() {
+
 		DB::table('log_entry')->delete();
 
 		$userSelect = DB::table('user')->where('email', 'test@test.com')->pluck('id');
@@ -89,6 +92,7 @@ class LogEntrySeeder extends Seeder {
 class LogCategorySeeder extends Seeder {
 
 	public function run() {
+
 		DB::table('log_category')->delete();
 		
 		$userSelect = DB::table('user')->where('email', 'test@test.com')->pluck('id');
@@ -122,8 +126,17 @@ class LogCategorySeeder extends Seeder {
 		LogCategory::create(array('uid' => $userSelect, 'name' => 'Learn Salsa Dancing', 'isTask' => '1', 'deadline' => '2014-06-02 04:45:00.004444', 'isCompleted' => '1', 'rating' => '3'));
 		
 		/* Log Entries with Categories */
+
 		/* log for MAR 03rd, 2014. All logs are under the user 'test' with the password 'password' */
-		LogEntry::create(array('uid'=> $userSelect, 'cid' => $homeworkSelect, 'startDateTime' => '2014-03-03 04:30:00.000000', 'endDateTime'=> '2014-03-03 04:45:00.004444', 'notes'=>'test', 'duration'=> '15'));
+
+		$currDateTime = new DateTime();
+		$strStartDate = date_format($currDateTime, 'Y-m-d H:i');
+		$strEndDate = date('Y-m-d H:i', strtotime("+50 minutes"));
+
+		echo $strStartDate."\n";
+		echo $strEndDate."\n";
+
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $homeworkSelect, 'startDateTime' => $strStartDate, 'endDateTime'=> $strEndDate, 'notes'=>'test', 'duration'=> '15'));
 		LogEntry::create(array('uid'=> $userSelect, 'cid' => $homeworkSelect, 'startDateTime' => '2014-03-03 04:45:00.000000', 'endDateTime'=> '2014-03-03 05:45:00.004444', 'notes'=>'test', 'duration'=> '60'));
 		LogEntry::create(array('uid'=> $userSelect, 'cid' => $homeworkSelect, 'startDateTime' => '2014-03-03 05:45:00.000000', 'endDateTime'=> '2014-03-03 06:00:00.004444', 'notes'=>'test', 'duration'=> '15'));
 		LogEntry::create(array('uid'=> $userSelect, 'cid' => $homeworkSelect, 'startDateTime' => '2014-03-03 06:00:00.000000', 'endDateTime'=> '2014-03-03 06:45:00.004444', 'notes'=>'test', 'duration'=> '45'));

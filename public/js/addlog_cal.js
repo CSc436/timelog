@@ -19,7 +19,7 @@ $(function() {
 	});
 
 	var eventsBeforeParsed = [];
-	var eventsAfterParsed = [];
+	eventsAfterParsed = [];
 
 	$.get("/log/view_cal", function(events) {
 
@@ -27,14 +27,13 @@ $(function() {
 
 		for (var i = 0; i < events.length; i++) {
 
-			events[i].color = "#FFFFFF";
-			
+			events[i].color = "#000000";
+
 			for (var j = 0; j < categories.length; j++) {
 				if (events[i].CID == categories[j].id) {
 					events[i].color = "#" + categories[j].color;
 					events[i].category = categories[j].title;
 					events[i].categoryId = categories[j].id;
-					// console.log("cat", categories[j]);
 				}
 			}
 
@@ -49,6 +48,9 @@ $(function() {
 				backgroundColor: events[i].color
 			});
 		}
+
+		SundialCalendar.calendar.fullCalendar('refetchEvents');
+
 	});
 
 	SundialCalendar.calendar = $('#calendar').fullCalendar({
@@ -103,6 +105,8 @@ $(function() {
 		}
 	});
 
+	console.log('poop');
+
 	$(document).on("submit", "#thisModal form", function(event) {
 		submitEvent();
 		event.preventDefault();
@@ -141,8 +145,6 @@ function eventEditorModal(start, end, calEvent) {
 		});
 	}
 
-	
-
 	$('#thisModal').modal({
 		remote: '/api/log/edit/modal'
 	});
@@ -157,7 +159,7 @@ function submitEvent(update, id) {
 	if (update) {
 
 		url = '/log/save_from_calendar/' + id;
-		
+
 		form.append($("<input>", {
 			value: id,
 			type: "hidden",
@@ -169,8 +171,7 @@ function submitEvent(update, id) {
 
 		if (update) {
 			console.log("Event updated!", data);
-		}
-		else {
+		} else {
 			console.log("New event created!", data);
 		}
 
