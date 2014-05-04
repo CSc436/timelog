@@ -5,7 +5,7 @@
 <link href="{{ URL::asset('css/addCategory.css') }}" rel="stylesheet"/>
 <link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
 <script src="{{ URL::asset('js/spectrum.js') }}"></script>
-<script src="{{ URL::asset('js/moment.min.js') }}"></script>s
+<script src="{{ URL::asset('js/moment.min.js') }}"></script>
 @stop
 
 @section('content')
@@ -62,13 +62,29 @@
 
 		var $cats = $("#superCategory");
 
+		window.getCategories = function(){
+			var categories;
+			$.getJSON("/api/log/categories", callBack);
+		}
+
+		function callBack(data){
+			console.log(data);
+			return
+		}
+		
+		var categories = loadCategories();
+
+		$.each(categories, function(k, v){
+			$cats.append(new Option(v.name, v.cid));
+		});
+
+		/*
 		$.getJSON("/api/log/categories", function(data){
 			console.log(data);
 			$.each(data, function(k, v){
 				$cats.append(new Option(v.name, v.cid));
 			});
-			
-		});
+		});*/
 
 		function initializeColorPicker(){
 			$("#colorPicker").spectrum({
