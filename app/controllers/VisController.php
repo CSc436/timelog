@@ -38,7 +38,7 @@ class VisController extends BaseController {
 		$startRange = date('Y-m-d 00:00:00', $startDT);
 		$endRange = date('Y-m-d 23:59:59', $endDT);
 
-		if(Input::get('category') !== "") {
+		if(Input::has('category') && Input::get('category') !== "") {
 			$currentCategory = array();
 			array_push($currentCategory, Input::get('category'));
 		}
@@ -74,7 +74,6 @@ class VisController extends BaseController {
 			'table_rows' => $table_rows,
 			'chart_rows' => $chart_rows,
 			'categories' => $selectCat,
-			// 'dates' => $selectedMonth,
 			// for dates ranges filter
 			'startDT' => $startDT,
 			'endDT' => $endDT,
