@@ -5,7 +5,6 @@
 <link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
 <script src="{{ URL::asset('js/spectrum.js') }}"></script>
 <script src="{{ URL::asset('js/moment.min.js') }}"></script>
-<link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
 <script src="{{ URL::asset('js/jquery.raty.min.js') }}"></script>
 <link href="{{ URL::asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet"/>
 <script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
@@ -61,14 +60,14 @@
 	  
 
 	<div class="form-group">
-		{{ Form::label('hasDuedate', 'Has Duedate', array('class' => 'col-sm-4 control-label')) }}	  
+		{{ Form::label('hasDuedate', 'Has Due Date', array('class' => 'col-sm-4 control-label')) }}	  
 		<div class="col-sm-8">
 			{{ Form::checkbox('hasDuedate') }}
 		</div>
 	</div>
 
 	<div class="form-group" id="duedate-form">
-		{{ Form::label('dueDateTime', 'Duedate', array('class' => 'col-sm-4 control-label')) }}
+		{{ Form::label('dueDateTime', 'Due Date', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group date">
 
@@ -140,7 +139,6 @@
 			$.each(data, function(k, v){
 				$cats.append(new Option(v.name, v.cid));
 			});
-			
 		});
 
 		$("#datetimepickerDue").datetimepicker({
