@@ -1,9 +1,5 @@
 @section('header')
 <link href="{{ URL::asset('css/addCategory.css') }}" rel="stylesheet"/>
-<link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
-<script src="{{ URL::asset('js/spectrum.js') }}"></script>
-<script src="{{ URL::asset('js/moment.min.js') }}"></script>
-<link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
 @stop
 
 <div class="modal-dialog">
@@ -48,8 +44,11 @@
 				{{ Form::label('categoryName', 'Category Name', array('class' => 'col-sm-4 control-label')) }}
 				<div class="col-sm-8">
 					<div class="input-group">
-						{{ Form::text('categoryName', '', array('id' => 'newcat', 'class' => 'form-control', 'placeholder' => 'New Category Name')) }}
-
+						@if(!isset($editThis))
+							{{ Form::text('categoryName', 'Not Used Yet', array('id' => 'newcat', 'class' => 'form-control', 'placeholder' => 'Name')) }}
+						@else
+							{{ Form::text('categoryName', "$editThis->name", array('id' => 'newcat', 'style' => "background-color: $editThis->color", 'class' => 'form-control', 'placeholder' => 'Name')) }}
+						@endif
 						<span class="input-group-btn">
 							<button id="colorPicker" class="btn btn-default" type="button"><span id="colorPickerIcon" class="fa fa-tint"></span></button>
 						</span>

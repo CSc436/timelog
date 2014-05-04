@@ -413,9 +413,8 @@ class LogController extends BaseController {
 
 			$entry->UID= Auth::user()->id;
 			$entry->name = Input::get('categoryName');
-			$entry->CID = $catID;
 
-			$superCategory = Input::get('subCategory');
+			$superCategory = Input::get('superCategory');
 
 			if ($superCategory == null){
 				$entry->PID = null;
@@ -423,7 +422,7 @@ class LogController extends BaseController {
 
 			else{
 
-				$entry->PID = DB::table('log_category')->where('name',$superCategory)->where('UID',Auth::user()->id)->pluck('CID');
+				$entry->PID = Input::get('superCategory');
 				if ($entry->PID == null)
 					return "Response::make('parent category name doesn't exist', 404)";
 				$returnValue = $this->checkCatCycle($entry->CID, $entry->PID);
@@ -433,6 +432,9 @@ class LogController extends BaseController {
 
 			}
 
+			if(Input::get('color') != null){
+				$entry->color = Input::get('color');
+			}
 
 			$entry->deadline = Input::get('taskDeadline');
 
@@ -474,14 +476,15 @@ class LogController extends BaseController {
 			$updateThis->PID = $entry->PID;
 			$updateThis->name = $entry->name;
 			$updateThis->color = $entry->color;
-			$updateThis->isTask = $entry->isTask;
-			$updateThis->deadline = $entry->deadline;
-			$updateThis->isCompleted = $entry->isCompleted;
-			$updateThis->rating = $entry->rating;
+			//$updateThis->isTask = $entry->isTask;
+			//$updateThis->deadline = $entry->deadline;
+			//$updateThis->isCompleted = $entry->isCompleted;
+			//$updateThis->rating = $entry->rating;
 			$updateThis->save();
 
 			return Redirect::to('log/viewCategory');
-		} else if($catID == null) {
+		} 
+		if($catID == null) {
 			// validation has failed, display error messages
 			Input::flash();
 			return Redirect::to('log/viewCategory')->withErrors($validator);

@@ -1,6 +1,9 @@
 @extends('layout')
 @section('header')
 	<link href="{{ URL::asset('css/jquery.collapsibleList.css') }}" rel="stylesheet"/>
+	<link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
+	<script src="{{ URL::asset('js/spectrum.js') }}"></script>
+	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
 	<script src="{{ URL::asset('js/jquery.collapsibleList.js') }}"></script>
 @stop
 @section('content')
@@ -8,7 +11,7 @@
 	<script type = "text/javascript">
 
 		$(function(){
-		$(".collapsible").collapsibleList();
+			$(".collapsible").collapsibleList();
 		});
 
 	</script>
