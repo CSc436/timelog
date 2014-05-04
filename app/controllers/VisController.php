@@ -18,10 +18,11 @@ class VisController extends BaseController {
 		$categories = DB::select("select name, cid from log_category c where c.uid = $id");
 		
 		$selectCat = array();
-		$selectCat["Error"] = "-----";
-		
+		$selectCat[""] = "-----";
+		$currentCategory = array();
 		foreach($categories as $cat) {
 				$selectCat[$cat->name] = $cat->name;
+				array_push($currentCategory, $cat->name);
 		}
 
 		// default value
@@ -37,12 +38,18 @@ class VisController extends BaseController {
 		$startRange = date('Y-m-d 00:00:00', $startDT);
 		$endRange = date('Y-m-d 23:59:59', $endDT);
 
+		if(Input::get('category') !== "") {
+			$currentCategory = array();
+			array_push($currentCategory, Input::get('category'));
+		}
+
 		$table_rows = DB::table('log_entry')
 				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
 				->select('LID','log_entry.CID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
 				->where('log_entry.uid', '=', "$id")
 				->where('startDateTime', '>=', $startRange)
 				->where('endDateTime', '<=', $endRange)
+				->wherein('log_category.name', $currentCategory)
 				->orderBy('startDateTime','ASC')
 				->get();
 
@@ -52,6 +59,7 @@ class VisController extends BaseController {
 				->where('log_entry.uid', '=', $id)
 				->where('startDateTime', '>=', $startRange)
 				->where('endDateTime', '<=', $endRange)
+				->wherein('log_category.name', $currentCategory)
 				->groupBy('log_entry.CID')
 				->groupBy(DB::RAW("YEAR(startDateTime)"))
 				->groupBy(DB::RAW("MONTH(startDateTime)"))

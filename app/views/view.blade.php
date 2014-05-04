@@ -7,6 +7,7 @@
 
 	<div class="well">
 		{{ Form::open(array('url' => 'log/view', 'method' => 'get', 'role' => 'form', 'class' => 'form-horizontal', 'id' => 'chart_options')) }}
+		{{ Form::select('category', $categories); }}
 		<div class="daterange pull-right" id="daterange"><i class="fa fa-calendar"></i> <span>{{ date('F d, Y', $startDT) }} - {{ date('F d, Y', $endDT) }}</span> <i class="fa fa-caret-down"></i></div>
 		{{ Form::hidden('start', '2014-04-24', array('id' => 'daterange_start')) }}
 		{{ Form::hidden('end', '2014-04-30', array('id' => 'daterange_end')) }}
@@ -37,11 +38,6 @@
 	</div>
 
 	<div id="mainChart" style="width:100%;height:400px"></div>
-
-	{{ Form::open(array('url' => 'log/view', 'method' => 'get', 'role' => 'form', 'class' => 'form-horizontal')) }}
-	{{ Form::select('category', $categories); }}
-	{{ Form::submit('Submit',['class'=>'btn btn-default']) }}
-	{{ Form::close() }}
 
 	<select name="time" id="time" onchange="setData()">
 		<option value="1">Days</option>
