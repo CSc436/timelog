@@ -139,7 +139,9 @@
 			<th> End Date </th>
 			<th> Duration </th>
 			<th> Category </th>
+			<th> Rating </th>
 			<th> Notes </th>
+			<th> Make Changes </th>
 		</tr>
 
 	<?php
