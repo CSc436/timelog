@@ -17,6 +17,7 @@
 	<script src="{{ URL::asset('js/jquery-2.1.0.min.js') }}"></script>
 	<script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
 	<script src="{{ URL::asset('js/main.js') }}"></script>
+	<script src="{{ URL::asset('js/sundial-api.js') }}"></script>
 	@yield('header')
 </head>
 <body>
@@ -36,7 +37,6 @@
 					<li <?php if ($active == "addlog") echo"class=active" ?>><a href="/log/add">Add Logs</a></li>
 					<li <?php if ($active == "viewCat") echo"class=active" ?>><a href="/log/viewCategory">View Category</a></li>
 					<li <?php if ($active == "category") echo"class=active" ?>><a href="/log/addCategory">Add a Category</a></li>
-					<li <?php if ($active == "task") echo"class=active" ?>><a href="/log/addTask">Add a Task</a></li>
 					<li <?php if ($active == "addlog_cal") echo"class=active" ?>><a href="/log/addlog_cal">Calendar</a></li>
 					<li <?php if ($active == "viewlog") echo"class=active" ?>><a href="/log/view">View Logs</a></li>
 					<!--<li <?php if ($active == "dashboard") echo"class=active" ?>><a href="/dashboard">Dashboard</a></li>-->

@@ -104,6 +104,7 @@ Route::group(array('before' => 'auth'), function(){
 	{
 		$id = Auth::user()->id;
 		$categories = DB::select("select * from log_category c where c.uid = $id");
+		//$categories = Route::get('api/api_routes');
 		return View::make('viewCategories')->with('categories', $categories);
 	});
 
@@ -155,9 +156,13 @@ Route::group(array('before' => 'auth'), function(){
 	Route::get('log/addCategory', function(){
 		return View::make('addCategory');
 	});
-	
-	Route::get('log/addTask', function(){
-		return View::make('addTask');
+
+	Route::get('log/tasks', function(){
+		return View::make('viewTasks');
+	});
+
+	Route::get('log/tasks/completed', function(){
+		return View::make('viewTasks')->with('completed', 'true');
 	});
 	//Delete User
 	Route::post('profile/delete', 'UserController@deleteUser');

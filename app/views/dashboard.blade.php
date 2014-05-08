@@ -17,8 +17,8 @@
 						<h3 class="panel-title">Quick Links</h3>
 					</div>
 					<div class="panel-body">
-						<p><a href="/log/view">View Tasks</a></p>
-						<p><a href="/tasks/completed">Completed Tasks</a></p>
+						<p><a href="/log/tasks">View Tasks</a></p>
+						<p><a href="/log/tasks/completed">Completed Tasks</a></p>
 						<p><a href="/log/view">View Data</a></p>
 						<!--<p><a href="/achievements">Achievements</a></p>-->
 						<p><a href="/addlog_cal">Create Tasks</a></p>
