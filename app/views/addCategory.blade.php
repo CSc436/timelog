@@ -45,7 +45,7 @@
 		{{ Form::label('superCategory', 'Parent Category', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			{{Form::select('superCategory', array('0' => ''), 'NULL', array('id' => 'superCategory', 'class' => 'form-control'));}}
-	    </div>
+		</div>
 	</div>
 
 	<div class="form-group">
@@ -62,40 +62,22 @@
 
 		var $cats = $("#superCategory");
 
-		window.getCategories = function(){
-			var categories;
-			$.getJSON("/api/log/categories", callBack);
-		}
-
-		function callBack(data){
-			console.log(data);
-			return
-		}
-		
-		var categories = loadCategories();
+		var categories = Sundial.initCategories();
 
 		$.each(categories, function(k, v){
 			$cats.append(new Option(v.name, v.cid));
 		});
 
-		/*
-		$.getJSON("/api/log/categories", function(data){
-			console.log(data);
-			$.each(data, function(k, v){
-				$cats.append(new Option(v.name, v.cid));
-			});
-		});*/
-
 		function initializeColorPicker(){
 			$("#colorPicker").spectrum({
-			    color: "rgb(255, 255, 255)",
-			    showPalette: true,
-			    palette: [
+				color: "rgb(255, 255, 255)",
+				showPalette: true,
+				palette: [
 					["rgb(255, 255, 255)", "rgb(221, 126, 107)", "rgb(234, 153, 153)"], 
 					["rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(202, 235, 188)"],
 					["rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)"], 
 					["rgb(180, 167, 214)", "rgb(213, 166, 189)", "rgb(235, 137, 234)"]
-			    ],
+				],
 				change: function(color) {
 					$("#newcat").css('background-color', color.toHexString());
 					$("#color").val(color.toHex());

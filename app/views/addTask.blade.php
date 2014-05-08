@@ -57,7 +57,6 @@
 			{{Form::select('superCategory', array('0' => ''), 'NULL', array('id' => 'superCategory', 'class' => 'form-control'));}}
 		</div>
 	</div>
-	  
 
 	<div class="form-group">
 		{{ Form::label('hasDuedate', 'Has Due Date', array('class' => 'col-sm-4 control-label')) }}	  
@@ -134,11 +133,10 @@
 
 		var $cats = $("#superCategory");
 
-		$.getJSON("/api/log/categories", function(data){
-			console.log(data);
-			$.each(data, function(k, v){
-				$cats.append(new Option(v.name, v.cid));
-			});
+		var categories = Sundial.initCategories();
+
+		$.each(categories, function(k, v){
+			$cats.append(new Option(v.name, v.cid));
 		});
 
 		$("#datetimepickerDue").datetimepicker({

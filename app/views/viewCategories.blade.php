@@ -11,6 +11,7 @@
 			$(".collapsible").collapsibleList();
 		});
 
+		//var categories = Sundial.initCategories();
 	</script>
 	<div class="container" id="main">
 
@@ -43,8 +44,6 @@
 					echo("</ul>\n");
 				}
 		 	}
-		
-
 		?>
 	</ul>
 	</div>

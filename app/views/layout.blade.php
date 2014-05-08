@@ -16,7 +16,7 @@
 	<script src="{{ URL::asset('js/jquery-2.1.0.min.js') }}"></script>
 	<script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
 	<script src="{{ URL::asset('js/main.js') }}"></script>
-	<!--<script src="{{ URL::asset('js/sundial-api.js') }}"></script>-->
+	<script src="{{ URL::asset('js/sundial-api.js') }}"></script>
 	@yield('header')
 </head>
 <body>
