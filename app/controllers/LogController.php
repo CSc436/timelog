@@ -361,6 +361,29 @@ class LogController extends BaseController {
 
 	}
 
+	public function editTask($catID, $modal = false){
+		// user must be logged in!
+		if(!Auth::check()){
+			return Response::make('Not Found', 404);
+		}
+
+		try{
+			$entry = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $catID)->findOrFail($catID);
+
+		}catch(ModelNotFoundException $e){
+			return Response::make('Not Found', 404);
+		}
+
+		if($modal === false){
+			//return "HERE1";
+			return View::make('addTask')->with('editThis', $entry);
+		}
+		else{
+			return View::make('editTask_modal')->with('editThis', $entry);
+		}
+
+	}	
+
 		/* The checkCatCycle Function should be called whenever any category changes it's
 	   parent category (e.g., changing a categorie's possible subcategory). This will recursively
 	   check to make sure that a category is not it's own subcategory. $inputCatID is the current category of

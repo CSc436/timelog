@@ -5,6 +5,9 @@
 	<script src="{{ URL::asset('js/spectrum.js') }}"></script>
 	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
 	<script src="{{ URL::asset('js/jquery.collapsibleList.js') }}"></script>
+	<script src="{{ URL::asset('js/jquery.raty.min.js') }}"></script>
+	<link href="{{ URL::asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet"/>
+	<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script></script>
 @stop
 @section('content')
 	
@@ -74,7 +77,7 @@
 							echo ("<td> no </td>");
 							echo ("<td> N/A </td>");
 						}
-						echo ("<td></td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entry->CID."/modal'})\">Edit</button></td></tr>");
+						echo ("<td></td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editTask/".$entry->CID."/modal'})\">Edit</button></td></tr>");
 					}
 				}
 			?>
