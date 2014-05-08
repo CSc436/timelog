@@ -20,7 +20,7 @@
 			{
 				if ($entry->isTask == 0){
 					if ($entry->PID == NULL){
-						echo ("<li>".$entry->name. "<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entry->CID."/modal'})\">Edit</button>");
+						echo ("<li>".$entry->name. " <i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entry->CID."/modal'})\"></i>");
 						subCategories($entry);
 						echo("</li>");
 					}
@@ -31,9 +31,9 @@
 				$id = Auth::user()->id;
 				$subCats = DB::select("select * from log_category c where c.pid =  $parentCategory->CID");
 				if ($subCats != NULL){
-					echo("<ul>");
+					echo("<ul>\n");
 					foreach($subCats as $sub){
-						echo ("<li>" . $sub->name. "<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$sub->CID."/modal'})\">Edit</button>");
+						echo ("<li>" . $sub->name. " <i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$sub->CID."/modal'})\"></i>");
 						subCategories($sub);
 						echo("</li>");
 					
@@ -67,7 +67,7 @@
 							echo ("<td> no </td>");
 							echo ("<td> N/A </td>");
 						}
-						echo ("<td></td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entry->CID."/modal'})\">Edit</button></td></tr>");
+						echo ("<td></td><td><i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entry->CID."/modal'})\"></i></td></tr>");
 					}
 				}
 			?>

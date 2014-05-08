@@ -17,6 +17,9 @@
 			if($this.children("ul").length > 0) {
 				$this.addClass("collapsibleListClosed")
 			}
+			
+			//$this.addClass("collapsibleList");
+
 			$this.children("ul")
 				.addClass("collapsibleList")
 				.children("li")
