@@ -157,10 +157,6 @@ Route::group(array('before' => 'auth'), function(){
 		return View::make('addCategory');
 	});
 
-	Route::get('log/addTask', function(){
-		return View::make('addTask');
-	});
-
 	Route::get('log/tasks', function(){
 		return View::make('viewTasks');
 	});
