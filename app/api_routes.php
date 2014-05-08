@@ -49,12 +49,13 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 	});
 
 	//Gets the list of tasks overdue
-	Route::get('log/tasks/completed', function()
+	Route::get('log/tasks/overdue', function()
 	{
 		$data = DB::table('log_category')
 			->select('cid', 'name')
 			->where('uid', '=', Auth::user()->id)
 			->where('isTask', '=', '1')
+			->where('isCompleted', '=', '0')
 			->where( 'deadline', '<', DATE(UTC_TIMESTAMP()) )
 			->get();
 		return $data;
