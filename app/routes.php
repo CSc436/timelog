@@ -10,7 +10,7 @@ Route::any('/', 'PagesController@Index');
 Route::get('about', 'PagesController@About');
 Route::get('contact', 'PagesController@Contact');
 Route::get('login', 'PagesController@Login');
-Route::get('logout', 'PagesController@LogOut');
+Route::get('logout', array('as' => 'logout', 'uses' => 'PagesController@LogOut'));
 Route::get('privacy', 'PagesController@PrivacyPolicy');
 Route::get('terms', 'PagesController@TermsOfService');
 
@@ -37,10 +37,10 @@ Route::group(array('before' => 'auth'), function(){
 
 	// ---- User personal pages -----
 
-	Route::get('profile', function()
+	Route::get('profile', array('as' => 'profile', function()
 	{
 		return View::make('profile')->with('active', 'profile');
-	});
+	}));
 
 	// ---- Dashboard -----
 	Route::get('dashboard', function()
@@ -159,5 +159,7 @@ Route::group(array('before' => 'auth'), function(){
 	Route::get('log/addTask', function(){
 		return View::make('addTask');
 	});
+	//Delete User
+	Route::post('profile/delete', 'UserController@deleteUser');
 });
 
