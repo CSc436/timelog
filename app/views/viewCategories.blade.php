@@ -6,12 +6,9 @@
 @section('content')
 	
 	<script type = "text/javascript">
-
 		$(function(){
 			$(".collapsible").collapsibleList();
 		});
-
-		//var categories = Sundial.initCategories();
 	</script>
 	<div class="container" id="main">
 

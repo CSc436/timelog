@@ -1,15 +1,18 @@
 @extends('layout')
 @section('header')
-	<link href="{{ URL::asset('css/jquery.collapsibleList.css') }}" rel="stylesheet"/>
-	<script src="{{ URL::asset('js/jquery.collapsibleList.js') }}"></script>
+	<!--<link href="{{ URL::asset('css/jquery.collapsibleList.css') }}" rel="stylesheet"/>-->
+	<!--<script src="{{ URL::asset('js/jquery.collapsibleList.js') }}"></script>-->
+	<script type="{{ URL::asset('js/CollapsibleLists.compressed.js') }}"></script>
 @stop
 @section('content')
 	
 	<script type = "text/javascript">
+		
+		CollapsibleLists.applyTo( $(".collapsible") );
 
-		$(function(){
+		/*$(function(){
 			$(".collapsible").collapsibleList();
-		});
+		});*/
 
 	</script>
 	<div class="container" id="main">

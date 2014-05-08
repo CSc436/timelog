@@ -61,7 +61,7 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 	});
 
 	//Gets the list of tasks
-	Route::get('log/categories', function()
+	Route::get('log/tasks', function()
 	{
 		$data = DB::table('log_category')
 			->select('cid', 'name')

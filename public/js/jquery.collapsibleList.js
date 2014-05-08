@@ -27,7 +27,7 @@
 				//Prevents selection of text on subsequent clicks
 				e.preventDefault();
 			})
-			.dblclick(function(e){
+			.click(function(e){
 				//Prevents clicks from activating parent lis
 				e.stopPropagation();
 				if($(this).children("ul").length > 0) {
