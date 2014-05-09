@@ -10,7 +10,7 @@ Route::any('/', 'PagesController@Index');
 Route::get('about', 'PagesController@About');
 Route::get('contact', 'PagesController@Contact');
 Route::get('login', 'PagesController@Login');
-Route::get('logout', 'PagesController@LogOut');
+Route::get('logout', array('as' => 'logout', 'uses' => 'PagesController@LogOut'));
 Route::get('privacy', 'PagesController@PrivacyPolicy');
 Route::get('terms', 'PagesController@TermsOfService');
 
@@ -37,10 +37,10 @@ Route::group(array('before' => 'auth'), function(){
 
 	// ---- User personal pages -----
 
-	Route::get('profile', function()
+	Route::get('profile', array('as' => 'profile', function()
 	{
 		return View::make('profile')->with('active', 'profile');
-	});
+	}));
 
 	// ---- Dashboard -----
 	Route::get('dashboard', function()
@@ -104,6 +104,7 @@ Route::group(array('before' => 'auth'), function(){
 	{
 		$id = Auth::user()->id;
 		$categories = DB::select("select * from log_category c where c.uid = $id");
+		//$categories = Route::get('api/api_routes');
 		return View::make('viewCategories')->with('categories', $categories);
 	});
 
@@ -159,12 +160,24 @@ Route::group(array('before' => 'auth'), function(){
 	});
 
 	Route::post('log/saveCat{id?}','logController@saveCategory')->where('id', '[0-9]+');
-		Route::get('log/editCat/{catID}/modal', function($catID){return (new LogController)->editCat($catID, true);})->where('catID', '[0-9]+');
-		Route::post('log/updateCat/{catID?}', 'logController@updateCategory')->where('catID', '[0-9]+');
-		//Route::get('log/edit/{id}', 'LogController@editCat')->where('id', '[0-9]+');
+
+	Route::get('log/editCat/{catID}/modal', function($catID){return (new LogController)->editCat($catID, true);})->where('catID', '[0-9]+');
+	Route::post('log/updateCat/{catID?}', 'logController@updateCategory')->where('catID', '[0-9]+');
+	//Route::get('log/edit/{id}', 'LogController@editCat')->where('id', '[0-9]+');
 
 	Route::get('log/addCategory', function(){
-			return View::make('addCategory');
+		return View::make('addCategory');
 	});
+
+	Route::get('log/tasks', function(){
+		return View::make('viewTasks');
+	});
+
+	Route::get('log/tasks/completed', function(){
+		return View::make('viewTasks')->with('completed', 'true');
+	});
+	
+	//Delete User
+	Route::post('profile/delete', 'UserController@deleteUser');
 });
 

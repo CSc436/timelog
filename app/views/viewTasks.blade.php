@@ -1,26 +1,31 @@
 @extends('layout')
 @section('header')
-	<link href="{{ URL::asset('css/jquery.collapsibleList.css') }}" rel="stylesheet"/>
-	<script src="{{ URL::asset('js/jquery.collapsibleList.js') }}"></script>
+	<!--<link href="{{ URL::asset('css/jquery.collapsibleList.css') }}" rel="stylesheet"/>-->
+	<!--<script src="{{ URL::asset('js/jquery.collapsibleList.js') }}"></script>-->
+	<script type="{{ URL::asset('js/CollapsibleLists.compressed.js') }}"></script>
 @stop
 @section('content')
 	
 	<script type = "text/javascript">
-		$(function(){
+		
+		CollapsibleLists.applyTo( $(".collapsible") );
+
+		/*$(function(){
 			$(".collapsible").collapsibleList();
-		});
+		});*/
+
 	</script>
 	<div class="container" id="main">
 
 	<h2 class="title">Categories</h2>
 	<div name="category" id="category">
-	<ul class="collapsible collapsibleList" >
+	<ul class="collapsible" >
 		<?php
 			foreach ($categories as $entry)
 			{
 				if ($entry->isTask == 0){
 					if ($entry->PID == NULL){
-						echo ("<li>".$entry->name. " <i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entry->CID."/modal'})\"></i>");
+						echo ("<li>".$entry->name. "<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entry->CID."/modal'})\">Edit</button>");
 						subCategories($entry);
 						echo("</li>");
 					}
@@ -31,9 +36,9 @@
 				$id = Auth::user()->id;
 				$subCats = DB::select("select * from log_category c where c.pid =  $parentCategory->CID");
 				if ($subCats != NULL){
-					echo("<ul>\n");
+					echo("<ul>");
 					foreach($subCats as $sub){
-						echo ("<li>" . $sub->name. " <i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$sub->CID."/modal'})\"></i>");
+						echo ("<li>" . $sub->name. "<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$sub->CID."/modal'})\">Edit</button>");
 						subCategories($sub);
 						echo("</li>");
 					
@@ -41,6 +46,8 @@
 					echo("</ul>\n");
 				}
 		 	}
+		
+
 		?>
 	</ul>
 	</div>
@@ -67,7 +74,7 @@
 							echo ("<td> no </td>");
 							echo ("<td> N/A </td>");
 						}
-						echo ("<td></td><td><i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entry->CID."/modal'})\"></i></td></tr>");
+						echo ("<td></td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entry->CID."/modal'})\">Edit</button></td></tr>");
 					}
 				}
 			?>

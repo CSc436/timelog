@@ -7,7 +7,7 @@
 
 Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 
-
+	//Gets all entries from the category with id cid. Since cid is unique between all users, no need to authentical user
 	Route::get('log/category/{cid}', function($cid)
 	{
 		// $data = DB::select("select DATE_FORMAT(startDateTime,'%m-%d-%y') as label, duration as value from log_entry where cid = $cid order by label asc, duration desc");
@@ -42,11 +42,14 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 	});
 
 	// Returns all the categories for the current logged in user
+
+	//Gets the list of categories
 	Route::get('log/categories', function()
 	{
 		$data = DB::table('log_category')->select('cid', 'name')->where('uid', '=', Auth::user()->id)->get();
 		return $data;
 	});
+
 
 	// Returns a HTML view for the modal to add log entry
 	Route::get('log/edit/modal', function()
@@ -55,6 +58,29 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 	});
 
 	Route::post('log/save/{id?}', 'LogController@saveEntryFromCalendar')->where('id', '[0-9]+');
+	
+	//Gets the list of tasks overdue
+	Route::get('log/tasks/completed', function()
+	{
+		$data = DB::table('log_category')
+			->select('cid', 'name')
+			->where('uid', '=', Auth::user()->id)
+			->where('isTask', '=', '1')
+			->where( 'deadline', '<', DATE(UTC_TIMESTAMP()) )
+			->get();
+		return $data;
+	});
+
+	//Gets the list of tasks
+	Route::get('log/tasks', function()
+	{
+		$data = DB::table('log_category')
+			->select('cid', 'name')
+			->where('uid', '=', Auth::user()->id)
+			->where('isTask', '=', '1')
+			->get();
+		return $data;
+	});
 
 });
 

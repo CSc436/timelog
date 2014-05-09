@@ -5,7 +5,12 @@ class PagesController extends BaseController {
 	// Home page
 	public function Index()
 	{
-		return View::make('index')->with('active', 'home');
+		if (Auth::check())
+		{
+			return Redirect::to('dashboard');
+		} else {
+			return View::make('index')->with('active', 'home');
+		}
 	}
 
 
@@ -14,7 +19,7 @@ class PagesController extends BaseController {
 	{
 		if (Auth::check())
 		{
-			return Redirect::to('/');
+			return Redirect::to('dashboard');
 		} else {
 			return View::make('login')->with(array('active'=> 'login', 'failed'=> false));
 		}

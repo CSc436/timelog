@@ -48,9 +48,21 @@ class LogController extends BaseController {
 			return Utils::validateName($value);
 		});
 		
+		/* 
+		* A valid color is a hexadecimal string of six characters without the # sign, no more,
+		* no less.
+		*/
 		Validator::extend('valid_color', function($attribute, $value, $parameters)
 		{
 			return Utils::validateColor($value);
+		});
+
+		/* 
+		* A valid rating is a char between 1 and 3, no more, no less.
+		*/
+		Validator::extend('valid_rating', function($attribute, $value, $parameters)
+		{
+			return Utils::validateRating($value);
 		});
 		/*
 		* A valid name consists of print characters and spaces, not including slashes (\ nor /).
@@ -71,17 +83,20 @@ class LogController extends BaseController {
 
 		// validate
 		$validator = Validator::make(Input::all(), array(
-			'category' => 'integer|valid_category',
-			'newcat' => 'valid_name',
-			'startDateTime' => 'required|date',
-			'endDateTime' => 'required|date|after_start:startDateTime',
-			'color' => 'valid_color'
+
+				'category' => 'integer|valid_category',
+				'newcat' => 'valid_name',
+				'startDateTime' => 'required|date',
+				'endDateTime' => 'required|date|after_start:startDateTime',
+				'color' => 'valid_color',
+				'rating' => 'valid_rating'
 			),
-		array(
-			'after_start' => 'End date-time must be after start date-time.',
-			'valid_category' => 'The category you selected was not valid. Please select a different.',
-			'valid_name' => 'Your new category name cannot have slash characters (i.e. \'/\' and \'\\\') and must be at least 1 non-white-space character long',
-			'valid_color' => 'You have used an invalid color scheme'
+			array(
+				'after_start' => 'End date-time must be after start date-time.',
+				'valid_category' => 'The category you selected was not valid. Please select a different.',
+				'valid_name' => 'Your new category name cannot have slash characters (i.e. \'/\' and \'\\\') and must be at least 1 non-white-space character long',
+				'valid_color' => 'You have used an invalid color scheme',
+				'valid_rating' => 'Your rating is invalid... Whoa, How did you manage to do that?'
 			)
 		);
 
@@ -130,6 +145,7 @@ class LogController extends BaseController {
 			}
 
 			$colorstr = Input::get('color');
+			//$rating = Input::get('rating');
 			$newcatstr = trim(Input::get('newcat'));
 
 			if($newcatstr != ''){
@@ -142,6 +158,7 @@ class LogController extends BaseController {
 					$newcat->PID = $cid;
 					$newcat->name = $newcatstr;
 					$newcat->color = $colorstr;
+					//$newcat->rating = $rating;
 					$newcat->save();
 					$cid = $newcat->CID;
 				}
@@ -272,45 +289,41 @@ class LogController extends BaseController {
 		$validator = $this->validateCategory(); // validate input from Input::all()
 		
 		if ($validator->passes()) {
-
 			// validation has passed, save category in DB
 			$catEntry->UID = Auth::user()->id;
 			$catEntry->name = Input::get('categoryName');
-
-
-
 			$testName = DB::select("select * from log_category c where c.name ='" . "$catEntry->name' AND c.uid = '" . "$catEntry->UID'");
 			if ($testName != NULL){
 				Input::flash();
 				return Redirect::to('log/addCategory')->with('message','Category name already taken')->withErrors($validator);
 			}
-
 			
+			//Setup PID
 			$superCategory = Input::get('superCategory');
+			$catEntry->PID = DB::table('log_category')->where('CID',$superCategory)->where('UID',Auth::user()->id)->pluck('CID');
+			//die(print_r($_POST));
 
-			$catEntry->PID = DB::table('log_category')->where('name',$superCategory)->where('UID',Auth::user()->id)->pluck('CID');
-			
-			$catEntry->deadline = Input::get('taskDeadline');
+			$catEntry->color = Input::get('color');
+			$catEntry->isTask = Input::get('isTask');
 
-			if ($catEntry->deadline == NULL)
-				$catEntry->isTask = 0;
-			else
-				$catEntry->isTask = 1;
+			$catEntry->isCompleted = Input::get('isCompleted');
+			$duedate = Input::get('hasDuedate');
 
-			$star = Input::get('starRating');
-
-			if(!$catEntry->isTask == 1){
+			if($catEntry->isTask == '0'){
 				$catEntry->isTask = 0;
 				$catEntry->isCompleted = 0;
 				$catEntry->rating = 0;
-			}
-			else {
-				$catEntry->rating= $star;
-				if ($star == 0) {
-					$catEntry->isCompleted = 0;
+			}else {
+				if ($catEntry->isCompleted == 0) {
+					$catEntry->rating = 0;
+				}else {
+					$catEntry->rating = Input::get('starRating');
 				}
-				else {
-					$catEntry->isCompleted = 1;
+				
+				if ($duedate == 0) {
+					$catEntry->deadline = NULL;
+				}else {
+					$catEntry->deadline = Input::get('dueDateTime');
 				}
 			}
 
@@ -321,7 +334,11 @@ class LogController extends BaseController {
 		} else if($id == null) {
 			// validation has failed, display error messages
 			Input::flash();
-			return Redirect::to('log/addCategory')->withErrors($validator);
+			if(Input::get('isTask') == '0'){
+				return Redirect::to('log/addCategory')->withErrors($validator);
+			}else{
+				return Redirect::to('log/addTask')->withErrors($validator);
+			}
 		}else{
 			// validation has failed, display error messages
 			Input::flash();
