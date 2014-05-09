@@ -425,7 +425,6 @@ class LogController extends BaseController {
 
 			}
 
-
 			$entry->deadline = Input::get('taskDeadline');
 
 			if ($entry->deadline == NULL)
@@ -450,18 +449,7 @@ class LogController extends BaseController {
 				}
 			}
 
-			//$updateThis = DB::table('log_category')->where('CID', '=', $catID);
 			$updateThis = LogCategory::find($entry->CID);
-
-
-
-			/*$updateThis->update(array('PID' =>$entry->PID,
-									  'name' =>$entry->name,
-									  'color' =>$entry->color,
-									  'isTask' =>$entry->isTask,
-									  'deadline' =>$entry->deadline,
-									  'isCompleted' =>$entry->isCompleted,
-									  'rating' =>$entry->rating));*/
 
 			$updateThis->PID = $entry->PID;
 			$updateThis->name = $entry->name;
@@ -471,8 +459,9 @@ class LogController extends BaseController {
 			$updateThis->isCompleted = $entry->isCompleted;
 			$updateThis->rating = $entry->rating;
 			$updateThis->save();
-
+			
 			return Redirect::to('log/viewCategory');
+
 		} else if($catID == null) {
 			// validation has failed, display error messages
 			Input::flash();
@@ -483,5 +472,5 @@ class LogController extends BaseController {
 			return Redirect::to('log/editCat/'.$catID.'/modal')->withErrors($validator);
 		}
 
-		}
+	}
 }
