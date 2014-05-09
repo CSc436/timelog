@@ -41,10 +41,18 @@
 				if ($subCats != NULL){
 					echo("<ul>");
 					foreach($subCats as $sub){
-						echo ("<li>" . $sub->name. "<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$sub->CID."/modal'})\">Edit</button>");
-						subCategories($sub);
-						echo("</li>");
-					
+
+						if ($sub->isTask == 0){
+							echo ("<li>".$sub->name. "<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$sub->CID."/modal'})\">Edit</button>");
+							subCategories($sub);
+							echo("</li>");
+						}
+
+						else{
+							echo ("<li>" . $sub->name. "<button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/editTask/".$sub->CID."/modal'})\">Edit</button>");
+							subCategories($sub);
+							echo("</li>");
+						}
 					}
 					echo("</ul>\n");
 				}

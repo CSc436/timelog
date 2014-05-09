@@ -463,13 +463,7 @@ class LogController extends BaseController {
 				$entry->color = Input::get('color');
 			}
 
-			$entry->deadline = Input::get('taskDeadline');
-
-			if ($entry->deadline == NULL)
-				$entry->isTask = 0;
-			else
-				$entry->isTask = 1;
-
+			$entry->isTask = Input::get('isTask');
 			$star = Input::get('starRating');
 
 			if(!$entry->isTask == 1){
@@ -479,6 +473,7 @@ class LogController extends BaseController {
 			}
 			else {
 				$entry->rating= $star;
+				$entry->deadline = Input::get('dueDateTime');
 				if ($star == 0) {
 					$entry->isCompleted = 0;
 				}
@@ -489,25 +484,15 @@ class LogController extends BaseController {
 
 			//$updateThis = DB::table('log_category')->where('CID', '=', $catID);
 			$updateThis = LogCategory::find($entry->CID);
-
-
-
-			/*$updateThis->update(array('PID' =>$entry->PID,
-									  'name' =>$entry->name,
-									  'color' =>$entry->color,
-									  'isTask' =>$entry->isTask,
-									  'deadline' =>$entry->deadline,
-									  'isCompleted' =>$entry->isCompleted,
-									  'rating' =>$entry->rating));*/
 			
 			$updateThis->CID = $entry->CID;
 			$updateThis->PID = $entry->PID;
 			$updateThis->name = $entry->name;
 			$updateThis->color = $entry->color;
-			//$updateThis->isTask = $entry->isTask;
-			//$updateThis->deadline = $entry->deadline;
-			//$updateThis->isCompleted = $entry->isCompleted;
-			//$updateThis->rating = $entry->rating;
+			$updateThis->isTask = $entry->isTask;
+			$updateThis->deadline = $entry->deadline;
+			$updateThis->isCompleted = $entry->isCompleted;
+			$updateThis->rating = $entry->rating;
 			$updateThis->save();
 
 			return Redirect::to('log/viewCategory');

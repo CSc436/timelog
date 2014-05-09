@@ -103,10 +103,7 @@
 				}
 			});
 
-/*			var defaultColor = "ffffff";
-			$("#color").val(defaultColor);
-			$("#newcat").css('background-color', "#" + defaultColor);
-*/		}
+		}
 
 		initializeColorPicker();
 	});

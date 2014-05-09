@@ -45,12 +45,12 @@
 		{{ Form::label('categoryName', 'Task Name', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group">
-				{{ Form::text('categoryName', '', array('id' => 'newcat', 'class' => 'form-control', 'style' => "background-color: #$editThis->color", 'placeholder' => "$editThis->name")) }}
+				{{ Form::text('categoryName', "$editThis->name", array('id' => 'newcat', 'style' => "background-color: #$editThis->color", 'class' => 'form-control')) }}
 
 				<span class="input-group-btn">
 					<button id="colorPicker" class="btn btn-default" type="button"><span id="colorPickerIcon" class="fa fa-tint"></span></button>
 				</span>
-				{{ Form::hidden('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => 'FFFFFF')) }}
+				{{ Form::hidden('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => "$editThis->color")) }}
 			</div>
 		</div>
 	</div>
@@ -58,7 +58,7 @@
 	<div class="form-group">
 		{{ Form::label('superCategory', 'Parent Category', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
-			{{Form::select('superCategory', array('0' => ''), 'NULL', array('id' => 'superCategory', 'class' => 'form-control'));}}
+			{{ Form::select('superCategory', array('0' => ''), 'null',  array('id' => 'superCategory', 'class' => 'form-control'));}}
 		</div>
 	</div>
 	  
@@ -76,7 +76,7 @@
 			<div class="input-group date">
 
 					<span id='datetimepickerDue'>
-						{{ Form::text('dueDateTime', null, array('class' => 'form-control')) }}
+						{{ Form::text('dueDateTime', "$editThis->deadline", array('class' => 'form-control')) }}
 					</span>
 
 					<span class="input-group-btn">
@@ -122,9 +122,19 @@
 			$("#dueDateTime").val(databaseDueTimeStirng);
 		});
 
+		if($("#dueDateTime").val() != null)
+			var formTimeString = convertToSiteTime($("#dueDateTime").val());
+			$("#dueDateTime").val(formTimeString);
+
 		function convertToDatabaseTime(usTime){
 			console.log(usTime);
 			return moment(usTime, 'MM/DD/YYYY hh:mm A').format("YYYY-MM-DD HH:mm");
+		}
+
+		function convertToSiteTime(dbTime){
+			console.log(dbTime);
+			console.log(moment(dbTime, 'YYYY-MM-DD hh:mm').format("MM/DD/YYYY hh:mm A"));
+			return moment(dbTime, 'YYYY-MM-DD hh:mm').format("MM/DD/YYYY hh:mm A");
 		}
 
 		$("#star-form").toggle($('#isCompleted').checked);
@@ -148,6 +158,9 @@
 			});
 			
 		});
+
+		var defaultSuperCategory = "<?php echo $editThis->PID; ?>";
+		$('#superCategory[value="' + defaultSuperCategory + '"]').prop('selected', true);
 
 		$("#datetimepickerDue").datetimepicker({
 			language: 'en'
@@ -185,10 +198,6 @@
 					$("#color").val(color.toHex());
 				}
 			});
-
-			var defaultColor = "ffffff";
-			$("#color").val(defaultColor);
-			$("#newcat").css('background-color', "#" + defaultColor);
 		}
 	
 		initializeColorPicker();
