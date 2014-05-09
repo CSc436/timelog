@@ -39,12 +39,6 @@
 
 	<div id="mainChart" style="width:100%;height:400px"></div>
 
-	<select name="time" id="time" onchange="setData()">
-		<option value="1">Days</option>
-		<option value="2">Months</option>
-		<option value="3">Years</option>
-	</select>
-
 	<div class="table-responsive"><table class="table table-striped table-condensed table-hover">
 		<tr>
 			<th> Name </th>
