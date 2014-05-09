@@ -49,7 +49,7 @@ $(function() {
 			});
 		}
 
-		SundialCalendar.calendar.fullCalendar('refetchEvents');
+		// SundialCalendar.calendar.fullCalendar('refetchEvents');
 
 	});
 
@@ -104,8 +104,6 @@ $(function() {
 			}
 		}
 	});
-
-	console.log('poop');
 
 	$(document).on("submit", "#thisModal form", function(event) {
 		submitEvent();
