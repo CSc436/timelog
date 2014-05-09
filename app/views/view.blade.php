@@ -7,10 +7,10 @@
 
 	<div class="well">
 		{{ Form::open(array('url' => 'log/view', 'method' => 'get', 'role' => 'form', 'class' => 'form-horizontal', 'id' => 'chart_options')) }}
-		{{ Form::select('category', $categories); }}
+		{{ Form::select('category', array(""=>"All Categories")+$categories, Input::get('category'), array('onchange' => "$('#chart_options').submit()")); }}
 		<div class="daterange pull-right" id="daterange"><i class="fa fa-calendar"></i> <span>{{ date('F d, Y', $startDT) }} - {{ date('F d, Y', $endDT) }}</span> <i class="fa fa-caret-down"></i></div>
-		{{ Form::hidden('start', '2014-04-24', array('id' => 'daterange_start')) }}
-		{{ Form::hidden('end', '2014-04-30', array('id' => 'daterange_end')) }}
+		{{ Form::hidden('start', date('Y-m-d', $startDT), array('id' => 'daterange_start')) }}
+		{{ Form::hidden('end', date('Y-m-d', $endDT), array('id' => 'daterange_end')) }}
 
 		<script type="text/javascript">
 			$(document).ready(function() {

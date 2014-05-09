@@ -51,7 +51,6 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 		$data = DB::table('log_category')->select('cid', 'name')->where('uid', '=', Auth::user()->id)->get();
 		return $data;
 	});
-
 });
 
 ?>
