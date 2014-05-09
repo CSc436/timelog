@@ -20,7 +20,7 @@
 						<p><a href="/log/tasks">View Tasks</a></p>
 						<p><a href="/log/tasks/completed">Completed Tasks</a></p>
 						<p><a href="/log/view">View Data</a></p>
-						<p><a href="/achievements">Achievements</a></p>
+						<!--<p><a href="/achievements">Achievements</a></p>-->
 						<p><a href="/addlog_cal">Create Tasks</a></p>
 					</div>
 				</div>
@@ -54,7 +54,7 @@
 				</div>
 			</div>
 
-			<div id="achievements" class="panel panel-info">
+			<!--<div id="achievements" class="panel panel-info">
 				<div class="panel-heading">
 					<h3 class="panel-title">Achievements</h3>
 				</div>
@@ -62,14 +62,14 @@
 					<i class="achievement fa fa-trophy fa-4"></i>
 					Congrats! You are like the most productive person in the world.
 				</div>
-			</div>
+			</div>-->
 
 		</div>
 
-		<!-- Trends column -->
+		<!-- Trends column
 		<div id="trends" class="box col-md-6">
 			
-		</div>
+		</div>-->
 
 	</div>
 

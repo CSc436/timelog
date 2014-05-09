@@ -26,9 +26,9 @@
 				</div>
 
 				<div class="col-md-4">
-					<h2><i class="fa fa-star"></i> Achievements</h2>
+					<!--<h2><i class="fa fa-star"></i> Achievements</h2>
 					<p>In order to motivate you to complete your tasks on time and be productive, we offer achievement points and medals
-						upon completion of a challenging task.</p>
+						upon completion of a challenging task.</p>-->
 				</div>
 
 				<div class="col-md-4">
@@ -36,10 +36,10 @@
 					<p>Time Log runs in all modern web browsers which means you don't need to worry about installing additional software to run it.</p>
 				</div>
 
-				<div class="col-md-4">
+				<!--<div class="col-md-4">
 					<h2><i class="fa fa-dollar"></i> Pricing</h2>
 					<p>All the core features offered by Time Log are free. However, if you need more features, you can upgrade to Time Log Pro for just $7 per month. 10% of $7 that you spend monthly goes to a non-profit charity organiation.</p>
-				</div>
+				</div>-->
 
 			</div>
 		</div>

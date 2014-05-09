@@ -104,5 +104,20 @@ class UserController extends Controller {
 		$users = User::all();
 		return View::make('users')->with('users', $users);
 	}
+	
+	public function deleteUser(){
+	
+		$user = Auth::user();
+		
+		$credentials = array("email" => $user->email, "password" => Input::get("password"));
+		if(!Auth::once($credentials)){
+			return Redirect::to('profile')->with('err', array("Invalid Password! Could not authenticate!"));
+		}
+		
+		
+		$user_to_delete = User::find($user->id);
+		$user_to_delete->delete();
+		return Redirect::route('logout');
+	}
 
 }
