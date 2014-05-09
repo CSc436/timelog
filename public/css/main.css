@@ -152,6 +152,7 @@ footer .social i:hover{
 	text-align: center;
 	color: #1485c3;
 }
+
 .navbar-default {
 /* IE10 Consumer Preview */ 
 background-image: -ms-linear-gradient(left, #FFCC00 0%, #0C5AA6 100%);
@@ -182,4 +183,14 @@ background-image: linear-gradient(to right, #FFCC00 0%, #0C5AA6 100%);
 }
 .col-md-4 h2{
 	color: #f4645f;
+}
+
+/* Visualization Page */
+
+#daterange {
+	background:white;
+	border:1px solid #999;
+	cursor: pointer;
+	padding:4px 8px;
+	font-size:16px;
 }
