@@ -2,6 +2,7 @@
 @section('header')
 	<link href="{{ URL::asset('css/jquery.collapsibleList.css') }}" rel="stylesheet"/>
 	<script src="{{ URL::asset('js/jquery.collapsibleList.js') }}"></script>
+	<script src="{{ URL::asset('js/sorttable.js') }}"></script>
 @stop
 @section('content')
 	
@@ -20,7 +21,7 @@
 			{
 				if ($entry->isTask == 0){
 					if ($entry->PID == NULL){
-						echo ("<li>".$entry->name. " <i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entry->CID."/modal'})\"></i>");
+						echo ("<li>".$entry->name . " <i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entry->CID."/modal'})\"></i>");
 						subCategories($entry);
 						echo("</li>");
 					}
@@ -33,7 +34,7 @@
 				if ($subCats != NULL){
 					echo("<ul>\n");
 					foreach($subCats as $sub){
-						echo ("<li>" . $sub->name. " <i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$sub->CID."/modal'})\"></i>");
+						echo ("<li>" . $sub->name . " <i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$sub->CID."/modal'})\"></i>");
 						subCategories($sub);
 						echo("</li>");
 					
@@ -44,9 +45,9 @@
 		?>
 	</ul>
 	</div>
-	<h2 class="title"> Tasks </h2>
+	<h2 class="title"> Overdue Tasks </h2>
 	<div name="tasks" id="tasks">
-		<table class="sortable">
+		<table class="sortable table table-striped table-hover table-condensed">
 			<tr>
 				<th> TaskName  </th>
 				<th> Deadline  </th>
@@ -56,7 +57,7 @@
 			<?php
 				foreach ($categories as $entry)
 				{
-					if ($entry->isTask == 1) {
+					if ($entry->isTask == 1 && $entry->isCompleted ==0 && $entry->deadline <= new DateTime ) {
 						echo ("<tr><td>".$entry->name."</td>");
 						echo ("<td>". $entry->deadline ."</td>");
 						if ($entry->isCompleted == 1){
