@@ -118,6 +118,16 @@ Route::group(array('before' => 'auth'), function(){
 		return View::make('addlog_cal')->with('active', 'addlog_cal');
 	});
 
+	// Return a single log
+	
+	/* Route::get('log/{id}', function($id)
+	{
+		$user_id = Auth::user()->id;
+		$log = LogEntry::where(array('uid' => $user_id, 'lid' => $id));
+		return $log;
+
+	})->where('id', '[0-9]+'); */
+
 	//Route::post('log/add_call', 'LogController@saveEntryFromAddPage');
 	
 	//Add an event from the calendar interface
@@ -128,6 +138,7 @@ Route::group(array('before' => 'auth'), function(){
 	//Route::post('log/save/{id?}/{getPage?}', 'LogController@saveEntry')->where('id', '[0-9]+')->where('getPage', 'false');
 	
 	Route::post('log/save/{id?}', 'LogController@saveEntryFromAddPage')->where('id', '[0-9]+');
+	
 	Route::get('log/edit/{id}', 'LogController@editEntry')->where('id', '[0-9]+');
 	Route::get('log/edit/{id}/modal', function($id){return (new LogController)->editEntry($id, true);})->where('id', '[0-9]+');
 
@@ -149,6 +160,7 @@ Route::group(array('before' => 'auth'), function(){
 	});
 
 	Route::post('log/saveCat{id?}','logController@saveCategory')->where('id', '[0-9]+');
+
 	Route::get('log/editCat/{catID}/modal', function($catID){return (new LogController)->editCat($catID, true);})->where('catID', '[0-9]+');
 	Route::post('log/updateCat/{catID?}', 'logController@updateCategory')->where('catID', '[0-9]+');
 	//Route::get('log/edit/{id}', 'LogController@editCat')->where('id', '[0-9]+');
@@ -164,6 +176,7 @@ Route::group(array('before' => 'auth'), function(){
 	Route::get('log/tasks/completed', function(){
 		return View::make('viewTasks')->with('completed', 'true');
 	});
+	
 	//Delete User
 	Route::post('profile/delete', 'UserController@deleteUser');
 });

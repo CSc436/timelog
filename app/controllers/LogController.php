@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LogController extends BaseController {
@@ -79,9 +80,10 @@ class LogController extends BaseController {
 			}
 			return true;
 		});
-	
+
 		// validate
 		$validator = Validator::make(Input::all(), array(
+
 				'category' => 'integer|valid_category',
 				'newcat' => 'valid_name',
 				'startDateTime' => 'required|date',
@@ -92,7 +94,7 @@ class LogController extends BaseController {
 			array(
 				'after_start' => 'End date-time must be after start date-time.',
 				'valid_category' => 'The category you selected was not valid. Please select a different.',
-				'valid_name' => 'You\'re new category name cannot have slash characters (i.e. \'/\' and \'\\\') and must be at least 1 non-white-space character long',
+				'valid_name' => 'Your new category name cannot have slash characters (i.e. \'/\' and \'\\\') and must be at least 1 non-white-space character long',
 				'valid_color' => 'You have used an invalid color scheme',
 				'valid_rating' => 'Your rating is invalid... Whoa, How did you manage to do that?'
 			)
@@ -103,22 +105,25 @@ class LogController extends BaseController {
 
 	public function saveEntry($id = null)
 	{
-		// getPage argument is yet to be used.
-		// user must be logged in!
+		$save_entry_result = array("success" => 0, "errors" => array(), "log" => null);
 		
 		if(!Auth::check()){
-			return Response::make('Not Found', 404);
+			$save_entry_result["errors"] = array('You need to be logged in to perform this operation');
+			return $save_entry_result;
 		}
+
+		$entry = null;
 
 		if($id == null){
 			// create new LogEntry
 			$entry = new LogEntry;
-		}else{
+		} else {
 			// load existing LogEntry
 			try{
 				$entry = LogEntry::where('UID', '=', Auth::user()->id)->findOrFail($id);
 			}catch(ModelNotFoundException $e){
-				return NULL;
+				$save_entry_result["errors"] = array("ModelNotFoundException");
+				return $save_entry_result;
 			}
 		}
 		
@@ -128,18 +133,21 @@ class LogController extends BaseController {
 			// validation has passed, save data in DB
 			$catstr = Input::get('category');
 			$cid = NULL;
+
 			if($catstr != '0'){
 				try{
 					$cat = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $catstr)->firstOrFail();
 					$cid = $cat->CID;
 				}catch(ModelNotFoundException $e){
-					return NULL;
+					$save_entry_result["errors"] = array("ModelNotFoundException");
+					return $save_entry_result;
 				}
 			}
 
 			$colorstr = Input::get('color');
 			//$rating = Input::get('rating');
 			$newcatstr = trim(Input::get('newcat'));
+
 			if($newcatstr != ''){
 				try{
 					$existingcat = LogCategory::where('UID', '=', Auth::user()->id)->where('PID', '=', $cid)->where('name', '=', $newcatstr)->firstOrFail();
@@ -177,23 +185,27 @@ class LogController extends BaseController {
 			$entry->UID = Auth::user()->id;
 			$entry->save();
 			$LID = $entry->LID;
-			return array($LID,$validator);
-		}
 
-		return array(null,$validator);
+			return array("success" => 1, "errors" => array(), "log" => $entry);
+
+		} else {
+			return array("success" => 0, "errors" => $validator->messages(), "log" => null);
+		}
 	}
 
 	public function saveEntryFromAddPage($id = null){
+		
 		$val = $this->saveEntry($id); // returns [LID, $validator], where LID is NULL on error
+
 		if($val == NULL)
 			return Response::make('Not Found', 404);
 		if($val[0]){
 			return Redirect::to('log/view');
-		}else if($id == null) {
+		} else if($id == null) {
 			// validation has failed, display error messages
 			Input::flash();
 			return Redirect::to('log/add')->withErrors($val[1]);
-		}else{
+		} else {
 			// validation has failed, display error messages
 			Input::flash();
 			return Redirect::to('log/edit/'.$id)->withErrors($val[1]);
@@ -202,19 +214,14 @@ class LogController extends BaseController {
 
 	//This function bypasses returning a page upon successful submission to optimize for speed.
 	public function saveEntryFromCalendar($id = null){
-		$val = $this->saveEntry($id); // returns [LID, $validator], where LID is NULL on error
-		if($val == NULL)
-			return Response::make('Not Found', 404);
-		if($val[0]){
-			return $val[0];
-		}else if($id == null) {
-			//TODO: validation has failed, display error messages
+		
+		$save_entry_result = $this->saveEntry($id);
+		
+		if($save_entry_result["success"] == 1){
+			return $save_entry_result["log"];
+		} else{
 			Input::flash();
-			return Redirect::to('log/add')->withErrors($val[1]);
-		}else{
-			//TODO: validation has failed, display error messages
-			Input::flash();
-			return Redirect::to('log/edit/'.$id)->withErrors($val[1]);
+			return $save_entry_result["errors"];
 		}
 	}
 
@@ -256,7 +263,7 @@ class LogController extends BaseController {
 		{
 			return Utils::validateName($value);
 		});
-	
+
 		// validate
 		$validator = Validator::make(Input::all(), array(
 			'categoryName' => 'required|validName',
@@ -273,10 +280,12 @@ class LogController extends BaseController {
 		if(!Auth::check()){
 			return Response::make('Must be logged int to save a category', 404);
 		}
+
 		if($id == null){
 			// create new category entry
 			$catEntry = new logCategory;
-		}		
+		}
+
 		$validator = $this->validateCategory(); // validate input from Input::all()
 		
 		if ($validator->passes()) {
@@ -433,7 +442,6 @@ class LogController extends BaseController {
 
 			}
 
-
 			$entry->deadline = Input::get('taskDeadline');
 
 			if ($entry->deadline == NULL)
@@ -458,18 +466,7 @@ class LogController extends BaseController {
 				}
 			}
 
-			//$updateThis = DB::table('log_category')->where('CID', '=', $catID);
 			$updateThis = LogCategory::find($entry->CID);
-
-
-
-			/*$updateThis->update(array('PID' =>$entry->PID,
-									  'name' =>$entry->name,
-									  'color' =>$entry->color,
-									  'isTask' =>$entry->isTask,
-									  'deadline' =>$entry->deadline,
-									  'isCompleted' =>$entry->isCompleted,
-									  'rating' =>$entry->rating));*/
 
 			$updateThis->PID = $entry->PID;
 			$updateThis->name = $entry->name;
@@ -479,8 +476,9 @@ class LogController extends BaseController {
 			$updateThis->isCompleted = $entry->isCompleted;
 			$updateThis->rating = $entry->rating;
 			$updateThis->save();
-
+			
 			return Redirect::to('log/viewCategory');
+
 		} else if($catID == null) {
 			// validation has failed, display error messages
 			Input::flash();
@@ -491,5 +489,5 @@ class LogController extends BaseController {
 			return Redirect::to('log/editCat/'.$catID.'/modal')->withErrors($validator);
 		}
 
-		}
+	}
 }

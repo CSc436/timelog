@@ -1,57 +1,59 @@
-$(document).ready(function() {
-	
-	jQuery.ajaxSetup({async:false});
-	//$('.event').tooltip();
-	var date = new Date();
-	var d = date.getDate();
-	var m = date.getMonth();
-	var y = date.getFullYear();
-	
+$(function() {
+
+	$.ajaxSetup({
+		aync: false
+	});
+
+	window.SundialCalendar = {};
+
 	var categories = [];
 
-	$.get( "/log/view_cat_cal", function(cats) {
-		//TODO: do selective querying when real dates are used, so we don't have to
-		//get all events, however, it is unclear yet how much of a performance bottleneck
-		//this will be.
-		for ( var i=0; i<cats.length; i++ ) {
+	$.get("/log/view_cat_cal", function(cats) {
+		for (var i = 0; i < cats.length; i++) {
 			categories.push({
-				title : cats[i].name,
-				id : cats[i].CID,
-				color : cats[i].color
+				title: cats[i].name,
+				id: cats[i].CID,
+				color: cats[i].color
 			});
 		}
 	});
 
 	var eventsBeforeParsed = [];
-	var eventsAfterParsed = [];
-	$.get( "/log/view_cal", function(events) {
-		console.log(categories);
+	eventsAfterParsed = [];
+
+	$.get("/log/view_cal", function(events) {
+
 		eventsBeforeParsed = events;
-		console.log(events);
-		//TODO: do selective querying when real dates are used, so we don't have to
-		//get all events, however, it is unclear yet how much of a performance bottleneck
-		//this will be.
-		for ( var i=0; i<events.length; i++ ) {
-			events[i].color = "#FFFFFF";
-			for(var i2=0; i2<categories.length; i2++){
-				if(events[i].CID == categories[i2].id){
-					events[i].color = "#" + categories[i2].color;
+
+		for (var i = 0; i < events.length; i++) {
+
+			events[i].color = "#000000";
+
+			for (var j = 0; j < categories.length; j++) {
+				if (events[i].CID == categories[j].id) {
+					events[i].color = "#" + categories[j].color;
+					events[i].category = categories[j].title;
+					events[i].categoryId = categories[j].id;
 				}
 			}
 
 			eventsAfterParsed.push({
-				title : "placeholder title",
+				title: events[i].category,
+				categoryId: events[i].categoryId,
 				start: new Date(events[i].startDateTime),
 				end: new Date(events[i].endDateTime),
 				allDay: false,
 				description: events[i].notes,
-				id : events[i].LID,
-				backgroundColor : events[i].color
+				id: events[i].LID,
+				backgroundColor: events[i].color
 			});
 		}
+
+		SundialCalendar.calendar.fullCalendar('refetchEvents');
+
 	});
 
-	var calendar = $('#calendar').fullCalendar({
+	SundialCalendar.calendar = $('#calendar').fullCalendar({
 		header: {
 			left: 'prev,next today',
 			center: 'title'
@@ -64,129 +66,130 @@ $(document).ready(function() {
 		editable: true,
 		events: eventsAfterParsed,
 		select: function(start, end, allDay) {
-			//Create a new event
-			var title = prompt('What were you working on:');
-			var description = prompt('Notes:');
-			var stFromatted = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm");
-			var etFromatted = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm");
-			var id;
-			
-			$.post( "/log/add_from_calendar", { 
-				entryname: title,
-				category: "placeholder", 
-				startDateTime:stFromatted, 
-				endDateTime: etFromatted,
-				notes: description
-			}, function(LID) {
-				//Returns the log id of the event
-				console.log(LID);
-				id=LID;
-			});
-
-			if (title) {
-				calendar.fullCalendar('renderEvent',
-					{
-						title: title,
-						description: description,
-						start: start,
-						end: end,
-						id: id,
-						allDay: false
-					},
-					true // make the event "stick"
-				);
-			}
-
-			calendar.fullCalendar('unselect');
-			console.log(description);
+			eventEditorModal(start, end, null);
 		},
 		eventClick: function(calEvent, jsEvent, view) {
-			//Edit existing event
-			var tmp;
-			var title;
-			var description;
-			if(tmp = prompt('What were you working on:', calEvent.title, { buttons: { Ok: true, Cancel: false} })){title = tmp;}
-			else{title = calEvent.title;}
-
-			if(tmp = prompt('Category:', calEvent.description, { buttons: { Ok: true, Cancel: false} })){description = tmp;}
-			else{description = calEvent.description;}
-
-			if (title){
-				  calEvent.title = title;
-			}if(description){
-				  calEvent.description = description;
-			}
-
-			calendar.fullCalendar('updateEvent',calEvent);
-
-			var stFromatted = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm");
-			var etFromatted = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm");
-
-			$.post( "/log/save_from_calendar/" + calEvent.id, { 
-				entryname: calEvent.title, 
-				category: "placeholder", 
-				startDateTime: stFromatted, 
-				endDateTime: etFromatted, 
-				notes: calEvent.description
-			})
-
-			console.log(description);
+			eventEditorModal(calEvent.start, calEvent.end, calEvent);
+			console.log(calEvent);
 		},
 		eventDrop: function(calEvent, dayDelta, minuteDelta, allDay, revertFunc) {
-			//Call database to modify entry after moving event complete
-			/*
-			alert(
-				calEvent.title + " was moved " +
-				dayDelta + " days and " +
-				minuteDelta + " minutes."
-			);
-
-			if (!confirm("Are you sure about this change?")) {
-				revertFunc();
-			}
-			*/
 
 			var stFromatted = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm");
 			var etFromatted = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm");
- 
-			$.post( "/log/save_from_calendar/" + calEvent.id, { 
-				entryname: calEvent.title, 
-				category: "placeholder", 
-				startDateTime: stFromatted, 
-				endDateTime: etFromatted, 
+
+			$.post("/log/save_from_calendar/" + calEvent.id, {
+				entryname: calEvent.title,
+				category: calEvent.categoryId,
+				startDateTime: stFromatted,
+				endDateTime: etFromatted,
 				notes: calEvent.description
 			})
 		},
 		eventResize: function(calEvent, dayDelta, minuteDelta, revertFunc) {
-			//Call database to modify entry after resizing event complete
-			/*
-	        alert(
-	            "The end date of " + calEvent.title + "has been moved " +
-	            dayDelta + " days and " +
-	            minuteDelta + " minutes."
-	        );
 
-	        if (!confirm("is this okay?")) {
-	            revertFunc();
-	        }
-	        */
-
-	    	var stFromatted = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm");
+			var stFromatted = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm");
 			var etFromatted = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm");
 
-			$.post( "/log/save_from_calendar/" + calEvent.id, { 
-				entryname: calEvent.title, 
-				category: "placeholder", 
-				startDateTime: stFromatted, 
-				endDateTime: etFromatted, 
+			$.post("/log/save_from_calendar/" + calEvent.id, {
+				entryname: calEvent.title,
+				category: calEvent.categoryId,
+				startDateTime: stFromatted,
+				endDateTime: etFromatted,
 				notes: calEvent.description
 			});
 		},
-		eventRender: function(event, element) { 
-			//element.title="Tooltip on top"
-			if(event.description != null){
+		eventRender: function(event, element) {
+			if (event.description != null) {
 				element.find('.fc-event-title').prepend("<b>").append("</b><br/>" + event.description);
 			}
 		}
 	});
+
+	console.log('poop');
+
+	$(document).on("submit", "#thisModal form", function(event) {
+		submitEvent();
+		event.preventDefault();
+	});
+
+	$('body').on('hidden.bs.modal', '.modal', function() {
+		$(this).removeData('bs.modal');
+		$('#thisModal').html("");
+	});
+
 });
+
+function eventEditorModal(start, end, calEvent) {
+
+	var start, end;
+
+	if (calEvent) {
+		start = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm");
+		end = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm");
+
+		$("#thisModal").on("shown.bs.modal", function() {
+			$("#startDateTime").val(start);
+			$("#endDateTime").val(end);
+			$("#category").val(calEvent.categoryId);
+			$("#notes").val(calEvent.description);
+		});
+
+	} else {
+
+		start = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm");
+		end = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm");
+
+		$("#thisModal").on("shown.bs.modal", function() {
+			$("#startDateTime").val(start);
+			$("#endDateTime").val(end);
+		});
+	}
+
+	$('#thisModal').modal({
+		remote: '/api/log/edit/modal'
+	});
+}
+
+function submitEvent(update, id) {
+
+	var form = $("#thisModal form");
+
+	var url = '/api/log/save';
+
+	if (update) {
+
+		url = '/log/save_from_calendar/' + id;
+
+		form.append($("<input>", {
+			value: id,
+			type: "hidden",
+			name: "id"
+		}));
+	}
+
+	$.post(url, form.serialize(), function(data) {
+
+		if (update) {
+			console.log("Event updated!", data);
+		} else {
+			console.log("New event created!", data);
+		}
+
+		SundialCalendar.calendar.fullCalendar('renderEvent', {
+				title: data.notes,
+				description: data.notes,
+				id: data.LID,
+				category: data.CID,
+				start: data.startDateTime,
+				end: data.endDateTime,
+				allDay: false,
+			},
+			true);
+	});
+
+	SundialCalendar.calendar.fullCalendar('unselect');
+
+	if ($('#thisModal')) {
+		$('#thisModal').modal('hide');
+	}
+}

@@ -41,6 +41,8 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 		return $data;
 	});
 
+	// Returns all the categories for the current logged in user
+
 	//Gets the list of categories
 	Route::get('log/categories', function()
 	{
@@ -48,6 +50,15 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 		return $data;
 	});
 
+
+	// Returns a HTML view for the modal to add log entry
+	Route::get('log/edit/modal', function()
+	{
+		return View::make('entryform_modal');
+	});
+
+	Route::post('log/save/{id?}', 'LogController@saveEntryFromCalendar')->where('id', '[0-9]+');
+	
 	//Gets the list of tasks overdue
 	Route::get('log/tasks/overdue', function()
 	{
