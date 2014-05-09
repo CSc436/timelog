@@ -137,10 +137,12 @@
 			return moment(dbTime, 'YYYY-MM-DD hh:mm').format("MM/DD/YYYY hh:mm A");
 		}
 
-		$("#star-form").toggle($('#isCompleted').checked);
+		if ($('#isCompleted').checked){
+			$("#star-form").toggle();
+		}
 		$('[name = isCompleted]').click(function() {
 			console.log("toggle");
-			$("#star-form").fadeToggle(this.checked);
+			$("#star-form").toggle(this.checked);
 		}); 
 
 		$("#duedate-form").toggle($('#hasDuedate').checked);

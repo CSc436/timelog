@@ -473,12 +473,19 @@ class LogController extends BaseController {
 			}
 			else {
 				$entry->rating= $star;
-				$entry->deadline = Input::get('dueDateTime');
+				if(Input::get('dueDateTime') == "Invalid date")
+					$entry->deadline = $entry->deadline;
+				else
+					$entry->deadline = Input::get('dueDateTime');
 				if ($star == 0) {
 					$entry->isCompleted = 0;
 				}
 				else {
 					$entry->isCompleted = 1;
+				}
+				if( Input::get('isCompleted') == 0){
+					$entry->rating = 0;
+					$entry->isCompleted = 0;
 				}
 			}
 

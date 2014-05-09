@@ -79,10 +79,12 @@
 
 		var $cats = $("#superCategory");
 
+		var defaultSuperCategory = "<?php echo $editThis->PID; ?>";
+
 		$.getJSON("/api/log/categories", function(data){
 			console.log(data);
 			$.each(data, function(k, v){
-				$cats.append(new Option(v.name, v.cid));
+				$cats.append(new Option(v.name, v.cid,  v.cid == defaultSuperCategory , v.cid == defaultSuperCategory));
 			});
 			
 		});
