@@ -60,12 +60,13 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 	Route::post('log/save/{id?}', 'LogController@saveEntryFromCalendar')->where('id', '[0-9]+');
 	
 	//Gets the list of tasks overdue
-	Route::get('log/tasks/completed', function()
+	Route::get('log/tasks/overdue', function()
 	{
 		$data = DB::table('log_category')
 			->select('cid', 'name')
 			->where('uid', '=', Auth::user()->id)
 			->where('isTask', '=', '1')
+			->where('isCompleted', '=', '0')
 			->where( 'deadline', '<', DATE(UTC_TIMESTAMP()) )
 			->get();
 		return $data;

@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')	
-	<link href="{{ URL::asset('js/sorttable.js') }}" rel="text/javascript">
+	<!--<link href="{{ URL::asset('js/sorttable.js') }}" rel="text/javascript">-->
 	<script src="{{ URL::asset('js/sorttable.js') }}"></script>
 	<div class="container" id="main">
 
@@ -127,7 +127,7 @@
 		<option value="25">25</option>
 		<option value="50">50</option>
 	</select>
-	<table class="sortable">
+	<table class="sortable table table-striped table-hover">
 		<tr>
 			<?php
 				if(property_exists($query[0], "name")) {
