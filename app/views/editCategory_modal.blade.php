@@ -1,3 +1,7 @@
+@section('header')
+<link href="{{ URL::asset('css/addCategory.css') }}" rel="stylesheet"/>
+@stop
+
 <div class="modal-dialog">
 	<div class="modal-content">
 		@if(!isset($editThis))
@@ -5,84 +9,104 @@
 		@else
 			{{ Form::model($editThis, array('url' => 'log/updateCat/'.$editThis->CID, 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal')) }}
 		@endif
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="thisModalLabel">
-					@if(!isset($editThis))
-						Add A Category
-					@else
-						Edit Category
-					@endif
-				</h4>
-			</div>
-			<div class="modal-body">
-				@if(!$errors->isEmpty())
-					<div class="alert alert-danger">
-					<strong>Error:</strong>
-					@if($errors->count() == 1)
-						{{ $errors->first() }}
-					@else
-						<ul>
-						@foreach($errors->getMessages() as $msg)
-							<li>{{ $msg[0] }}</li>
-						@endforeach
-						</ul>
-					@endif
-					</div>
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title" id="thisModalLabel">
+				@if(!isset($editThis))
+					Add A Category
+				@else
+					Edit Category
 				@endif
-				<div class="form-group">
-					{{ Form::label('categoryName', 'What Category is this?', array('class' => 'col-sm-4 control-label')) }}
-					<div class="col-sm-8">
+			</h4>
+		</div>
+		<div class="modal-body">
+			@if(!$errors->isEmpty())
+				<div class="alert alert-danger">
+				<strong>Error:</strong>
+				@if($errors->count() == 1)
+					{{ $errors->first() }}
+				@else
+					<ul>
+					@foreach($errors->getMessages() as $msg)
+						<li>{{ $msg[0] }}</li>
+					@endforeach
+					</ul>
+				@endif
+				</div>
+			@endif
+			<div class="form-group">
+				<div class="col-sm-8">
+					{{ Form::hidden('isTask', '0') }}
+				</div>
+			</div>
+
+			<div class="form-group">
+				{{ Form::label('categoryName', 'Category Name', array('class' => 'col-sm-4 control-label')) }}
+				<div class="col-sm-8">
+					<div class="input-group">
 						@if(!isset($editThis))
-							{{ Form::text('categoryName', 'Not Used Yet', array('class' => 'form-control', 'placeholder' => 'Name')) }}
+							{{ Form::text('categoryName', 'Not Used Yet', array('id' => 'newcat', 'class' => 'form-control', 'placeholder' => 'Name')) }}
 						@else
-							{{ Form::text('categoryName', "$editThis->name", array('class' => 'form-control', 'placeholder' => 'Name')) }}
+							{{ Form::text('categoryName', "$editThis->name", array('id' => 'newcat', 'style' => "background-color: #$editThis->color", 'class' => 'form-control', 'placeholder' => 'Name')) }}
 						@endif
+						<span class="input-group-btn">
+							<button id="colorPicker" class="btn btn-default" type="button"><span id="colorPickerIcon" class="fa fa-tint"></span></button>
+						</span>
+						{{ Form::hidden('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => "$editThis->color")) }}
 					</div>
-				  </div>
-				  <div class="form-group">
-					{{ Form::label('superCategory', 'Is this a sub-category? If so, put the parent Category here.', array('class' => 'col-sm-4 control-label')) }}
-					<div class="col-sm-8">
-						@if (!isset($editThis))
-							{{ Form::text('subCategory', 'Not Used Yet', array('class' => 'form-control', 'placeholder' => 'Name')) }}
-						@else
-							{{ $PName = DB::table('log_category')->where('CID', $editThis->PID)->pluck('name')}}
-							{{ Form::text('subCategory', "$PName", array('class' => 'form-control')) }}
-						@endif
-					</div>
-				  </div>
-				  <div class="form-group">
-					{{ Form::label('isTask', 'Is this a task with a set deadline?', array('class' => 'col-sm-4 control-label')) }}
-					<div class="col-sm-8">
-						@if (!isset($editThis))
-							{{ Form::checkbox('isTask', null, array('class' => 'form-control')) }}
-						@else
-							{{ Form::checkbox('isTask', null, array('class' => 'form-control')) }}
-						@endif
-					</div>
-				  </div>
-				  <div class="form-group">
-					{{ Form::label('taskDeadline', 'If this is a task, when is it due?', array('class' => 'col-sm-4 control-label')) }}
-					<div class="col-sm-8">
-						{{ Form::text('taskDeadline', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
-					</div>
-				  </div>
-				  <div class="form-group">
-					  {{ Form::label('starRating', 'How would you rate your completion of this task on a 3 star scale (no stars if task is not completed, use the dropdown menu. The stars are not fully implemented).', array('class' => 'col-sm-4 control-label')) }}	  
-					  <div class="col-sm-8">
-				  		<span class="rating">
-			            	<span class="star" onclick="$('#myhidden').set('1')" ></span>
-			            	<span class="star"></span>
-			            	<span class="star"></span>
-			      		</span>
-			      		{{Form::select('starRating', array('0' => '0 stars','1' => '1 star (below average)', '2' => '2 stars(average)', '3' => '3  stars(above average)'), '0');}}
-			      	  </div>
-			      </div>
+				</div>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				{{ Form::submit('Submit', array('class' => 'btn btn-default btn-primary')) }}
+
+			<div class="form-group">
+				{{ Form::label('superCategory', 'Parent Category', array('class' => 'col-sm-4 control-label')) }}
+				<div class="col-sm-8">
+					{{Form::select('superCategory', array('0' => ''), 'NULL', array('id' => 'superCategory', 'class' => 'form-control'));}}
+			    </div>
 			</div>
-		{{ Form::close() }}
+
+			<div class="form-group">
+				<div class="col-sm-offset-4 col-sm-8">
+					{{ Form::submit('Submit', array('class' => 'btn btn-default')) }}
+				</div>
+			</div>
+			{{ Form::close() }}
+		</div>
 	</div>
 </div>
+
+<script>
+	$(function(){
+
+		var $cats = $("#superCategory");
+
+		var defaultSuperCategory = "<?php echo $editThis->PID; ?>";
+
+		$.getJSON("/api/log/categories", function(data){
+			console.log(data);
+			$.each(data, function(k, v){
+				$cats.append(new Option(v.name, v.cid,  v.cid == defaultSuperCategory , v.cid == defaultSuperCategory));
+			});
+			
+		});
+
+		function initializeColorPicker(){
+			$("#colorPicker").spectrum({
+			    color: "rgb(255, 255, 255)",
+			    showPalette: true,
+			    palette: [
+					["rgb(255, 255, 255)", "rgb(221, 126, 107)", "rgb(234, 153, 153)"], 
+					["rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(202, 235, 188)"],
+					["rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)"], 
+					["rgb(180, 167, 214)", "rgb(213, 166, 189)", "rgb(235, 137, 234)"]
+			    ],
+				change: function(color) {
+					$("#newcat").css('background-color', color.toHexString());
+					$("#color").val(color.toHex());
+				}
+			});
+
+		}
+
+		initializeColorPicker();
+	});
+</script>
