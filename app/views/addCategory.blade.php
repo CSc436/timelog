@@ -162,10 +162,10 @@
 
 		function initializeColorPicker(){
 			$("#colorPicker").spectrum({
-				color: "rgb(255, 255, 255)",
+				color: "FFCC66",
 				showPalette: true,
 				palette: [
-					["000000", "rgb(221, 126, 107)", "rgb(234, 153, 153)"], 
+					["FFCC66", "rgb(221, 126, 107)", "rgb(234, 153, 153)"], 
 					["rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(202, 235, 188)"],
 					["rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)"], 
 					["rgb(180, 167, 214)", "rgb(213, 166, 189)", "rgb(235, 137, 234)"]
@@ -176,7 +176,7 @@
 				}
 			});
 
-			var defaultColor = "ffffff";
+			var defaultColor = "FFCC66";
 			$("#color").val(defaultColor);
 			$("#newcat").css('background-color', "#" + defaultColor);
 		}
