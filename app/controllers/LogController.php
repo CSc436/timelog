@@ -274,8 +274,7 @@ class LogController extends BaseController {
 		return $validator;
 	}
 
-
-	public function saveCategory($id = null) {
+	public function saveCategory($id = null, $stopRedirectToView = false) {
 		
 		if(!Auth::check()){
 			return Response::make('Must be logged int to save a category', 404);
@@ -307,6 +306,10 @@ class LogController extends BaseController {
 			$catEntry->isTask = Input::get('isTask');
 
 			$catEntry->isCompleted = Input::get('isCompleted');
+			if($catEntry->isCompleted == NULL){
+				$catEntry->isCompleted = 0;
+			}
+			
 			$duedate = Input::get('hasDuedate');
 
 			if($catEntry->isTask == '0'){
@@ -329,8 +332,7 @@ class LogController extends BaseController {
 
 			//save category to database
 			$catEntry->save();
-
-			return Redirect::to('log/view');
+			if( !$stopRedirectToView ){ return Redirect::to('log/view'); }
 		} else if($id == null) {
 			// validation has failed, display error messages
 			Input::flash();
@@ -369,6 +371,29 @@ class LogController extends BaseController {
 		}
 
 	}
+
+	public function editTask($catID, $modal = false){
+		// user must be logged in!
+		if(!Auth::check()){
+			return Response::make('Not Found', 404);
+		}
+
+		try{
+			$entry = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $catID)->findOrFail($catID);
+
+		}catch(ModelNotFoundException $e){
+			return Response::make('Not Found', 404);
+		}
+
+		if($modal === false){
+			//return "HERE1";
+			return View::make('addTask')->with('editThis', $entry);
+		}
+		else{
+			return View::make('editTask_modal')->with('editThis', $entry);
+		}
+
+	}	
 
 		/* The checkCatCycle Function should be called whenever any category changes it's
 	   parent category (e.g., changing a categorie's possible subcategory). This will recursively
@@ -422,9 +447,8 @@ class LogController extends BaseController {
 
 			$entry->UID= Auth::user()->id;
 			$entry->name = Input::get('categoryName');
-			$entry->CID = $catID;
 
-			$superCategory = Input::get('subCategory');
+			$superCategory = Input::get('superCategory');
 
 			if ($superCategory == null){
 				$entry->PID = null;
@@ -432,7 +456,7 @@ class LogController extends BaseController {
 
 			else{
 
-				$entry->PID = DB::table('log_category')->where('name',$superCategory)->where('UID',Auth::user()->id)->pluck('CID');
+				$entry->PID = Input::get('superCategory');
 				if ($entry->PID == null)
 					return "Response::make('parent category name doesn't exist', 404)";
 				$returnValue = $this->checkCatCycle($entry->CID, $entry->PID);
@@ -442,6 +466,7 @@ class LogController extends BaseController {
 
 			}
 
+
 			$entry->deadline = Input::get('taskDeadline');
 
 			if ($entry->deadline == NULL)
@@ -449,6 +474,15 @@ class LogController extends BaseController {
 			else
 				$entry->isTask = 1;
 
+			if($entry->PID == 0){
+				$entry->PID = null;
+			}
+
+			if(Input::get('color') != null){
+				$entry->color = Input::get('color');
+			}
+
+			$entry->isTask = Input::get('isTask');
 			$star = Input::get('starRating');
 
 			if(!$entry->isTask == 1){
@@ -458,16 +492,28 @@ class LogController extends BaseController {
 			}
 			else {
 				$entry->rating= $star;
+				if(Input::get('dueDateTime') == "Invalid date")
+					$entry->deadline = $entry->deadline;
+				else
+					$entry->deadline = Input::get('dueDateTime');
 				if ($star == 0) {
 					$entry->isCompleted = 0;
 				}
 				else {
 					$entry->isCompleted = 1;
 				}
+				if( Input::get('isCompleted') == 0){
+					$entry->rating = 0;
+					$entry->isCompleted = 0;
+				}
 			}
 
 			$updateThis = LogCategory::find($entry->CID);
 
+
+
+			
+			$updateThis->CID = $entry->CID;
 			$updateThis->PID = $entry->PID;
 			$updateThis->name = $entry->name;
 			$updateThis->color = $entry->color;
@@ -479,7 +525,9 @@ class LogController extends BaseController {
 			
 			return Redirect::to('log/viewCategory');
 
-		} else if($catID == null) {
+
+		} 
+		if($catID == null) {
 			// validation has failed, display error messages
 			Input::flash();
 			return Redirect::to('log/viewCategory')->withErrors($validator);

@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Sundial</title>
 	<link href="{{ asset('image/favicon.ico') }}" rel="shortcut icon">
-	<link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ URL::asset('css/bootstrap.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('css/font-awesome.min.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('css/main.css') }}" rel="stylesheet">
 	<script src="{{ URL::asset('js/jquery-2.1.0.min.js') }}"></script>
@@ -18,7 +18,7 @@
 	@yield('header')
 </head>
 <body>
-	<div class="navbar navbar-default navbar-fixed-top">
+	<div class="navbar navbar-sundial navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">

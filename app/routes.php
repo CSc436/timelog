@@ -136,7 +136,7 @@ Route::group(array('before' => 'auth'), function(){
 		$id = Auth::user()->id;
 		$categories = DB::select("select * from log_category c where c.uid = $id");
 		//$categories = Route::get('api/api_routes');
-		return View::make('viewCategories')->with('categories', $categories);
+		return View::make('viewCategories')->with('categories', $categories)->with('active', 'viewCat');
 	});
 
 	//This should be named better, the naming scheme for the function is confusing
@@ -193,11 +193,12 @@ Route::group(array('before' => 'auth'), function(){
 	Route::post('log/saveCat{id?}','logController@saveCategory')->where('id', '[0-9]+');
 
 	Route::get('log/editCat/{catID}/modal', function($catID){return (new LogController)->editCat($catID, true);})->where('catID', '[0-9]+');
+	Route::get('log/editTask/{catID}/modal', function($catID){return (new LogController)->editTask($catID, true);})->where('catID', '[0-9]+');
 	Route::post('log/updateCat/{catID?}', 'logController@updateCategory')->where('catID', '[0-9]+');
 	//Route::get('log/edit/{id}', 'LogController@editCat')->where('id', '[0-9]+');
 
 	Route::get('log/addCategory', function(){
-		return View::make('addCategory');
+		return View::make('addCategory')->with('active', 'category');
 	});
 
 	Route::get('log/tasks', function(){
