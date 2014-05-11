@@ -199,7 +199,7 @@ class LogController extends BaseController {
 
 		if($val == NULL)
 			return Response::make('Not Found', 404);
-		if($val[0]){
+		if($val){
 			return Redirect::to('log/view');
 		} else if($id == null) {
 			// validation has failed, display error messages
@@ -307,6 +307,10 @@ class LogController extends BaseController {
 			$catEntry->isTask = Input::get('isTask');
 
 			$catEntry->isCompleted = Input::get('isCompleted');
+			if($catEntry->isCompleted == NULL){
+				$catEntry->isCompleted = 0;
+			}
+			
 			$duedate = Input::get('hasDuedate');
 
 			if($catEntry->isTask == '0'){

@@ -198,7 +198,7 @@ Route::group(array('before' => 'auth'), function(){
 	//Route::get('log/edit/{id}', 'LogController@editCat')->where('id', '[0-9]+');
 
 	Route::get('log/addCategory', function(){
-		return View::make('addCategory');
+		return View::make('addCategory')->with('active', 'category');
 	});
 
 	Route::get('log/tasks', function(){
