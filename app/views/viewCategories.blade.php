@@ -1,8 +1,14 @@
 @extends('layout')
 @section('header')
 	<link href="{{ URL::asset('css/jquery.collapsibleList.css') }}" rel="stylesheet"/>
+	<link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
+	<script src="{{ URL::asset('js/spectrum.js') }}"></script>
+	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
 	<script src="{{ URL::asset('js/jquery.collapsibleList.js') }}"></script>
 	<script src="{{ URL::asset('js/sorttable.js') }}"></script>
+	<script src="{{ URL::asset('js/jquery.raty.min.js') }}"></script>
+	<link href="{{ URL::asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet"/>
+	<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
 @stop
 @section('content')
 	
@@ -34,10 +40,18 @@
 				if ($subCats != NULL){
 					echo("<ul>\n");
 					foreach($subCats as $sub){
-						echo ("<li>" . $sub->name . " <i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$sub->CID."/modal'})\"></i>");
-						subCategories($sub);
-						echo("</li>");
-					
+
+						if ($sub->isTask == 0){
+							echo ("<li>".$sub->name. "<i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$sub->CID."/modal'})\"></i>");
+							subCategories($sub);
+							echo("</li>");
+						}
+
+						else{
+							echo ("<li>" . $sub->name. "<i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editTask/".$sub->CID."/modal'})\"></i>");
+							subCategories($sub);
+							echo("</li>");
+						}
 					}
 					echo("</ul>\n");
 				}
@@ -68,7 +82,7 @@
 							echo ("<td> no </td>");
 							echo ("<td> N/A </td>");
 						}
-						echo ("<td></td><td><i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entry->CID."/modal'})\"></i></td></tr>");
+						echo ("<td></td><td><i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editTask/".$entry->CID."/modal'})\"></i></td></tr>");
 					}
 				}
 			?>
