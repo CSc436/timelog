@@ -153,23 +153,7 @@ footer .social i:hover{
 }
 
 .navbar-default {
-/* IE10 Consumer Preview */ 
-background-image: -ms-linear-gradient(left, #FFCC00 0%, #0C5AA6 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-linear-gradient(left, #FFCC00 0%, #0C5AA6 100%);
-
-/* Opera */ 
-background-image: -o-linear-gradient(left, #FFCC00 0%, #0C5AA6 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #FFCC00), color-stop(1, #0C5AA6));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-linear-gradient(left, #FFCC00 0%, #0C5AA6 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: linear-gradient(to right, #FFCC00 0%, #0C5AA6 100%);
+background-color: #ee9900;
 }
 .navbar-default .navbar-text {
   color: #ffffff;
