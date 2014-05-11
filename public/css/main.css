@@ -152,34 +152,36 @@ footer .social i:hover{
 	color: #1485c3;
 }
 
-.navbar-default {
-/* IE10 Consumer Preview */ 
-background-image: -ms-linear-gradient(left, #FFCC00 0%, #0C5AA6 100%);
-
-/* Mozilla Firefox */ 
-background-image: -moz-linear-gradient(left, #FFCC00 0%, #0C5AA6 100%);
-
-/* Opera */ 
-background-image: -o-linear-gradient(left, #FFCC00 0%, #0C5AA6 100%);
-
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #FFCC00), color-stop(1, #0C5AA6));
-
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-linear-gradient(left, #FFCC00 0%, #0C5AA6 100%);
-
-/* W3C Markup, IE10 Release Preview */ 
-background-image: linear-gradient(to right, #FFCC00 0%, #0C5AA6 100%);
+.navbar-sundial {
+background-color: #ee9900;
+border-color: transparent;
 }
-.navbar-default .navbar-text {
+.navbar-sundial .navbar-text {
   color: #ffffff;
 }
-.navbar-default .navbar-toggle .icon-bar {
+
+.navbar-sundial .navbar-toggle .icon-bar {
   background-color: #ffffff;
 }
-.navbar-default .navbar-nav > li > a {
+.navbar-sundial .navbar-nav > li > a {
   color: #ffffff;
 }
+
+.navbar-sundial .navbar-brand {
+  color: #ffffff;
+}
+.navbar-sundial .navbar-brand:hover,
+.navbar-sundial .navbar-brand:focus {
+  color: #e6e6e6;
+  background-color: transparent;
+}
+
+.nav>li>a:hover, 
+.nav>li>a:focus {
+	color: #e6e6e6;
+	background-color: #0c116b;
+}
+
 .col-md-4 h2{
 	color: #f4645f;
 }
