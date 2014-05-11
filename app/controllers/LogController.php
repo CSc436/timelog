@@ -158,6 +158,10 @@ class LogController extends BaseController {
 					$newcat->PID = $cid;
 					$newcat->name = $newcatstr;
 					$newcat->color = $colorstr;
+					$newcat->isTask = 0;
+					$newcat->isCompleted = 0;
+					$newcat->rating = 0;
+					$newcat->deadline = NULL;
 					//$newcat->rating = $rating;
 					$newcat->save();
 					$cid = $newcat->CID;
