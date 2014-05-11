@@ -102,7 +102,7 @@ class UserController extends Controller {
 			$catEntry->UID = $user->id;
 			$catEntry->name = 'Work';
 			$catEntry->PID = NULL;
-			$catEntry->color = "6AA4B1";
+			$catEntry->color = "5555EE";
 			$catEntry->isTask = 0;
 			$catEntry->isCompleted = 0;
 			$catEntry->rating = 0;
@@ -114,7 +114,7 @@ class UserController extends Controller {
 			$catEntry->UID = $user->id;
 			$catEntry->name = 'Play';
 			$catEntry->PID = NULL;
-			$catEntry->color = "8DD59F";
+			$catEntry->color = "55EE55";
 			$catEntry->isTask = 0;
 			$catEntry->isCompleted = 0;
 			$catEntry->rating = 0;
@@ -126,7 +126,7 @@ class UserController extends Controller {
 			$catEntry->UID = $user->id;
 			$catEntry->name = 'Uncategorized';
 			$catEntry->PID = NULL;
-			$catEntry->color = "D09586";
+			$catEntry->color = "EE5555";
 			$catEntry->isTask = 0;
 			$catEntry->isCompleted = 0;
 			$catEntry->rating = 0;
