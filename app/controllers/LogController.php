@@ -510,8 +510,6 @@ class LogController extends BaseController {
 
 			$updateThis = LogCategory::find($entry->CID);
 
-
-
 			
 			$updateThis->CID = $entry->CID;
 			$updateThis->PID = $entry->PID;
