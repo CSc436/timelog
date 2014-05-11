@@ -123,7 +123,6 @@
 				$.each(data, function(k, v){
 					$cats.append(new Option(v.name, v.cid));
 				});
-				
 			});
 
 		});

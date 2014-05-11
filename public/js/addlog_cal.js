@@ -175,13 +175,14 @@ function submitEvent(update, id) {
 		}
 
 		SundialCalendar.calendar.fullCalendar('renderEvent', {
-				title: data.notes,
+				title: data.category,
 				description: data.notes,
 				id: data.LID,
 				category: data.CID,
 				start: data.startDateTime,
 				end: data.endDateTime,
 				allDay: false,
+				backgroundColor: "#" + data.color
 			},
 			true);
 	});

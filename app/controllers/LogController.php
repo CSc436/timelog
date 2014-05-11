@@ -184,7 +184,10 @@ class LogController extends BaseController {
 			$entry->notes = Input::get('notes');
 			$entry->UID = Auth::user()->id;
 			$entry->save();
+
 			$LID = $entry->LID;
+			$entry->category = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $cid)->pluck('name');
+			$entry->color = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $cid)->pluck('color');
 
 			return array("success" => 1, "errors" => array(), "log" => $entry);
 
@@ -254,7 +257,6 @@ class LogController extends BaseController {
 	*/
 	private function validateCategory()
 	{
-		
 		/*
 		* A valid name consists of print characters and spaces, not including slashes (\ nor /).
 		* A valid name is also one that is at least of length 1 when not counting white space.
