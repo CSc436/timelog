@@ -65,6 +65,7 @@ $(function() {
 		defaultView: "agendaWeek",
 		editable: true,
 		events: eventsAfterParsed,
+		eventTextColor: "#000000",
 		select: function(start, end, allDay) {
 			eventEditorModal(start, end, null);
 		},

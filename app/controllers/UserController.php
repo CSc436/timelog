@@ -94,6 +94,8 @@ class UserController extends Controller {
 				'password' => Hash::make(Input::get('password'))
 				));
 
+			//(logController@saveCategory)
+
 			return Redirect::to('/')->with('success', 'Thanks for registering!');
 
 		} else {
