@@ -199,7 +199,7 @@ class LogController extends BaseController {
 
 		if($val == NULL)
 			return Response::make('Not Found', 404);
-		if($val[0]){
+		if($val){
 			return Redirect::to('log/view');
 		} else if($id == null) {
 			// validation has failed, display error messages
