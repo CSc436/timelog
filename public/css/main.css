@@ -178,8 +178,8 @@ border-color: transparent;
 
 .nav>li>a:hover, 
 .nav>li>a:focus {
-text-decoration: #000000;
-background-color: #000000;
+	color: #e6e6e6;
+	background-color: #0c116b;
 }
 
 .col-md-4 h2{
