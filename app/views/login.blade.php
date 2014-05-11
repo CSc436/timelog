@@ -50,7 +50,7 @@
 		</div>
 	@endif
 
-	<form class="form-horizontal" action="{{ action('UserController@postUserLogin') }}" method="post">
+	{{ Form::open(array('url' => action('UserController@postUserLogin'), 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal')) }}
 		<fieldset>
 			<!-- Form Name -->
 			<legend>Login</legend>
@@ -67,7 +67,7 @@
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="email">Email</label>
 				<div class="col-md-5">
-					<input id="email" name="email" autofocus type="text" placeholder="" class="form-control input-md" required="">
+					{{ Form::email('email', null, array('id' => 'email', 'class' => 'form-control', 'autofocus' => 'autofocus', 'required' => 'required')) }}
 				</div>
 			</div>
 
@@ -75,7 +75,7 @@
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="password">Password</label>
 				<div class="col-md-5">
-					<input id="password" name="password" type="password" placeholder="" class="form-control input-md" required="">
+					{{ Form::password('password', array('id' => 'password', 'class' => 'form-control', 'required' => 'required')) }}
 				</div>
 			</div>
 
@@ -95,7 +95,7 @@
 			</div>		
 
 		</fieldset>
-	</form>
+	{{ Form::close() }}
 
 	<legend>Sign up</legend>
 	<section id="social-signup">
