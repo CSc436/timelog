@@ -27,7 +27,7 @@ $(function() {
 
 		for (var i = 0; i < events.length; i++) {
 
-			events[i].color = "#000000";
+			//events[i].color = "#000000";
 
 			for (var j = 0; j < categories.length; j++) {
 				if (events[i].CID == categories[j].id) {

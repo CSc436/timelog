@@ -307,6 +307,10 @@ class LogController extends BaseController {
 			$catEntry->isTask = Input::get('isTask');
 
 			$catEntry->isCompleted = Input::get('isCompleted');
+			if($catEntry->isCompleted == NULL){
+				$catEntry->isCompleted = 0;
+			}
+			
 			$duedate = Input::get('hasDuedate');
 
 			if($catEntry->isTask == '0'){
