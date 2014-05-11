@@ -12,7 +12,7 @@
 		"Gopal Adhikari" => array("email" => "gopala@email.arizona.edu", 
 			"desc" => "I like developing functional web applications and I am a tea enthusiast.", "image_url" => "/image/heads/gopala.jpg"),
 		"Zuoming Shi" => array("email" => "zuomingshi@email.arizona.edu", 
-			"desc" => "Zuoming is awesome", "image_url" => "http://placehold.it/150x150"),
+			"desc" => "I'm an avid game developer who is fascinated by design.", "image_url" => "http://placehold.it/150x150", "image_url" => "/image/heads/zuomings.jpg"),
 		"Victor Nguyen" => array("email" => "victornguyen@email.arizona.edu", 
 			"desc" => "Victor is awesome", "image_url" => "http://placehold.it/150x150"),
 		"Michael Knatz" => array("email" => "michaelcknatz@email.arizona.edu", 

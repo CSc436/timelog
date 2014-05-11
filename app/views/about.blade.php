@@ -15,11 +15,11 @@
 
 		<?php $arr = array(
 			"Haily De La Cruz" => array("email" => "haily@email.arizona.edu", 
-				"title" => "Title", "desc" => "I Rally developers to Scrum together to Git the world the gift of Time Log. We are Agile PHP Artisans that Laravel our users.", "image_url" => "/image/heads/haily.jpeg"),
+				"title" => "Supreme Leader", "desc" => "I Rally developers to Scrum together to Git the world the gift of Time Log. We are Agile PHP Artisans that Laravel our users.", "image_url" => "/image/heads/haily.jpeg"),
 			"Gopal Adhikari" => array("email" => "gopala@email.arizona.edu", 
 				"title" => "Specialized Tea Enthusiast", "desc" => "I like developing functional web applications and I am a tea enthusiast.", "image_url" => "/image/heads/gopala.jpg"),
 			"Zuoming Shi" => array("email" => "zuomingshi@email.arizona.edu", 
-				"title" => "Title", "desc" => "Zuoming is awesome", "image_url" => "/image/heads/zuomings.jpg"),
+				"title" => "Bease from the Far East", "desc" => "\"...\"", "image_url" => "/image/heads/zuomings.jpg"),
 			"Victor Nguyen" => array("email" => "victornguyen@email.arizona.edu", 
 				"title" => "Executive Ra Worshiper", "desc" => "Praise the sun!", "image_url" => "http://placehold.it/150x150"),
 			"Michael Knatz" => array("email" => "michaelcknatz@email.arizona.edu", 

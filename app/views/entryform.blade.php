@@ -13,7 +13,7 @@
 
 	<div class="container" id="main">
 
-	  <h2 class="title">Add New Time Entry</h2>
+	  <h2 class="title">Add an entry</h2>
 	@if(!$errors->isEmpty())
 		<div class="alert alert-danger">
 			<strong>Error:</strong>

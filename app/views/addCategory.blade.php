@@ -13,7 +13,7 @@
 
 @section('content')
 	<div class="container" id="main">
-	<h2 class="title">Add A New Category</h2>
+	<h2 class="title">Add a category</h2>
 	@if(!$errors->isEmpty())
 		<div class="alert alert-danger">
 			<strong>Error:</strong>
