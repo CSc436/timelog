@@ -136,7 +136,7 @@ Route::group(array('before' => 'auth'), function(){
 		$id = Auth::user()->id;
 		$categories = DB::select("select * from log_category c where c.uid = $id");
 		//$categories = Route::get('api/api_routes');
-		return View::make('viewCategories')->with('categories', $categories);
+		return View::make('viewCategories')->with('categories', $categories)->with('active', 'viewCat');
 	});
 
 	//This should be named better, the naming scheme for the function is confusing

@@ -274,8 +274,7 @@ class LogController extends BaseController {
 		return $validator;
 	}
 
-
-	public function saveCategory($id = null) {
+	public function saveCategory($id = null, $stopRedirectToView = false) {
 		
 		if(!Auth::check()){
 			return Response::make('Must be logged int to save a category', 404);
@@ -333,8 +332,7 @@ class LogController extends BaseController {
 
 			//save category to database
 			$catEntry->save();
-
-			return Redirect::to('log/view');
+			if( !$stopRedirectToView ){ return Redirect::to('log/view'); }
 		} else if($id == null) {
 			// validation has failed, display error messages
 			Input::flash();
