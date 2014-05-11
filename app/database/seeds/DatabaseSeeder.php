@@ -16,8 +16,6 @@ class DatabaseSeeder extends Seeder {
 
         $this->call('UserTableSeeder');
         $this->command->info('User table seeded!');
-        $this->call('LogEntrySeeder');
-        $this->command->info('log_entry table seeded!');
         $this->call('LogCategorySeeder');
         $this->command->info('log_category table seeded!');
 	}
@@ -39,54 +37,6 @@ class UserTableSeeder extends Seeder {
         $password = Hash::make('password');
         User::create(array('email' => 'test@test.com', 'firstname' => 'testF', 'lastname' => 'testL', 'password' => $password));
     }
-}
-
-class LogEntrySeeder extends Seeder {
-
-	public function run() {
-
-		DB::table('log_entry')->delete();
-
-		$userSelect = DB::table('user')->where('email', 'test@test.com')->pluck('id');
-
-
-		/* log for FEB 03rd, 2014. All logs are under the user 'test@test.com' with the password 'password' */
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 04:30:00.000000', 'endDateTime'=> '2014-02-03 04:45:00.004444', 'notes'=>'test', 'duration'=> '15'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 04:45:00.000000', 'endDateTime'=> '2014-02-03 05:45:00.004444', 'notes'=>'test', 'duration'=> '60'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 05:45:00.000000', 'endDateTime'=> '2014-02-03 06:00:00.004444', 'notes'=>'test', 'duration'=> '15'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 06:00:00.000000', 'endDateTime'=> '2014-02-03 06:45:00.004444', 'notes'=>'test', 'duration'=> '45'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-03 06:45:00.000000', 'endDateTime'=> '2014-02-03 07:15:00.004444', 'notes'=>'test', 'duration'=> '30'));
-
-		/* log for FEB 04th, 2014. All logs are under the user 'test@test.com' with the password 'password' */
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-04 04:30:00.000000', 'endDateTime'=> '2014-02-04 05:00:00.000000', 'notes'=>'test', 'duration'=> '30'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-04 05:00:00.000000', 'endDateTime'=> '2014-02-04 05:30:00.000000', 'notes'=>'test', 'duration'=> '30'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-04 05:30:00.000000', 'endDateTime'=> '2014-02-04 06:30:00.000000', 'notes'=>'test', 'duration'=> '60'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-04 06:30:00.000000', 'endDateTime'=> '2014-02-04 06:45:00.000000', 'notes'=>'test', 'duration'=> '15'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-04 06:45:00.000000', 'endDateTime'=> '2014-02-04 07:00:00.000000', 'notes'=>'test', 'duration'=> '15'));
-
-		/* log for FEB 05th, 2014. All logs are under the user 'test@test.com' with the password 'password' */
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-05 07:00:00.000000', 'endDateTime'=> '2014-02-05 07:30:00.000000', 'notes'=>'test', 'duration'=> '30'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-05 07:45:00.000000', 'endDateTime'=> '2014-02-05 08:30:00.000000', 'notes'=>'test', 'duration'=> '45'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-05 08:30:00.000000', 'endDateTime'=> '2014-02-05 08:45:00.000000', 'notes'=>'test', 'duration'=> '15'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-05 08:45:00.000000', 'endDateTime'=> '2014-02-05 09:00:00.000000', 'notes'=>'test', 'duration'=> '15'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-05 09:00:00.000000', 'endDateTime'=> '2014-02-05 09:15:00.000000', 'notes'=>'test', 'duration'=> '15'));
-
-		/* log for FEB 06th, 2014. All logs are under the user 'test@test.com' with the password 'password' */
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-06 09:00:00.000000', 'endDateTime'=> '2014-02-06 09:15:00.000000', 'notes'=>'test', 'duration'=> '15'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-06 09:15:00.000000', 'endDateTime'=> '2014-02-06 09:30:00.000000', 'notes'=>'test', 'duration'=> '15'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-06 09:30:00.000000', 'endDateTime'=> '2014-02-06 10:45:00.000000', 'notes'=>'test', 'duration'=> '75'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-06 10:45:00.000000', 'endDateTime'=> '2014-02-06 12:00:00.000000', 'notes'=>'test', 'duration'=> '75'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-06 12:30:00.000000', 'endDateTime'=> '2014-02-06 14:00:00.000000', 'notes'=>'test', 'duration'=> '90'));
-
-		/* log for FEB 06th, 2014. All logs are under the user 'test@test.com' with the password 'password' */
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-07 12:30:00.000000', 'endDateTime'=> '2014-02-07 14:00:00.000000', 'notes'=>'test', 'duration'=> '90'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-06 14:30:00.000000', 'endDateTime'=> '2014-02-06 15:00:00.000000', 'notes'=>'test', 'duration'=> '30'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-06 15:30:00.000000', 'endDateTime'=> '2014-02-06 16:15:00.000000', 'notes'=>'test', 'duration'=> '15'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-06 15:30:00.000000', 'endDateTime'=> '2014-02-06 16:15:00.000000', 'notes'=>'test', 'duration'=> '15'));
-		LogEntry::create(array('uid'=> $userSelect, 'startDateTime' => '2014-02-06 16:30:00.000000', 'endDateTime'=> '2014-02-06 17:15:00.000000', 'notes'=>'test', 'duration'=> '45'));
-
-
-	}
 }
 
 class LogCategorySeeder extends Seeder {
@@ -169,5 +119,41 @@ class LogCategorySeeder extends Seeder {
 		LogEntry::create(array('uid'=> $userSelect, 'cid' => $miscSelect, 'startDateTime' => '2014-03-06 15:30:00.000000', 'endDateTime'=> '2014-03-06 16:15:00.000000', 'notes'=>'test', 'duration'=> '15'));
 		LogEntry::create(array('uid'=> $userSelect, 'cid' => $miscSelect, 'startDateTime' => '2014-03-06 15:30:00.000000', 'endDateTime'=> '2014-03-06 16:15:00.000000', 'notes'=>'test', 'duration'=> '15'));
 		LogEntry::create(array('uid'=> $userSelect, 'cid' => $miscSelect, 'startDateTime' => '2014-03-06 16:30:00.000000', 'endDateTime'=> '2014-03-06 17:15:00.000000', 'notes'=>'test', 'duration'=> '45'));
+
+		/* Variable Months and Years */
+		/* log for 2014. All logs are under the user 'test' with the password 'password' */
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $homeworkSelect, 'startDateTime' => '2014-03-03 04:30:00.000000', 'endDateTime'=> '2014-03-03 05:45:00.004444', 'notes'=>'test', 'duration'=> '75'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $homeworkSelect, 'startDateTime' => '2014-04-03 04:45:00.000000', 'endDateTime'=> '2014-04-03 06:45:00.004444', 'notes'=>'test', 'duration'=> '120'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $homeworkSelect, 'startDateTime' => '2014-05-03 05:45:00.000000', 'endDateTime'=> '2014-05-03 06:00:00.004444', 'notes'=>'test', 'duration'=> '15'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $homeworkSelect, 'startDateTime' => '2014-06-03 06:00:00.000000', 'endDateTime'=> '2014-06-03 06:50:00.004444', 'notes'=>'test', 'duration'=> '50'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $homeworkSelect, 'startDateTime' => '2014-07-03 06:45:00.000000', 'endDateTime'=> '2014-07-03 07:15:00.004444', 'notes'=>'test', 'duration'=> '30'));
+
+		/* log for 2015. All logs are under the user 'test' with the password 'password' */
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $socialSelect, 'startDateTime' => '2015-08-04 03:30:00.000000', 'endDateTime'=> '2015-08-04 05:00:00.000000', 'notes'=>'test', 'duration'=> '90'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $socialSelect, 'startDateTime' => '2015-09-04 04:00:00.000000', 'endDateTime'=> '2015-09-04 05:15:00.000000', 'notes'=>'test', 'duration'=> '45'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $socialSelect, 'startDateTime' => '2015-10-04 05:30:00.000000', 'endDateTime'=> '2015-10-04 06:30:00.000000', 'notes'=>'test', 'duration'=> '60'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $socialSelect, 'startDateTime' => '2015-11-04 07:30:00.000000', 'endDateTime'=> '2015-11-04 08:00:00.000000', 'notes'=>'test', 'duration'=> '30'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $socialSelect, 'startDateTime' => '2015-12-04 06:45:00.000000', 'endDateTime'=> '2015-12-04 07:00:00.000000', 'notes'=>'test', 'duration'=> '15'));
+
+		/* log for 2016. All logs are under the user 'test' with the password 'password' */
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $workSelect, 'startDateTime' => '2016-01-05 07:00:00.000000', 'endDateTime'=> '2016-01-05 07:30:00.000000', 'notes'=>'test', 'duration'=> '30'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $workSelect, 'startDateTime' => '2016-02-05 07:45:00.000000', 'endDateTime'=> '2016-02-05 08:30:00.000000', 'notes'=>'test', 'duration'=> '45'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $workSelect, 'startDateTime' => '2016-03-05 08:30:00.000000', 'endDateTime'=> '2016-03-05 08:45:00.000000', 'notes'=>'test', 'duration'=> '15'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $workSelect, 'startDateTime' => '2016-04-05 08:45:00.000000', 'endDateTime'=> '2016-04-05 09:00:00.000000', 'notes'=>'test', 'duration'=> '15'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $workSelect, 'startDateTime' => '2016-05-05 09:00:00.000000', 'endDateTime'=> '2016-05-05 09:15:00.000000', 'notes'=>'test', 'duration'=> '15'));
+
+		/* log for 2017. All logs are under the user 'test' with the password 'password' */
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $sleepSelect, 'startDateTime' => '2017-03-06 09:00:00.000000', 'endDateTime'=> '2017-03-06 09:30:00.000000', 'notes'=>'test', 'duration'=> '30'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $sleepSelect, 'startDateTime' => '2017-03-06 09:15:00.000000', 'endDateTime'=> '2017-03-06 09:30:00.000000', 'notes'=>'test', 'duration'=> '15'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $sleepSelect, 'startDateTime' => '2017-03-06 09:30:00.000000', 'endDateTime'=> '2017-03-06 10:45:00.000000', 'notes'=>'test', 'duration'=> '75'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $sleepSelect, 'startDateTime' => '2017-03-06 10:45:00.000000', 'endDateTime'=> '2017-03-06 12:00:00.000000', 'notes'=>'test', 'duration'=> '75'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $sleepSelect, 'startDateTime' => '2017-03-06 12:30:00.000000', 'endDateTime'=> '2017-03-06 14:00:00.000000', 'notes'=>'test', 'duration'=> '90'));
+
+		/* log for 2018. All logs are under the user 'test' with the password 'password' */
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $miscSelect, 'startDateTime' => '2018-03-07 12:30:00.000000', 'endDateTime'=> '2018-03-07 14:00:00.000000', 'notes'=>'test', 'duration'=> '90'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $miscSelect, 'startDateTime' => '2018-03-06 14:30:00.000000', 'endDateTime'=> '2018-03-06 15:00:00.000000', 'notes'=>'test', 'duration'=> '30'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $miscSelect, 'startDateTime' => '2018-03-06 15:30:00.000000', 'endDateTime'=> '2018-03-06 16:15:00.000000', 'notes'=>'test', 'duration'=> '15'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $miscSelect, 'startDateTime' => '2018-03-06 15:30:00.000000', 'endDateTime'=> '2018-03-06 16:15:00.000000', 'notes'=>'test', 'duration'=> '15'));
+		LogEntry::create(array('uid'=> $userSelect, 'cid' => $miscSelect, 'startDateTime' => '2018-03-06 16:30:00.000000', 'endDateTime'=> '2018-03-06 17:15:00.000000', 'notes'=>'test', 'duration'=> '45'));
 	}
 }

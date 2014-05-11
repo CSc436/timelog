@@ -68,6 +68,7 @@ class UserController extends Controller {
 			return Redirect::intended('profile');
 		}
 		else {
+			Input::flash();
 			return Redirect::to('login')->with('error', 'Incorrect email or password');
 		}
 	}
@@ -92,6 +93,8 @@ class UserController extends Controller {
 				'email'    => Input::get('email'),
 				'password' => Hash::make(Input::get('password'))
 				));
+
+			//(logController@saveCategory)
 
 			return Redirect::to('/')->with('success', 'Thanks for registering!');
 

@@ -47,16 +47,6 @@ Route::group(array('before' => 'auth'), function(){
 	{
 		return View::make('dashboard')->with('active', 'dashboard');
 	});
-	
-	//Get logs for view logs page
-	Route::get('log/view', function()
-	{	
-		$user = Auth::user();
-		$uid = $user->id;
-		$query = DB::table('log_entry')->where('UID', '=', $uid)->orderBy('endDateTime', 'asc')->get();
-
-		return Auth::check() != null ? View::make('view')->with('query', $query)->with('active', 'viewlog') : Redirect::to('login');
-	});
 
 	//Retrieves entries for calendar interface desplay
 	Route::get('log/view_cal', function()
@@ -78,26 +68,67 @@ Route::group(array('before' => 'auth'), function(){
 		return Auth::check() != null ? $query : Redirect::to('login');
 	});
 
-	//Get logs for view logs page 
-	Route::get('log/view', function()
+	//Get logs for view logs page
+	Route::get('log/view', 'VisController@visualize');
+	/*Route::get('log/view', function()
 	{
+		$date = explode("/", Input::get('dates'));
 		$id = Auth::user()->id;
 		$categories = DB::select("select name, cid from log_category c where c.uid = $id");
-		if($categories) {
-			// $query = DB::select("select color, name, startDateTime, endDateTime, duration, notes from log_entry e, log_category c where e.cid = c.cid AND e.uid = $id");
-			$query = DB::table('log_entry')
-				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
-				->select('LID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
-				->where('log_entry.uid', '=', "$id")->get();
-		} else {
-			// $query = DB::select("select startDateTime, endDateTime, duration, notes from log_entry where uid = $id");
-			$query = DB::table('log_entry')
-				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
-				->select('LID', 'startDateTime', 'endDateTime', 'duration', 'notes')
-				->where('log_entry.uid', '=', "$id")->get();
+		$timeFrame = DB::select("select YEAR(startDateTime) as year, MONTH(startDateTime) as month from log_entry GROUP BY YEAR(startDateTime), MONTH(startDateTime) ORDER BY YEAR(startDateTime), MONTH(startDateTime)");
+		// $timeFrame = DB::table("log_entry")
+		// 	->select(DB::RAW("YEAR(startDateTime) AS year"))
+		// 	->select(DB::RAW("MONTH(startDateTime) AS month"))
+		// 	->groupBy(DB::RAW("YEAR(startDateTime)"))
+		// 	->groupBy(DB::RAW("MONTH(startDateTime)"))
+		// 	->orderBy(DB::RAW("YEAR(startDateTime)", "asc"))
+		// 	->orderBy(DB::RAW("MONTH(startDateTime)", "asc"))->get();
+		$selectedMonth = array();
+		$selectedMonth["0/0"] = "-----";
+		foreach ($timeFrame as $time) {
+			$selectedMonth[$time->month."/".$time->year] = $time->month."/".$time->year;
 		}
-		return View::make('view')->with('query', $query)->with('categories', $categories)->with('active', 'viewlog');
-	});
+
+		if($date[0] == 0) { // Determines the month and year that want to be inspected
+			$query = DB::table('log_entry')
+				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
+				->select('LID','log_entry.CID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
+				->where('log_entry.uid', '=', "$id")
+				->orderBy('startDateTime','ASC')
+				->get();
+			$query_chart = DB::table('log_entry')
+				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
+				->select(DB::RAW("`log_entry`.`CID`, `name`, `color`, SUM(`duration`) AS 'duration', MIN(`startDateTime`) AS 'startDateTime'")) //, COUNT(`LID`) AS 'count'"))
+				->where('log_entry.uid', '=', "$id")
+				->groupBy('log_entry.CID')
+				->groupBy(DB::RAW("YEAR(startDateTime)"))
+				->groupBy(DB::RAW("MONTH(startDateTime)"))
+				->groupBy(DB::RAW("DAY(startDateTime)"))
+				->orderBy('startDateTime','ASC')
+				->get();
+		} else {
+			$query = DB::table('log_entry')
+				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
+				->select('LID','log_entry.CID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
+				->where(DB::RAW('MONTH(startDateTime)'), '=', $date[0])
+				->where(DB::RAW('YEAR(startDateTime)'), '=', $date[1])
+				->where('log_entry.uid', '=', "$id")
+				->orderBy('startDateTime','DESC')
+				->get();
+			$query_chart = DB::table('log_entry')
+				->join('log_category', 'log_entry.cid', '=', 'log_category.cid')
+				->select('LID','log_entry.CID','color', 'name', 'startDateTime', 'endDateTime', 'duration', 'notes')
+				->where(DB::RAW('MONTH(startDateTime)'), '=', $date[0])
+				->where(DB::RAW('YEAR(startDateTime)'), '=', $date[1])
+				->where('log_entry.uid', '=', "$id")
+				->orderBy('startDateTime','DESC')
+				->get();
+		}
+
+		
+
+		return View::make('view')->with(array('query' => $query, 'query_chart' => $query_chart, 'categories' => $categories, 'dates' => $selectedMonth, 'active' =>'viewlog'));
+	});*/
 
 		//Get logs for viewCategories logs page 
 	Route::get('log/viewCategory', function()
@@ -105,7 +136,7 @@ Route::group(array('before' => 'auth'), function(){
 		$id = Auth::user()->id;
 		$categories = DB::select("select * from log_category c where c.uid = $id");
 		//$categories = Route::get('api/api_routes');
-		return View::make('viewCategories')->with('categories', $categories);
+		return View::make('viewCategories')->with('categories', $categories)->with('active', 'viewCat');
 	});
 
 	//This should be named better, the naming scheme for the function is confusing
@@ -162,11 +193,12 @@ Route::group(array('before' => 'auth'), function(){
 	Route::post('log/saveCat{id?}','logController@saveCategory')->where('id', '[0-9]+');
 
 	Route::get('log/editCat/{catID}/modal', function($catID){return (new LogController)->editCat($catID, true);})->where('catID', '[0-9]+');
+	Route::get('log/editTask/{catID}/modal', function($catID){return (new LogController)->editTask($catID, true);})->where('catID', '[0-9]+');
 	Route::post('log/updateCat/{catID?}', 'logController@updateCategory')->where('catID', '[0-9]+');
 	//Route::get('log/edit/{id}', 'LogController@editCat')->where('id', '[0-9]+');
 
 	Route::get('log/addCategory', function(){
-		return View::make('addCategory');
+		return View::make('addCategory')->with('active', 'category');
 	});
 
 	Route::get('log/tasks', function(){
