@@ -152,18 +152,36 @@ footer .social i:hover{
 	color: #1485c3;
 }
 
-.navbar-default {
+.navbar-sundial {
 background-color: #ee9900;
+border-color: transparent;
 }
-.navbar-default .navbar-text {
+.navbar-sundial .navbar-text {
   color: #ffffff;
 }
-.navbar-default .navbar-toggle .icon-bar {
+
+.navbar-sundial .navbar-toggle .icon-bar {
   background-color: #ffffff;
 }
-.navbar-default .navbar-nav > li > a {
+.navbar-sundial .navbar-nav > li > a {
   color: #ffffff;
 }
+
+.navbar-sundial .navbar-brand {
+  color: #ffffff;
+}
+.navbar-sundial .navbar-brand:hover,
+.navbar-sundial .navbar-brand:focus {
+  color: #e6e6e6;
+  background-color: transparent;
+}
+
+.nav>li>a:hover, 
+.nav>li>a:focus {
+text-decoration: #000000;
+background-color: #000000;
+}
+
 .col-md-4 h2{
 	color: #f4645f;
 }
