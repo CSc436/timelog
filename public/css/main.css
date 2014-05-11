@@ -99,13 +99,12 @@ background-image: linear-gradient(to top, #8AD0FF 0%, #0C5AA6 100%);
 
 .footer{
 	background: #3f4245 url(../image/footer-bg.png) repeat-x left top;
-	padding-top: 60px;
-	padding-bottom: 80px;
+	padding-top: 40px;
 	position: fixed;
 	bottom: 0;
 	left: 0;
 	z-index: 100;
-	height: 200px;
+	height: 180px;
 	width: 100%;
 	-webkit-transform: translateZ(0);
 	color: #fff;
