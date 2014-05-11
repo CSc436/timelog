@@ -23,4 +23,45 @@ class Utils{
 				return false;
 			return count(str_replace(' ','',$color)) > 0;
 	}
+
+	// Parameters:
+	// $cat is the parent category
+	// $parentpath is the current legacy path of all parents for these children
+	//
+	// Returns:
+	// This method returns an array of CID->Category Name pairs of the users category tree structure, starting with the provided root $cat.
+	public static function getSelectCats($cat = NULL, $parentpath = ""){
+		if(!Auth::check())
+			return array();
+
+		$selectCat = array();
+		$sep = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		if($cat != NULL){
+			$fullpath = $parentpath.$cat->name;
+			$selectCat[$cat->cid] = $fullpath;
+		}
+		
+		// get children
+		$subcats = DB::table('log_category')->select('name', 'cid');
+
+		if($cat == NULL)
+			$subcats = $subcats->where('PID', '=', NULL);
+		else
+			$subcats = $subcats->where('PID', '=', $cat->cid);
+		
+		$subcats = $subcats->where('UID', '=', Auth::user()->id)
+			->orderby('name','ASC')
+			->get();
+
+		$selectChildCat = array();
+		foreach($subcats as $thissubcat){
+			if($cat != NULL)
+				$selectChildCat = Utils::getSelectCats($thissubcat, $parentpath.$sep);
+			else
+				$selectChildCat = Utils::getSelectCats($thissubcat, "");
+			$selectCat += $selectChildCat;
+		}
+		return $selectCat;
+
+	}
 }

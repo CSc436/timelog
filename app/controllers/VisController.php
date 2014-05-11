@@ -5,40 +5,6 @@ class VisController extends BaseController {
 
 	var $uid;
 
-	// $cat is the parent category
-	// $parentpath is the current legacy path of all parents for these children
-	private function getSelectCats($cat, $parentpath){
-		$selectCat = array();
-		$sep = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-		if($cat != NULL){
-			$fullpath = $parentpath.$cat->name;
-			$selectCat[$cat->cid] = $fullpath;
-		}
-		
-		// get children
-		$subcats = DB::table('log_category')->select('name', 'cid');
-
-		if($cat == NULL)
-			$subcats = $subcats->where('PID', '=', NULL);
-		else
-			$subcats = $subcats->where('PID', '=', $cat->cid);
-		
-		$subcats = $subcats->where('UID', '=', $this->uid)
-			->orderby('name','ASC')
-			->get();
-
-		$selectChildCat = array();
-		foreach($subcats as $thissubcat){
-			if($cat != NULL)
-				$selectChildCat = $this->getSelectCats($thissubcat, $parentpath.$sep);
-			else
-				$selectChildCat = $this->getSelectCats($thissubcat, "");
-			$selectCat += $selectChildCat;
-		}
-		return $selectCat;
-
-	}
-
 	/*
 	|--------------------------------------------------------------------------
 	| Visualization Controller
@@ -52,7 +18,7 @@ class VisController extends BaseController {
 
 		$this->uid = Auth::user()->id;
 
-		$select_categories = $this->getSelectCats(NULL, "");
+		$select_categories = Utils::getSelectCats();
 
 		// default value
 		$startDT = strtotime('today -8 weeks');

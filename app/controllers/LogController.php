@@ -189,7 +189,7 @@ class LogController extends BaseController {
 			return array("success" => 1, "errors" => array(), "log" => $entry);
 
 		} else {
-			return array("success" => 0, "errors" => $validator->messages(), "log" => null);
+			return array("success" => 0, "errors" => $validator, "log" => null);
 		}
 	}
 
@@ -199,16 +199,16 @@ class LogController extends BaseController {
 
 		if($val == NULL)
 			return Response::make('Not Found', 404);
-		if($val[0]){
+		if($val["success"] === 1){
 			return Redirect::to('log/view');
 		} else if($id == null) {
 			// validation has failed, display error messages
 			Input::flash();
-			return Redirect::to('log/add')->withErrors($val[1]);
+			return Redirect::to('log/add')->withErrors($val["errors"]);
 		} else {
 			// validation has failed, display error messages
 			Input::flash();
-			return Redirect::to('log/edit/'.$id)->withErrors($val[1]);
+			return Redirect::to('log/edit/'.$id)->withErrors($val["errors"]);
 		}
 	}
 
@@ -221,7 +221,7 @@ class LogController extends BaseController {
 			return $save_entry_result["log"];
 		} else{
 			Input::flash();
-			return $save_entry_result["errors"];
+			return $save_entry_result["errors"]->messages();
 		}
 	}
 
