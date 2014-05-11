@@ -147,6 +147,11 @@ class LogController extends BaseController {
 			$colorstr = Input::get('color');
 			//$rating = Input::get('rating');
 			$newcatstr = trim(Input::get('newcat'));
+			
+			//Default to uncategorized if no category name was provided.
+			if($newcatstr == ''){
+				$newcatstr = "uncategorized";
+			}
 
 			if($newcatstr != ''){
 				try{
@@ -162,7 +167,6 @@ class LogController extends BaseController {
 					$newcat->isCompleted = 0;
 					$newcat->rating = 0;
 					$newcat->deadline = NULL;
-					//$newcat->rating = $rating;
 					$newcat->save();
 					$cid = $newcat->CID;
 				}
