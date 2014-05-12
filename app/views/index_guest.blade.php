@@ -3,6 +3,13 @@
 	<p>Time Log makes it really easy to log your tasks and help you plan your tasks effortlessly. The use of Time Log guarantees you with maximum productivity and minimum stress.</p>
 </div>
 
+<?php $success = Session::get("success"); ?>
+@if(isset($success))
+	<div class="alert alert-success">
+		{{ $success }}
+	</div>
+@endif
+
 <div class="container"><h1 class='feature-title title'>Features</h1>
 
 <section class="timelog-features">

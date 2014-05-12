@@ -131,8 +131,15 @@ class LogController extends BaseController {
 		
 		if ($validator->passes()) {
 			// validation has passed, save data in DB
+			// Catstring gives CID, not Category string..........
 			$catstr = Input::get('category');
 			$cid = NULL;
+
+			//Default to uncategorized if no category name was provided.
+			if($catstr == '0' ){
+				$catstr = LogCategory::where('UID', '=', Auth::user()->id)->where('name', '=', "Uncategorized")->pluck("CID");
+				//die($catstr);
+			}
 
 			if($catstr != '0'){
 				try{
@@ -147,13 +154,8 @@ class LogController extends BaseController {
 			$colorstr = Input::get('color');
 			//$rating = Input::get('rating');
 			$newcatstr = trim(Input::get('newcat'));
-			
-			//Default to uncategorized if no category name was provided.
-			if($newcatstr == ''){
-				$newcatstr = "uncategorized";
-			}
 
-			if($newcatstr != ''){
+			if(!empty($newcatstr)){
 				try{
 					$existingcat = LogCategory::where('UID', '=', Auth::user()->id)->where('PID', '=', $cid)->where('name', '=', $newcatstr)->firstOrFail();
 					$cid = $existingcat->CID;

@@ -134,7 +134,7 @@ class UserController extends Controller {
 			$catEntry->save();
 			//Routes::post(logController@saveCategory);
 
-			return Redirect::to('/')->with('success', 'Thanks for registering!');
+			return Redirect::to('/')->with('success', '<strong>Success!</strong> Thanks for registering!');
 
 		} else {
 			return $validator->getMessageBag();
