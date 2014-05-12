@@ -48,7 +48,7 @@
 		?>
 	@endif
 
-	  <div class="form-group">
+	<div class="form-group">
 		{{ Form::label('cid', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group">
@@ -66,7 +66,7 @@
 				{{ Form::hidden( 'color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => '#CCCCCC') ) }}
 			</div>
 		</div>
-	  </div>
+	</div>
 
 	<div class="form-group">
 		{{ Form::label('startDateTime', 'Start', array('class' => 'col-sm-4 control-label')) }}
@@ -84,7 +84,7 @@
 		</div>
 	</div>
 
-	  <div class="form-group">
+	<div class="form-group">
 		{{ Form::label('endDateTime', 'End', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group date">
@@ -97,19 +97,21 @@
 				</span>
 			</div>
 		</div>
-	  </div>
+	</div>
 
-	  <div class="form-group">
+	<div class="form-group">
 		{{ Form::label('notes', 'Notes', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			{{ Form::textarea('notes', null, array('class' => 'form-control')) }}
 		</div>
-	  </div>
-	  <div class="form-group">
+	</div>
+
+	<div class="form-group">
 		<div class="col-sm-offset-4 col-sm-8">
-			{{ Form::submit('Submit', array('class' => 'btn btn-default')) }}
+			{{ Form::submit('Submit', array('class' => 'btn btn-default btn-primary')) }}
 		</div>
-	  </div>
+	</div>
+
 	{{ Form::close() }}
 	
 	</div>
@@ -118,9 +120,9 @@
 
 		$(function(){
 
-			$("#datetimepickerStart").datetimepicker();
+			$("#datetimepickerStart").datetimepicker({language: 'en'});
 
-			$("#datetimepickerEnd").datetimepicker();
+			$("#datetimepickerEnd").datetimepicker({language: 'en'});
 
 			initializeColorPicker();
 		});
