@@ -80,7 +80,7 @@ $(function() {
 
 			$.post("/log/save_from_calendar/" + calEvent.id, {
 				entryname: calEvent.title,
-				category: calEvent.categoryId,
+				CID: calEvent.categoryId,
 				startDateTime: stFromatted,
 				endDateTime: etFromatted,
 				notes: calEvent.description
@@ -93,7 +93,7 @@ $(function() {
 
 			$.post("/log/save_from_calendar/" + calEvent.id, {
 				entryname: calEvent.title,
-				category: calEvent.categoryId,
+				CID: calEvent.categoryId,
 				startDateTime: stFromatted,
 				endDateTime: etFromatted,
 				notes: calEvent.description
@@ -129,7 +129,7 @@ function eventEditorModal(start, end, calEvent) {
 		$("#thisModal").on("shown.bs.modal", function() {
 			$("#startDateTime").val(start);
 			$("#endDateTime").val(end);
-			$("#category").val(calEvent.categoryId);
+			$("#CID").val(calEvent.categoryId + '');
 			$("#notes").val(calEvent.description);
 		});
 

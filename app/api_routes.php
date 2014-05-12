@@ -16,7 +16,7 @@ Route::group(array('prefix' => 'api', 'before' => 'auth'), function(){
 	// Returns a HTML view for the modal to add log entry
 	Route::get('log/edit/modal', function()
 	{
-		return View::make('entryform_modal');
+		return View::make('entryform_modal')->with('categories', Utils::getSelectCats());
 	});
 
 	Route::post('log/save/{id?}', 'LogController@saveEntryFromCalendar')->where('id', '[0-9]+');

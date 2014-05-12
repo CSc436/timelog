@@ -43,10 +43,10 @@
 			</div>
 			@endif
 			<div class="form-group">
-				{{ Form::label('cid', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
+				{{ Form::label('CID', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
 				<div class="col-sm-8">
 					<div class="input-group">
-						{{ Form::select('CID', array(""=>"")+$categories, NULL, array('id' => 'cid', 'class' => 'form-control')) }}
+						{{ Form::select('CID', array(""=>"")+$categories, NULL, array('id' => 'CID', 'class' => 'form-control')) }}
 
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="button" onclick="$('#newcatbox').toggle();$('#newcat').focus();"><span class="fa fa-plus"></span></button>
