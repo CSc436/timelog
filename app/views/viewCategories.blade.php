@@ -25,13 +25,13 @@
 		<?php
 			foreach ($categories as $entry)
 			{
-				if ($entry->isTask == 0){
+				// if ($entry->isTask == 0){
 					if ($entry->PID == NULL){
 						echo ("<li>".$entry->name . " <i class=\"fa fa-pencil\" onclick=\"return $('#thisModal').modal({remote: '/log/editCat/".$entry->CID."/modal'})\"></i>");
 						subCategories($entry);
 						echo("</li>");
 					}
-				}
+				// }
 			}
 
 			function subCategories($parentCategory) {
