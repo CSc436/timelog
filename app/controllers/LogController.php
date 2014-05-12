@@ -75,7 +75,7 @@ class LogController extends BaseController {
 
 		// validate
 		$validator = Validator::make(Input::all(), array(
-				'cid' => 'integer|valid_cid',
+				'CID' => 'integer|valid_cid',
 				'newcat' => 'valid_name',
 				'startDateTime' => 'required|date',
 				'endDateTime' => 'required|date|after_start:startDateTime',
@@ -123,7 +123,7 @@ class LogController extends BaseController {
 		if ($validator->passes()) {
 			// validation has passed, save data in DB
 
-			$cid = intval(Input::get('cid'));
+			$cid = intval(Input::get('CID'));
 			if($cid == 0)
 				$cid = NULL;
 
@@ -156,13 +156,14 @@ class LogController extends BaseController {
 			}
 
 			$entry->CID = $cid;
-			$entry->startDateTime = Input::get('startDateTime');
-			$entry->endDateTime = Input::get('endDateTime');
 			
 			// calculate duration
 			
-			$start = new DateTime($entry->startDateTime);
-			$end = new DateTime($entry->endDateTime);
+			$start = new DateTime(Input::get('startDateTime'));
+			$end = new DateTime(Input::get('endDateTime'));
+
+			$entry->startDateTime = $start->format('Y-m-d H:i:s');
+			$entry->endDateTime = $end->format('Y-m-d H:i:s');
 			
 			$interval = $start->diff($end);
 			$d = intval($interval->format('%a'));

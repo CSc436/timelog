@@ -13,7 +13,13 @@
 
 	<div class="container" id="main">
 
-	  <h2 class="title">Add an entry</h2>
+	  <h2 class="title">
+		@if(!isset($editThis))
+			Add an entry
+		@else
+			Edit an Entry
+		@endif
+	  </h2>
 	@if(!$errors->isEmpty())
 		<div class="alert alert-danger">
 			<strong>Error:</strong>
@@ -31,15 +37,22 @@
 
 	@if(!isset($editThis))
 		{{ Form::open(array('url' => 'log/save', 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'style' => 'max-width:500px')) }}
+		<?php
+		$startDateTime = $endDateTime = NULL;
+		?>
 	@else
 		{{ Form::model($editThis, array('url' => 'log/save/'.$editThis->LID, 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal', 'style' => 'max-width:500px')) }}
+		<?php
+		$startDateTime = (new DateTime($editThis->startDateTime))->format('m/d/Y h:i A');
+		$endDateTime = (new DateTime($editThis->endDateTime))->format('m/d/Y h:i A');
+		?>
 	@endif
 
 	  <div class="form-group">
 		{{ Form::label('cid', 'What will you be recording?', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group">
-				{{ Form::select('cid', $categories, NULL, array('id' => 'cid', 'class' => 'form-control')) }}
+				{{ Form::select('CID', array(""=>"")+$categories, NULL, array('id' => 'cid', 'class' => 'form-control')) }}
 
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button" onclick="$('#newcatbox').toggle();$('#newcat').focus();"><span class="fa fa-plus"></span></button>
@@ -60,7 +73,7 @@
 		<div class="col-sm-8">
 			<div class="input-group date">
 				    <span id='datetimepickerStart'>
-				    	{{ Form::text('startDateTime', null, array('class' => 'form-control')) }}
+				    	{{ Form::text('startDateTime', $startDateTime, array('class' => 'form-control')) }}
 				    </span>
 
 					<span class="input-group-btn">
@@ -76,7 +89,7 @@
 		<div class="col-sm-8">
 			<div class="input-group date">
 			    <span id='datetimepickerEnd'>
-			    	{{ Form::text('endDateTime', null, array('class' => 'form-control')) }}
+			    	{{ Form::text('endDateTime', $endDateTime, array('class' => 'form-control')) }}
 			    </span>
 
 				<span class="input-group-btn">
@@ -105,46 +118,12 @@
 
 		$(function(){
 
-			$(document).on('submit', 'form', function(e) {
-				var databaseStartTimeStirng = convertToDatabaseTime( $("#startDateTime").val() );
-				$("#startDateTime").val(databaseStartTimeStirng);
-				var databaseEndTimeStirng = convertToDatabaseTime( $("#endDateTime").val() );
-				$("#endDateTime").val(databaseEndTimeStirng);
-			});
-
 			$("#datetimepickerStart").datetimepicker();
 
 			$("#datetimepickerEnd").datetimepicker();
 
-			var i = 0;
-			var currDate = new Date();
-			
-			$("input[id$=DateTime]").each(function(k, v){
-
-				var mins = currDate.getMinutes();
-				var addMins = mins + (i++) * 15;
-				currDate.setMinutes(addMins);
-				$(v).val(moment(currDate).format('MM/DD/YYYY hh:mm A'));
-
-			});
-
-			var $cats = $("#category");
-
-			$.getJSON("/api/log/categories", function(data){
-				console.log(data);
-				$.each(data, function(k, v){
-					$cats.append(new Option(v.name, v.cid));
-				});
-				
-			});
-
 			initializeColorPicker();
 		});
-		
-		function convertToDatabaseTime(usTime){
-			console.log(usTime);
-			return moment(usTime, 'MM/DD/YYYY hh:mm A').format("YYYY-MM-DD HH:mm");
-		}
 
 		function initializeColorPicker(){
 			$("#colorPicker").spectrum({
