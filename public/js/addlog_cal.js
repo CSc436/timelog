@@ -130,6 +130,7 @@ function eventEditorModal(start, end, calEvent) {
 			$("#startDateTime").val(start);
 			$("#endDateTime").val(end);
 			$("#CID").val(calEvent.categoryId + '');
+			$("#LID").val(calEvent.id + '');
 			$("#notes").val(calEvent.description);
 		});
 
@@ -141,6 +142,9 @@ function eventEditorModal(start, end, calEvent) {
 		$("#thisModal").on("shown.bs.modal", function() {
 			$("#startDateTime").val(start);
 			$("#endDateTime").val(end);
+			$("#CID").val('');
+			$("#LID").val('');
+			$("#notes").val('');
 		});
 	}
 
@@ -149,9 +153,14 @@ function eventEditorModal(start, end, calEvent) {
 	});
 }
 
-function submitEvent(update, id) {
+function submitEvent() {
 
 	var form = $("#thisModal form");
+
+	update = $("#LID").val() != '';
+	id = $("#LID").val();
+
+	console.log("update: " + update + " | id: " + id);
 
 	var url = '/api/log/save';
 

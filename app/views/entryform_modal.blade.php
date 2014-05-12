@@ -9,9 +9,11 @@
 	<div class="modal-content">
 		@if(!isset($editThis))
 			{{ Form::open(array('url' => 'log/save', 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal')) }}
+			{{ Form::hidden( 'LID', '', array('id' => 'LID') ) }}
 			<?php $startDateTime = $endDateTime = NULL; ?>
 		@else
 			{{ Form::model($editThis, array('url' => 'log/save/'.$editThis->LID, 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal')) }}
+			{{ Form::hidden( 'LID', $editThis->LID, array('id' => 'LID') ) }}
 			<?php
 			$startDateTime = (new DateTime($editThis->startDateTime))->format('m/d/Y h:i A');
 			$endDateTime = (new DateTime($editThis->endDateTime))->format('m/d/Y h:i A');
