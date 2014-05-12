@@ -43,48 +43,39 @@ class LogController extends BaseController {
 		* A valid name consists of print characters and spaces, not including slashes (\ nor /).
 		* A valid name is also one that is at least of length 1 when not counting white space.
 		*/
-		Validator::extend('valid_name', function($attribute, $value, $parameters)
+		Validator::extend('valid_name', function($attribute, $name, $parameters)
 		{
-			return Utils::validateName($value);
+			return Utils::validateName($name);
 		});
 		
 		/* 
 		* A valid color is a hexadecimal string of six characters without the # sign, no more,
 		* no less.
 		*/
-		Validator::extend('valid_color', function($attribute, $value, $parameters)
+		Validator::extend('valid_color', function($attribute, $color, $parameters)
 		{
-			return Utils::validateColor($value);
+			return Utils::validateColor($color);
 		});
 
 		/* 
 		* A valid rating is a char between 1 and 3, no more, no less.
 		*/
-		Validator::extend('valid_rating', function($attribute, $value, $parameters)
+		Validator::extend('valid_rating', function($attribute, $rating, $parameters)
 		{
-			return Utils::validateRating($value);
+			return Utils::validateRating($rating);
 		});
 		/*
-		* A valid name consists of print characters and spaces, not including slashes (\ nor /).
-		* A valid name is also one that is at least of length 1 when not counting white space.
+		* A valid CID is one that corresponds to a Category that the user owns. It's also valid to
+		* have no selected CID (value of 0 or "").
 		*/
-		Validator::extend('valid_category', function($attribute, $value, $parameters)
+		Validator::extend('valid_cid', function($attribute, $cid, $parameters)
 		{
-			if($value === '0')
-				return true;
-			// load existing LogCategory
-			try{
-				$entry = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $value)->firstOrFail();
-			}catch(ModelNotFoundException $e){
-				return false;
-			}
-			return true;
+			return Utils::validateCID($cid);
 		});
 
 		// validate
 		$validator = Validator::make(Input::all(), array(
-
-				'category' => 'integer|valid_category',
+				'cid' => 'integer|valid_cid',
 				'newcat' => 'valid_name',
 				'startDateTime' => 'required|date',
 				'endDateTime' => 'required|date|after_start:startDateTime',
@@ -93,8 +84,8 @@ class LogController extends BaseController {
 			),
 			array(
 				'after_start' => 'End date-time must be after start date-time.',
-				'valid_category' => 'The category you selected was not valid. Please select a different.',
-				'valid_name' => 'Your new category name cannot have slash characters (i.e. \'/\' and \'\\\') and must be at least 1 non-white-space character long',
+				'valid_cid' => 'Please select a valid category.',
+				'valid_name' => 'Your new category name cannot have slash characters (i.e. \'/\' and \'\\\') and must be at least 1 non-white-space character long.',
 				'valid_color' => 'You have used an invalid color scheme',
 				'valid_rating' => 'Your rating is invalid... Whoa, How did you manage to do that?'
 			)
@@ -108,7 +99,7 @@ class LogController extends BaseController {
 		$save_entry_result = array("success" => 0, "errors" => array(), "log" => null);
 		
 		if(!Auth::check()){
-			$save_entry_result["errors"] = array('You need to be logged in to perform this operation');
+			$save_entry_result["errors"] = array('You need to be logged in to perform this operation.');
 			return $save_entry_result;
 		}
 
@@ -120,9 +111,9 @@ class LogController extends BaseController {
 		} else {
 			// load existing LogEntry
 			try{
-				$entry = LogEntry::where('UID', '=', Auth::user()->id)->findOrFail($id);
+				$entry = LogEntry::where('UID', '=', Auth::user()->id)->where('LID', '=', $id)->findOrFail($id);
 			}catch(ModelNotFoundException $e){
-				$save_entry_result["errors"] = array("ModelNotFoundException");
+				$save_entry_result["errors"] = array("The specified log entry does not exist.");
 				return $save_entry_result;
 			}
 		}
@@ -131,18 +122,10 @@ class LogController extends BaseController {
 		
 		if ($validator->passes()) {
 			// validation has passed, save data in DB
-			$catstr = Input::get('category');
-			$cid = NULL;
 
-			if($catstr != '0'){
-				try{
-					$cat = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $catstr)->firstOrFail();
-					$cid = $cat->CID;
-				}catch(ModelNotFoundException $e){
-					$save_entry_result["errors"] = array("ModelNotFoundException");
-					return $save_entry_result;
-				}
-			}
+			$cid = intval(Input::get('cid'));
+			if($cid == 0)
+				$cid = NULL;
 
 			$colorstr = Input::get('color');
 			//$rating = Input::get('rating');
@@ -239,13 +222,14 @@ class LogController extends BaseController {
 		}
 
 		if($modal === false)
-			return View::make('entryform')->with('editThis', $entry);
+			return View::make('entryform')->with(array('editThis' => $entry, 'categories' => Utils::getSelectCats()));
 		else
-			return View::make('entryform_modal')->with('editThis', $entry);
+			return View::make('entryform_modal')->with(array('editThis' => $entry, 'categories' => Utils::getSelectCats()));
 	}
 
 	public function getLogAdd($modal = false){
-		return Auth::check() != null ? ($modal == false ? View::make('entryform')->with('active', 'addlog') : View::make('entryform_modal')->with('active', 'addlog')) : Redirect::to('login');
+		$sendToForm = array('active'=>'addlog', 'categories' => Utils::getSelectCats());
+		return Auth::check() != null ? ($modal == false ? View::make('entryform')->with($sendToForm) : View::make('entryform_modal')->with($sendToForm)) : Redirect::to('login');
 	}
 
 

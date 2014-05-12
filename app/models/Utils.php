@@ -23,6 +23,23 @@ class Utils{
 				return false;
 			return count(str_replace(' ','',$color)) > 0;
 	}
+	public static function validateCID($cid){
+		$cid = intval($cid);
+
+		// no value is fine
+		if($cid == 0)
+			return true;
+
+		// load existing LogCategory
+		try{
+			$entry = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $cid)->firstOrFail();
+		}catch(ModelNotFoundException $e){
+			return false;
+		}
+		return true;
+	}
+
+	const ALLCATS = "All Categories";
 
 	// Parameters:
 	// $cat is the parent category

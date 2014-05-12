@@ -18,8 +18,6 @@ class VisController extends BaseController {
 
 		$this->uid = Auth::user()->id;
 
-		$select_categories = Utils::getSelectCats();
-
 		// default value
 		$startDT = strtotime('today -8 weeks');
 		$endDT = strtotime('today');
@@ -74,7 +72,7 @@ class VisController extends BaseController {
 		$sendToView = array(
 			'table_rows' => $table_rows,
 			'chart_rows' => $chart_rows,
-			'categories' => $select_categories,
+			'categories' => Utils::getSelectCats(),
 			// for dates ranges filter
 			'startDT' => $startDT,
 			'endDT' => $endDT,

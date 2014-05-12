@@ -7,7 +7,7 @@
 
 	<div class="well">
 		{{ Form::open(array('url' => 'log/view', 'method' => 'get', 'role' => 'form', 'class' => 'form-horizontal', 'id' => 'chart_options')) }}
-		{{ Form::select('category', array(""=>"All Categories")+$categories, Input::get('category'), array('onchange' => "$('#chart_options').submit()")); }}
+		{{ Form::select('category', array(""=>Utils::ALLCATS)+$categories, Input::get('category'), array('onchange' => "$('#chart_options').submit()")) }}
 		<div class="daterange pull-right" id="daterange"><i class="fa fa-calendar"></i> <span>{{ date('F d, Y', $startDT) }} - {{ date('F d, Y', $endDT) }}</span> <i class="fa fa-caret-down"></i></div>
 		{{ Form::hidden('start', date('Y-m-d', $startDT), array('id' => 'daterange_start')) }}
 		{{ Form::hidden('end', date('Y-m-d', $endDT), array('id' => 'daterange_end')) }}
@@ -57,7 +57,7 @@
 			echo ("<tr>");
 			echo ("<td><div style=\"background-color: #{$entries->color};height: 1em;width: 1em;display:inline-block\"></div> {$entries->name}</td>");
 			echo ("<td>{$startDT->format('D, m/d')}</td>");
-			echo ("<td><strong>{$endDT->format('g:i a')}</strong> for {$entries->duration} minutes</td>");
+			echo ("<td><strong>{$startDT->format('g:i a')}</strong> for {$entries->duration} minutes</td>");
 			echo ("<td>{$entries->notes}</td><td><button class=\"btn btn-xs\" onclick=\"return $('#thisModal').modal({remote: '/log/edit/{$entries->LID}/modal'})\">Edit</button></td></tr>");
 		}
 		foreach ($chart_rows as $entries){
