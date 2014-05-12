@@ -103,7 +103,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			<button type="button" class="btn btn-cancel" data-dismiss="modal">Cancel</button>
 			{{ Form::submit('Submit', array('class' => 'btn btn-default btn-primary')) }}
 		</div>
 		{{ Form::close() }}
