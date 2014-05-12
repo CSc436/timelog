@@ -168,7 +168,7 @@
 
 			var defaultColor = "ee802a";
 			$("#color").val(defaultColor);
-			$("#newcat").css('background-color', "#" + defaultColor);
+			//$("#newcat").css('background-color', "#" + defaultColor);
 		}
 
 		function getRandomColor(){
