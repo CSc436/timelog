@@ -13,7 +13,7 @@
 
 	<div class="container" id="main">
 
-	  <h2 class="title">Add New Time Entry</h2>
+	  <h2 class="title">Add an entry</h2>
 	@if(!$errors->isEmpty())
 		<div class="alert alert-danger">
 			<strong>Error:</strong>
@@ -54,24 +54,11 @@
 			</div>
 		</div>
 	  </div>
-	  
-	<!--
-	  <div class="form-group">
-		{{ Form::label('Rating', 'Rating', array('class' => 'col-sm-4 control-label')) }}		
-		    <div class="col-sm-8">
-				<div class="input-group">
-				<div class="star"></div>
-				{{ Form::hidden('rating', '', array('id' => 'rating', 'class' => 'form-control', 'placeholder' => '0')) }}
-				</div>
-			</div>
-	  </div>
-	-->
 
 	<div class="form-group">
 		{{ Form::label('startDateTime', 'Start', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group date">
-
 				    <span id='datetimepickerStart'>
 				    	{{ Form::text('startDateTime', null, array('class' => 'form-control')) }}
 				    </span>
@@ -125,13 +112,9 @@
 				$("#endDateTime").val(databaseEndTimeStirng);
 			});
 
-			$("#datetimepickerStart").datetimepicker({
-    		    language: 'en'
-    		});
+			$("#datetimepickerStart").datetimepicker();
 
-			$("#datetimepickerEnd").datetimepicker({
-    		    language: 'en'
-    		});
+			$("#datetimepickerEnd").datetimepicker();
 
 			var i = 0;
 			var currDate = new Date();
@@ -165,13 +148,17 @@
 
 		function initializeColorPicker(){
 			$("#colorPicker").spectrum({
-				color: "FFCC66",
+				color: "ee802a",
 				showPalette: true,
 				palette: [
-					["FFCC66", "FF4D4D", "rgb(234, 153, 153)"], 
-					["rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(202, 235, 188)"],
-					["rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)"], 
-					["rgb(180, 167, 214)", "rgb(213, 166, 189)", "rgb(235, 137, 234)"]
+					//["FFCC66", "FF4D4D", "rgb(234, 153, 153)"], 
+					//["rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(202, 235, 188)"],
+					//["rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)"], 
+					//["rgb(180, 167, 214)", "rgb(213, 166, 189)", "rgb(235, 137, 234)"]
+					["ee5555", "55ee55", "5555ee"], 
+					["cccc55", "ee2a80", "80ee2a"],
+					["2aee80", "802aee", "2a80ee"], 
+					["55cccc", "cc55cc", "ee802a"]
 				],
 				change: function(color) {
 					$("#newcat").css('background-color', color.toHexString());
@@ -179,9 +166,9 @@
 				}
 			});
 
-			var defaultColor = "FFCC66";
+			var defaultColor = "ee802a";
 			$("#color").val(defaultColor);
-			$("#newcat").css('background-color', "#" + defaultColor);
+			//$("#newcat").css('background-color', "#" + defaultColor);
 		}
 
 		function getRandomColor(){

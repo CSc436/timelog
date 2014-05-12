@@ -131,7 +131,7 @@ class LogController extends BaseController {
 			//$rating = Input::get('rating');
 			$newcatstr = trim(Input::get('newcat'));
 
-			if($newcatstr != ''){
+			if(!empty($newcatstr)){
 				try{
 					$existingcat = LogCategory::where('UID', '=', Auth::user()->id)->where('PID', '=', $cid)->where('name', '=', $newcatstr)->firstOrFail();
 					$cid = $existingcat->CID;
@@ -141,10 +141,18 @@ class LogController extends BaseController {
 					$newcat->PID = $cid;
 					$newcat->name = $newcatstr;
 					$newcat->color = $colorstr;
-					//$newcat->rating = $rating;
+					$newcat->isTask = 0;
+					$newcat->isCompleted = 0;
+					$newcat->rating = 0;
+					$newcat->deadline = NULL;
 					$newcat->save();
 					$cid = $newcat->CID;
 				}
+			}
+
+			// Default to uncategorized if no CID was provided.
+			if($cid == NULL){
+				$cid = LogCategory::where('UID', '=', Auth::user()->id)->where('PID', '=', NULL)->where('name', '=', "Uncategorized")->pluck("CID");
 			}
 
 			$entry->CID = $cid;
@@ -167,7 +175,10 @@ class LogController extends BaseController {
 			$entry->notes = Input::get('notes');
 			$entry->UID = Auth::user()->id;
 			$entry->save();
+
 			$LID = $entry->LID;
+			$entry->category = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $cid)->pluck('name');
+			$entry->color = LogCategory::where('UID', '=', Auth::user()->id)->where('CID', '=', $cid)->pluck('color');
 
 			return array("success" => 1, "errors" => array(), "log" => $entry);
 
@@ -238,7 +249,6 @@ class LogController extends BaseController {
 	*/
 	private function validateCategory()
 	{
-		
 		/*
 		* A valid name consists of print characters and spaces, not including slashes (\ nor /).
 		* A valid name is also one that is at least of length 1 when not counting white space.
@@ -493,8 +503,6 @@ class LogController extends BaseController {
 			}
 
 			$updateThis = LogCategory::find($entry->CID);
-
-
 
 			
 			$updateThis->CID = $entry->CID;

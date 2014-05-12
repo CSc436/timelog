@@ -3,7 +3,7 @@
 @section('content')	
 	<div class="container" id="main">
 
-	<h2 class="title">View</h2>
+	<h2 class="title">Track time</h2>
 
 	<div class="well">
 		{{ Form::open(array('url' => 'log/view', 'method' => 'get', 'role' => 'form', 'class' => 'form-horizontal', 'id' => 'chart_options')) }}

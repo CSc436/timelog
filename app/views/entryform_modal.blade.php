@@ -1,3 +1,10 @@
+<script src="{{ URL::asset('js/spectrum.js') }}"></script>
+<link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
+<script src="{{ URL::asset('js/moment.min.js') }}"></script>
+<script src="{{ URL::asset('js/jquery.raty.min.js') }}"></script>
+<link href="{{ URL::asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet"/>
+<script src="{{ URL::asset('js/bootstrap-datetimepicker.min.js') }}"></script>
+
 <div class="modal-dialog">
 	<div class="modal-content">
 		@if(!isset($editThis))
@@ -44,32 +51,42 @@
 						<span class="input-group-btn">
 							<button id="colorPicker" class="btn btn-default" type="button"><span id="colorPickerIcon" class="fa fa-tint"></span></button>
 						</span>
-						{{ Form::text('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => '#CCCCCC')) }}
+						{{ Form::hidden('color', '', array('id' => 'color', 'class' => 'form-control', 'placeholder' => '#CCCCCC')) }}
 					</div>
 				</div>
 			</div>
-			<div class="form-group">
-				{{ Form::label('startDateTime', 'Start', array('class' => 'col-sm-4 control-label')) }}
-				<div class="col-sm-8">
-					<div class="input-group">
-						{{ Form::text('startDateTime', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="button" onclick="var d = new Date();$('#startDateTime').val(d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes());">Now</button>
-						</span>
-					</div>
-				</div>
+
+	<div class="form-group">
+		{{ Form::label('startDateTime', 'Start', array('class' => 'col-sm-4 control-label')) }}
+		<div class="col-sm-8">
+			<div class="input-group date">
+				    <span id='datetimepickerStart'>
+				    	{{ Form::text('startDateTime', null, array('class' => 'form-control')) }}
+				    </span>
+
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button" onclick="var d = new Date();$('#startDateTime').val(moment(d).format('MM/DD/YYYY hh:mm A'));">Now</button>
+					</span>
+
 			</div>
-			<div class="form-group">
-				{{ Form::label('endDateTime', 'End', array('class' => 'col-sm-4 control-label')) }}
-				<div class="col-sm-8">
-					<div class="input-group">
-						{{ Form::text('endDateTime', null, array('class' => 'form-control', 'placeholder' => 'yyyy-mm-dd hh:mm')) }}
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="button" onclick="var d = new Date();$('#endDateTime').val(d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes());">Now</button>
-						</span>
-					</div>
-				</div>
+		</div>
+	</div>
+
+	  <div class="form-group">
+		{{ Form::label('endDateTime', 'End', array('class' => 'col-sm-4 control-label')) }}
+		<div class="col-sm-8">
+			<div class="input-group date">
+			    <span id='datetimepickerEnd'>
+			    	{{ Form::text('endDateTime', null, array('class' => 'form-control')) }}
+			    </span>
+
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" onclick="var d = new Date();$('#endDateTime').val(moment(d).format('MM/DD/YYYY hh:mm A'));">Now</button>
+				</span>
 			</div>
+		</div>
+	  </div>
+
 			<div class="form-group">
 				{{ Form::label('notes', 'Notes', array('class' => 'col-sm-4 control-label')) }}
 				<div class="col-sm-8">
@@ -89,20 +106,24 @@
 	</div>
 </div>
 
-<script>
+	<script>
 
-	$(function(){
+		$(function(){
 
-		$("#colorPicker").spectrum({
-			color: getRandomColor(),
-			change: function(color) {
- 					console.log(color.toHex()); // #ff0000
- 					$("#color").val(color.toHex());
- 				}
- 			});
+			$(document).on('submit', 'form', function(e) {
+				var databaseStartTimeStirng = convertToDatabaseTime( $("#startDateTime").val() );
+				$("#startDateTime").val(databaseStartTimeStirng);
+				var databaseEndTimeStirng = convertToDatabaseTime( $("#endDateTime").val() );
+				$("#endDateTime").val(databaseEndTimeStirng);
+			});
 
-			// set default values for start and end dates
-			// default date format: yyyy-mm-dd hh:mm
+			$("#datetimepickerStart").datetimepicker({
+    		    language: 'en'
+    		});
+
+			$("#datetimepickerEnd").datetimepicker({
+    		    language: 'en'
+    		});
 
 			var i = 0;
 			var currDate = new Date();
@@ -112,7 +133,7 @@
 				var mins = currDate.getMinutes();
 				var addMins = mins + (i++) * 15;
 				currDate.setMinutes(addMins);
-				$(v).val(moment(currDate).format('YYYY-MM-DD HH:mm'));
+				$(v).val(moment(currDate).format('MM/DD/YYYY hh:mm A'));
 
 			});
 
@@ -126,10 +147,41 @@
 				
 			});
 
+			initializeColorPicker();
 		});
+		
+		function convertToDatabaseTime(usTime){
+			console.log(usTime);
+			return moment(usTime, 'MM/DD/YYYY hh:mm A').format("YYYY-MM-DD HH:mm");
+		}
 
-	function getRandomColor(){
-		return "#"+((Math.random() * (0xffffff)) << 0).toString(16);
-	}
+		function initializeColorPicker(){
+			$("#colorPicker").spectrum({
+				color: "ee802a",
+				showPalette: true,
+				palette: [
+					//["FFCC66", "FF4D4D", "rgb(234, 153, 153)"], 
+					//["rgb(249, 203, 156)", "rgb(255, 229, 153)", "rgb(202, 235, 188)"],
+					//["rgb(162, 196, 201)", "rgb(164, 194, 244)", "rgb(159, 197, 232)"], 
+					//["rgb(180, 167, 214)", "rgb(213, 166, 189)", "rgb(235, 137, 234)"]
+					["ee5555", "55ee55", "5555ee"], 
+					["cccc55", "ee2a80", "80ee2a"],
+					["2aee80", "802aee", "2a80ee"], 
+					["55cccc", "cc55cc", "ee802a"]
+				],
+				change: function(color) {
+					$("#newcat").css('background-color', color.toHexString());
+					$("#color").val(color.toHex());
+				}
+			});
 
-</script>
+			var defaultColor = "ee802a";
+			$("#color").val(defaultColor);
+			//$("#newcat").css('background-color', "#" + defaultColor);
+		}
+
+		function getRandomColor(){
+			return "#"+((Math.random() * (0xffffff)) << 0).toString(16);
+		}
+
+	</script>

@@ -15,7 +15,7 @@
 
 	<div class="container" id="main">
 
-		<h2 class="title">Manage your entries</h2>
+		<h2 class="title">Manage time</h2>
 		<div id='calendar'></div>
 
 	</div>

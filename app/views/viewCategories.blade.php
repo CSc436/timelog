@@ -19,7 +19,7 @@
 	</script>
 	<div class="container" id="main">
 
-	<h2 class="title">Categories</h2>
+	<h2 class="title">Edit categories</h2>
 	<div name="category" id="category">
 	<ul class="collapsible collapsibleList" >
 		<?php
@@ -59,7 +59,7 @@
 		?>
 	</ul>
 	</div>
-	<h2 class="title"> Overdue Tasks </h2>
+	<h2 class="title"> Overdue tasks </h2>
 	<div name="tasks" id="tasks">
 		<table class="sortable table table-striped table-hover table-condensed">
 			<tr>

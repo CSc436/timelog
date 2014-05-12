@@ -87,16 +87,54 @@ class UserController extends Controller {
 
 		if ($validator->passes()) {
 
-			User::create(array(
+			$user = User::create(array(
 				'firstname'     => Input::get('firstname'),
 				'lastname'     => Input::get('lastname'),
 				'email'    => Input::get('email'),
 				'password' => Hash::make(Input::get('password'))
 				));
+			
 
-			//(logController@saveCategory)
+			//Sleep, Social, Work
+			//Setup PID
+			$catEntry = new logCategory;
+			$superCategory = NULL;
+			$catEntry->UID = $user->id;
+			$catEntry->name = 'Work';
+			$catEntry->PID = NULL;
+			$catEntry->color = "5555EE";
+			$catEntry->isTask = 0;
+			$catEntry->isCompleted = 0;
+			$catEntry->rating = 0;
+			$catEntry->deadline = NULL;
+			$catEntry->save();
 
-			return Redirect::to('/')->with('success', 'Thanks for registering!');
+			$catEntry = new logCategory;
+			$superCategory = NULL;
+			$catEntry->UID = $user->id;
+			$catEntry->name = 'Play';
+			$catEntry->PID = NULL;
+			$catEntry->color = "55EE55";
+			$catEntry->isTask = 0;
+			$catEntry->isCompleted = 0;
+			$catEntry->rating = 0;
+			$catEntry->deadline = NULL;
+			$catEntry->save();
+
+			$catEntry = new logCategory;
+			$superCategory = NULL;
+			$catEntry->UID = $user->id;
+			$catEntry->name = 'Uncategorized';
+			$catEntry->PID = NULL;
+			$catEntry->color = "EE5555";
+			$catEntry->isTask = 0;
+			$catEntry->isCompleted = 0;
+			$catEntry->rating = 0;
+			$catEntry->deadline = NULL;
+			$catEntry->save();
+			//Routes::post(logController@saveCategory);
+
+			return Redirect::to('/')->with('success', '<strong>Success!</strong> Thanks for registering!');
 
 		} else {
 			return $validator->getMessageBag();
