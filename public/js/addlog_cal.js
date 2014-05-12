@@ -75,8 +75,8 @@ $(function() {
 		},
 		eventDrop: function(calEvent, dayDelta, minuteDelta, allDay, revertFunc) {
 
-			var stFromatted = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm");
-			var etFromatted = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm");
+			var stFromatted = $.fullCalendar.formatDate(calEvent.start, "MM/dd/yyyy hh:mm TT");
+			var etFromatted = $.fullCalendar.formatDate(calEvent.end, "MM/dd/yyyy hh:mm TT");
 
 			$.post("/log/save_from_calendar/" + calEvent.id, {
 				entryname: calEvent.title,
@@ -88,8 +88,8 @@ $(function() {
 		},
 		eventResize: function(calEvent, dayDelta, minuteDelta, revertFunc) {
 
-			var stFromatted = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm");
-			var etFromatted = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm");
+			var stFromatted = $.fullCalendar.formatDate(calEvent.start, "MM/dd/yyyy hh:mm TT");
+			var etFromatted = $.fullCalendar.formatDate(calEvent.end, "MM/dd/yyyy hh:mm TT");
 
 			$.post("/log/save_from_calendar/" + calEvent.id, {
 				entryname: calEvent.title,
@@ -123,8 +123,8 @@ function eventEditorModal(start, end, calEvent) {
 	var start, end;
 
 	if (calEvent) {
-		start = $.fullCalendar.formatDate(calEvent.start, "yyyy-MM-dd HH:mm");
-		end = $.fullCalendar.formatDate(calEvent.end, "yyyy-MM-dd HH:mm");
+		start = $.fullCalendar.formatDate(calEvent.start, "MM/dd/yyyy hh:mm TT");
+		end = $.fullCalendar.formatDate(calEvent.end, "MM/dd/yyyy hh:mm TT");
 
 		$("#thisModal").on("shown.bs.modal", function() {
 			$("#startDateTime").val(start);
@@ -136,15 +136,15 @@ function eventEditorModal(start, end, calEvent) {
 
 	} else {
 
-		start = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm");
-		end = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm");
+		start = $.fullCalendar.formatDate(start, "MM/dd/yyyy hh:mm TT");
+		end = $.fullCalendar.formatDate(end, "MM/dd/yyyy hh:mm TT");
 
 		$("#thisModal").on("shown.bs.modal", function() {
 			$("#startDateTime").val(start);
 			$("#endDateTime").val(end);
 			$("#CID").val('');
 			$("#LID").val('');
-			$("#notes").val('');
+			$("#notes").val('' 	);
 		});
 	}
 
