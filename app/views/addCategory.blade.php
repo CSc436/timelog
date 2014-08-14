@@ -33,7 +33,7 @@
 
 	<div class="form-group">
 		<div class="col-sm-8">
-			{{ Form::hidden('isTask', '1') }}
+			{{ Form::hidden('isTask', '0') }}
 		</div>
 	</div>
 
@@ -41,7 +41,7 @@
 		{{ Form::label('categoryName', 'Category Name', array('class' => 'col-sm-4 control-label')) }}
 		<div class="col-sm-8">
 			<div class="input-group">
-				{{ Form::text('categoryName', '', array('id' => 'newcat', 'class' => 'form-control', 'placeholder' => 'New Task Name')) }}
+				{{ Form::text('categoryName', '', array('id' => 'newcat', 'class' => 'form-control', 'placeholder' => 'New Category Name')) }}
 
 				<span class="input-group-btn">
 					<button id="colorPicker" class="btn btn-default" type="button"><span id="colorPickerIcon" class="fa fa-tint"></span></button>
@@ -58,6 +58,7 @@
 		</div>
 	</div>
 
+	<!--
 	<div class="form-group">
 		{{ Form::label('hasDuedate', 'Has Due Date', array('class' => 'col-sm-4 control-label')) }}	  
 		<div class="col-sm-8">
@@ -96,6 +97,7 @@
 			{{ Form::hidden('starRating') }}
 		</div>
 	</div>
+	-->
 
 	<div class="form-group">
 		<div class="col-sm-offset-4 col-sm-8">
