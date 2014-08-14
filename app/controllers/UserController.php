@@ -65,7 +65,8 @@ class UserController extends Controller {
 
 		if (Auth::attempt($credentials))
 		{
-			return Redirect::intended('profile');
+			//return Redirect::intended('profile');
+			return Redirect::to('log/addlog_cal');
 		}
 		else {
 			Input::flash();
