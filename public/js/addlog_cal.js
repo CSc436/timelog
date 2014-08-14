@@ -58,7 +58,9 @@ $(function() {
 			left: 'prev,next today',
 			center: 'title'
 		},
+		firstDay: 1,
 		selectable: true,
+		firstHour: 8,
 		selectHelper: true,
 		allDaySlot: false,
 		slotMinutes: 15,
@@ -105,6 +107,8 @@ $(function() {
 			}
 		}
 	});
+
+	//SundialCalendar.calendar.scrollTime = '08:00:00';
 
 	$(document).on("submit", "#thisModal form", function(event) {
 		submitEvent();
@@ -188,6 +192,7 @@ function submitEvent() {
 				description: data.notes,
 				id: data.LID,
 				category: data.CID,
+				categoryId: data.CID,
 				start: data.startDateTime,
 				end: data.endDateTime,
 				allDay: false,
