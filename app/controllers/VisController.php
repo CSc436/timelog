@@ -32,7 +32,14 @@ class VisController extends BaseController {
 		$endRange = date('Y-m-d 23:59:59', $endDT);
 
 		if(Input::has('category') && Input::get('category') !== "") {
+			//$currentCategory = array(Input::get('category'));
+			$categories = DB::select("select name, cid from log_category c where c.uid = ".$this->uid." AND c.pid = ".Input::get('category'));
+			//$currentCategory = array();
 			$currentCategory = array(Input::get('category'));
+			foreach($categories as $cat) {
+					// $selectCat[$cat->cid] = $cat->name;
+					array_push($currentCategory, $cat->cid);
+			}
 		}else{
 			$categories = DB::select("select name, cid from log_category c where c.uid = ".$this->uid);
 			$currentCategory = array();
