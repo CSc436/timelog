@@ -185,11 +185,6 @@ Route::group(array('before' => 'auth'), function(){
 	});
 
 
-	Route::get('dashboard', function()
-	{
-		return View::make('dashboard')->with('active', 'profile');
-	});
-
 	Route::post('log/saveCat{id?}','logController@saveCategory')->where('id', '[0-9]+');
 
 	Route::get('log/editCat/{catID}/modal', function($catID){return (new LogController)->editCat($catID, true);})->where('catID', '[0-9]+');

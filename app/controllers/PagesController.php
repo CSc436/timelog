@@ -19,7 +19,7 @@ class PagesController extends BaseController {
 	{
 		if (Auth::check())
 		{
-			return Redirect::to('dashboard');
+			return Redirect::to('log/addlog_cal');
 		} else {
 			return View::make('login')->with(array('active'=> 'login', 'failed'=> false));
 		}
