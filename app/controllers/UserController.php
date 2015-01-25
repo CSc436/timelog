@@ -25,6 +25,21 @@ class UserController extends Controller {
 		}
 
 	}
+	
+	/**
+	 * Allows editing of settings
+	 *
+	 * @return string
+	 */
+	public function edit($id)
+	{
+		$user = User::findOrFail($id);
+		$user->fill(Input::all());
+		$user->save();
+		
+		return Redirect::to('log/editSetting')->with('errors', array('1' => 'done.'));
+	}
+
 
 	public function postChangeUserPassword(){
 

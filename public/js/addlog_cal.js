@@ -102,8 +102,9 @@ $(function() {
 			});
 		},
 		eventRender: function(event, element) {
-			if (event.description != null) {
-				element.find('.fc-event-title').prepend("<b>").append("</b><br/>" + event.description);
+			if (event.description != '') {
+				//element.find('.fc-event-title').prepend("<b>").append("</b><br/>" + event.description);
+				element.find('.fc-event-title').replaceWith(event.description);
 			}
 		}
 	});

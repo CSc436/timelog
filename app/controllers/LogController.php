@@ -239,7 +239,7 @@ class LogController extends BaseController {
 			return View::make('entryform_modal')->with(array('editThis' => $entry, 'categories' => Utils::getSelectCats()));
 	}
 
-	public function getLogAdd($modal = false){
+	public function F($modal = false){
 		$sendToForm = array('active'=>'addlog', 'categories' => Utils::getSelectCats());
 		return Auth::check() != null ? ($modal == false ? View::make('entryform')->with($sendToForm) : View::make('entryform_modal')->with($sendToForm)) : Redirect::to('login');
 	}

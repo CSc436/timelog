@@ -36,6 +36,7 @@
 					<li <?php if ($active == "addlog_cal") echo"class=active" ?>><a href="/log/addlog_cal">Calendar</a></li>
 					<li <?php if ($active == "viewlog") echo"class=active" ?>><a href="/log/view">View Logs</a></li>
 					<li <?php if ($active == "viewCat") echo"class=active" ?>><a href="/log/viewCategory">Edit Categories</a></li>
+					<li <?php if ($active == "editSetting") echo"class=active" ?>><a href="/log/editSetting">Setting</a></li>
 					<!--<li <?php if ($active == "dashboard") echo"class=active" ?>><a href="/dashboard">Dashboard</a></li>-->
 				</ul>
 				<ul class="nav navbar-nav navbar-right">

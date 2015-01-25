@@ -3,12 +3,16 @@
 @section('header')
 	<link href="{{ URL::asset('css/fullcalendar.css') }}" rel="stylesheet">
 	<link href="{{ URL::asset('css/fullcalendar.print.css') }}" rel="stylesheet" media='print' />
-	<script src="{{ URL::asset('js/jquery-ui.min.js') }}"></script>
-	<script src="{{ URL::asset('js/fullcalendar.min.js') }}"></script>
-	<script src="{{ URL::asset('js/addlog_cal.js') }}"></script>
 	<link href="{{ URL::asset('css/spectrum.css') }}" rel="stylesheet"/>
+	<script data-main="{{ URL::asset('js/addlog_cal_main') }}" src="{{ URL::asset('js/require.js') }}"></script>
+<!--
+	<script src="http://fuelcdn.com/fuelux/2.3/loader.min.js"></script>
+	<script src="{{ URL::asset('js/jquery-ui.min.js') }}"></script>
+	<script src="{{ URL::asset('js/fullcalendar_jso.js') }}"></script>
+	<script src="{{ URL::asset('js/addlog_cal.js') }}"></script>
 	<script src="{{ URL::asset('js/spectrum.js') }}"></script>
 	<script src="{{ URL::asset('js/moment.min.js') }}"></script>
+-->
 @stop
 
 @section('content')

@@ -196,6 +196,14 @@ Route::group(array('before' => 'auth'), function(){
 		return View::make('addCategory')->with('active', 'category');
 	});
 
+	Route::get('log/editSetting', function(){
+		return View::make('editSetting')->with('active', 'editSetting')->with('user', User::find(Auth::user()->id));
+	});
+	    // route to process the form
+    Route::post('user/edit', function() {
+        // process our form
+    });
+
 	Route::get('log/tasks', function(){
 		return View::make('viewTasks');
 	});
@@ -206,5 +214,7 @@ Route::group(array('before' => 'auth'), function(){
 	
 	//Delete User
 	Route::post('profile/delete', 'UserController@deleteUser');
+
+	Route::resource('user', 'UserController');
 });
 
