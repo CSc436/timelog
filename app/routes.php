@@ -211,7 +211,10 @@ Route::group(array('before' => 'auth'), function(){
 	Route::get('log/tasks/completed', function(){
 		return View::make('viewTasks')->with('completed', 'true');
 	});
-	
+
+	Route::get('log/googleCalLogin', 'OAuthController@loginWithGoogle');
+	Route::get('log/calendarRequest', 'OAuthController@calendarRequest');
+
 	//Delete User
 	Route::post('profile/delete', 'UserController@deleteUser');
 
