@@ -183,23 +183,13 @@ function submitEvent() {
 	$.post(url, form.serialize(), function(data) {
 
 		if (update) {
+			removeOldEvent(data);
 			console.log("Event updated!", data);
 		} else {
 			console.log("New event created!", data);
 		}
 
-		SundialCalendar.calendar.fullCalendar('renderEvent', {
-				title: data.category,
-				description: data.notes,
-				id: data.LID,
-				category: data.CID,
-				categoryId: data.CID,
-				start: data.startDateTime,
-				end: data.endDateTime,
-				allDay: false,
-				backgroundColor: "#" + data.color
-			},
-			true);
+		addEventToCalendar(data);
 	});
 
 	SundialCalendar.calendar.fullCalendar('unselect');
@@ -207,4 +197,24 @@ function submitEvent() {
 	if ($('#thisModal')) {
 		$('#thisModal').modal('hide');
 	}
+}
+
+function removeOldEvent(data){
+	SundialCalendar.calendar.fullCalendar('removeEvents', data.LID);
+}
+
+function addEventToCalendar(data){
+
+	SundialCalendar.calendar.fullCalendar('renderEvent', {
+		title: data.category,
+		description: data.notes,
+		id: data.LID,
+		category: data.CID,
+		categoryId: data.CID,
+		start: data.startDateTime,
+		end: data.endDateTime,
+		allDay: false,
+		backgroundColor: "#" + data.color
+	},
+	true);
 }

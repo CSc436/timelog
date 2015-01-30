@@ -623,10 +623,33 @@ function Calendar(element, options, eventSources) {
 	function sync() {
 		datastring = 'start=' + moment(currentView.start).format() + '&end='
 		 + moment(currentView.end).format();
-		console.log(datastring)
+		console.log(datastring);
 		$.get( "/log/calendarRequest", datastring, function( data ) {
 			//$( ".result" ).html( data );
-			console.log( JSON.stringify(data) );
+			//dataArray = json_encode(d);
+			//console.log(JSON.stringify(eventSources, null, 4));
+			//console.log(eventSources);
+			//console.log(Object.keys(data).length);
+			dataJSON = $.parseJSON(data);
+
+			for (var key in dataJSON) {
+    			if (dataJSON.hasOwnProperty(key)) {
+
+					SundialCalendar.calendar.fullCalendar('renderEvent', {
+						title: dataJSON[key]["category"],
+						description: dataJSON[key]["notes"],
+						id: dataJSON[key]["LID"],
+						category: dataJSON[key]["category"],
+						categoryId: dataJSON[key]["CID"],
+						start: dataJSON[key]["startDateTime"],
+						end: dataJSON[key]["endDateTime"],
+						allDay: false,
+						backgroundColor: "#" + dataJSON[key]["color"]
+						}
+						, true);
+				}
+					
+			};
 		});
 	}
 
