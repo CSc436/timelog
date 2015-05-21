@@ -103,6 +103,15 @@ $(function() {
 		},
 		eventRender: function(event, element) {
 			if (event.description != '') {
+				var duration = moment.duration(moment(event._end).diff(moment(event._start)));
+				var minutes = duration.asMinutes();
+				//console.log(minutes);
+				if(minutes < 23){
+					element.find('.fc-event-time').hide();
+					//console.log(event);
+				}else{
+					element.find('.fc-event-time').show();
+				}
 				//element.find('.fc-event-title').prepend("<b>").append("</b><br/>" + event.description);
 				element.find('.fc-event-title').replaceWith(event.description);
 			}
