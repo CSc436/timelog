@@ -586,4 +586,13 @@ table.fc-border-separate {
 	_overflow: hidden;
 	}
 	
-	
+/* delete button */
+
+.fc-transparent,
+.fc-agenda .fc-transparent .fc-event-time,
+.fc-transparent a {         
+	padding-left: 1px;                                               
+	border-color: transparent;
+	background-color: transparent;
+	color: #fff; 
+}  

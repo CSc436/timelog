@@ -75,6 +75,13 @@ $(function() {
 			eventEditorModal(calEvent.start, calEvent.end, calEvent);
 			console.log(calEvent);
 		},
+		eventMouseover: function(calEvent, domEvent) {
+			var layer =	"<div id='events-layer' class='fc-transparent' style='position:absolute; width:100%; height:100%; top:-1px; text-align:right; z-index:100'> <p><font color='#222222' style='padding-right:5px;' onClick='deleteEvent("+calEvent.id+");'>X</p></div>";
+			$(this).append(layer);
+		},   
+		eventMouseout: function(calEvent, domEvent) {
+			$("#events-layer").remove();
+		},
 		eventDrop: function(calEvent, dayDelta, minuteDelta, allDay, revertFunc) {
 
 			var stFromatted = $.fullCalendar.formatDate(calEvent.start, "MM/dd/yyyy hh:mm TT");
@@ -125,6 +132,13 @@ $(function() {
 		event.preventDefault();
 	});
 
+	$(document).on('click', "#delete", function(event) {
+	  event.preventDefault(); // To prevent following the link (optional)
+	  console.log("Clicked Delete");
+	  deleteEvent($("#LID").val());
+	  //Call code to delete event in fullCalendar.
+	});
+
 	$('body').on('hidden.bs.modal', '.modal', function() {
 		$(this).removeData('bs.modal');
 		$('#thisModal').html("");
@@ -165,6 +179,14 @@ function eventEditorModal(start, end, calEvent) {
 	$('#thisModal').modal({
 		remote: '/api/log/edit/modal'
 	});
+}
+
+function deleteEvent(eventId) {
+	event.stopPropagation();
+	var form = $("#thisModal form");
+	id = eventId;
+	var url = '/api/log/delete';
+	SundialCalendar.calendar.fullCalendar('removeEvents', id);
 }
 
 function submitEvent() {

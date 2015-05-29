@@ -103,6 +103,9 @@
 			</div>
 		</div>
 		<div class="modal-footer">
+			<p class="pull-left">
+				<button type="button" class="btn btn-danger" id="delete" data-dismiss="modal">Delete</button>
+			</p>
 			<button type="button" class="btn btn-cancel" data-dismiss="modal">Cancel</button>
 			{{ Form::submit('Submit', array('class' => 'btn btn-default btn-primary')) }}
 		</div>
