@@ -164,6 +164,7 @@ Route::group(array('before' => 'auth'), function(){
 	//Add an event from the calendar interface
 	Route::post('log/add_from_calendar', 'LogController@saveEntryFromCalendar');
 	Route::post('log/save_from_calendar/{id?}', 'LogController@saveEntryFromCalendar')->where('id', '[0-9]+');
+	Route::post('log/delete_from_calendar/{id?}', 'LogController@deleteEntryFromCalendar')->where('id', '[0-9]+');
 
 	// handles both add and edit log entry actions
 	//Route::post('log/save/{id?}/{getPage?}', 'LogController@saveEntry')->where('id', '[0-9]+')->where('getPage', 'false');

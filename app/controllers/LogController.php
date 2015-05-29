@@ -209,6 +209,9 @@ class LogController extends BaseController {
 
 	//This function bypasses returning a page upon successful submission to optimize for speed.
 	public function saveEntryFromCalendar($id = null){
+		if(!Auth::check()){
+			return Response::make('Not Found', 404);
+		}
 		
 		$save_entry_result = $this->saveEntry($id);
 		
@@ -218,6 +221,22 @@ class LogController extends BaseController {
 			Input::flash();
 			return $save_entry_result["errors"]->messages();
 		}
+	}
+	
+	public function deleteEntryFromCalendar($id = null){
+		$save_entry_result = $this->deleteEntry($id);
+		return "Deleted id ".$id;
+	}
+
+	public function deleteEntry($id = null){
+		$entry = null;
+		try{
+			$entry = LogEntry::where('UID', '=', Auth::user()->id)->findOrFail($id);
+		}catch(ModelNotFoundException $e){
+			return Response::make('Not Found', 404);
+		}
+
+		$entry->delete();
 	}
 
 	public function editEntry($id, $modal = false)

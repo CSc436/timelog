@@ -185,8 +185,19 @@ function deleteEvent(eventId) {
 	event.stopPropagation();
 	var form = $("#thisModal form");
 	id = eventId;
-	var url = '/api/log/delete';
+	var url = '/log/delete_from_calendar/' + id;
 	SundialCalendar.calendar.fullCalendar('removeEvents', id);
+
+
+	$.post(url, form.serialize(), function(data) {
+		console.log("event deleted!", data);
+	});
+
+	SundialCalendar.calendar.fullCalendar('unselect');
+
+	if ($('#thisModal')) {
+		$('#thisModal').modal('hide');
+	}
 }
 
 function submitEvent() {
