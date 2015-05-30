@@ -18,22 +18,38 @@ class OAuthController extends BaseController {
 		if ( !empty( $code ) ) {
 
 			// This was a callback request from google, get the token
-//                Log::info( 'CODE1->'.$code );
+			//Log::info( 'CODE1->'.$code );
+
+			//Uncomment these after testing is done
 			$token = $googleService->requestAccessToken( $code );
 			Session::put('code', $code);
 			$code = Session::get('code');
-//                Log::info( 'CODE2->'.$code );
+			
+
+			//Log::info( 'CODE2->'.$code );
 
 
 			// Send a request with it
 			//$result = json_decode( $googleService->request( 'https://www.googleapis.com/oauth2/v1/userinfo' ), true );
 			$result = json_decode( $googleService->request( 'https://www.googleapis.com/calendar/v3/calendars/zuomingshi%40gmail.com/events?' ), true );
+			if($result == NULL){
+				echo("Google calendar request failed. Please check to ensure that your calendar id matches the selected email address.");
+				//die();
+				$url = $googleService->getAuthorizationUri();
+				header( "refresh:5;url=".$url );
+				die();
+				//return Redirect::to( (string)$url );
+				//return (string)$url;
 
+			}
+
+			echo("<script type='text/javascript'>");
+			echo("self.close();");
+			echo("</script>");
 			//Var_dump
 			//display whole array().
-			print_r($result);
+			//print_r($result);
 			die();
-
 		}
 		// if not ask for permission first
 		else {
