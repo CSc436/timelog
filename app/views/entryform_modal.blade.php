@@ -7,26 +7,13 @@
 
 <div class="modal-dialog">
 	<div class="modal-content">
-		@if(!isset($editThis))
 			{{ Form::open(array('url' => 'log/save', 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal')) }}
 			{{ Form::hidden( 'LID', '', array('id' => 'LID') ) }}
 			<?php $startDateTime = $endDateTime = NULL; ?>
-		@else
-			{{ Form::model($editThis, array('url' => 'log/save/'.$editThis->LID, 'method' => 'post', 'role' => 'form', 'class' => 'form-horizontal')) }}
-			{{ Form::hidden( 'LID', $editThis->LID, array('id' => 'LID') ) }}
-			<?php
-			$startDateTime = (new DateTime($editThis->startDateTime))->format('m/d/Y h:i A');
-			$endDateTime = (new DateTime($editThis->endDateTime))->format('m/d/Y h:i A');
-			?>
-		@endif
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			<h4 class="modal-title" id="thisModalLabel">
-				@if(!isset($editThis))
-					Add New Time Entry
-				@else
-					Edit Time Entry
-				@endif
+				Add New Time Entry
 			</h4>
 		</div>
 		<div class="modal-body">
@@ -103,6 +90,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
+
 			<p class="pull-left">
 				<button type="button" class="btn btn-danger" id="delete" data-dismiss="modal">Delete</button>
 			</p>

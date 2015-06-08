@@ -148,31 +148,35 @@ $(function() {
 
 function eventEditorModal(start, end, calEvent) {
 
-	var start, end;
+	var start2, end2;
 
 	if (calEvent) {
-		start = $.fullCalendar.formatDate(calEvent.start, "MM/dd/yyyy hh:mm TT");
-		end = $.fullCalendar.formatDate(calEvent.end, "MM/dd/yyyy hh:mm TT");
+		//Edit existing event
+		start2 = $.fullCalendar.formatDate(calEvent.start, "MM/dd/yyyy hh:mm TT");
+		end2 = $.fullCalendar.formatDate(calEvent.end, "MM/dd/yyyy hh:mm TT");
 
-		$("#thisModal").on("shown.bs.modal", function() {
-			$("#startDateTime").val(start);
-			$("#endDateTime").val(end);
+		$("#thisModal").on("show.bs.modal", function() {
+			$("#startDateTime").val(start2);
+			$("#endDateTime").val(end2);
+			$("#thisModalLabel").text("Edit Time Entry");
 			$("#CID").val(calEvent.categoryId + '');
 			$("#LID").val(calEvent.id + '');
 			$("#notes").val(calEvent.description);
 		});
 
 	} else {
-
+		//New event
 		start = $.fullCalendar.formatDate(start, "MM/dd/yyyy hh:mm TT");
 		end = $.fullCalendar.formatDate(end, "MM/dd/yyyy hh:mm TT");
 
-		$("#thisModal").on("shown.bs.modal", function() {
+		$("#thisModal").on("show.bs.modal", function() {
 			$("#startDateTime").val(start);
 			$("#endDateTime").val(end);
+			$("#thisModalLabel").text("Add New Time Entry");
 			$("#CID").val('');
 			$("#LID").val('');
 			$("#notes").val('' 	);
+			$('#delete').hide();
 		});
 	}
 
@@ -193,11 +197,12 @@ function deleteEvent(eventId) {
 		console.log("event deleted!", data);
 	});
 
+	/*	
 	SundialCalendar.calendar.fullCalendar('unselect');
 
 	if ($('#thisModal')) {
 		$('#thisModal').modal('hide');
-	}
+	}*/
 }
 
 function submitEvent() {
