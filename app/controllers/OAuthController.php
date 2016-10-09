@@ -31,7 +31,7 @@ class OAuthController extends BaseController {
 
 			// Send a request with it
 			//$result = json_decode( $googleService->request( 'https://www.googleapis.com/oauth2/v1/userinfo' ), true );
-			$result = json_decode( $googleService->request( 'https://www.googleapis.com/calendar/v3/calendars/zuomingshi%40gmail.com/events?' ), true );
+			$result = json_decode( $googleService->request( 'https://www.googleapis.com/calendar/v3/calendars/zuomings%40cs.washington.edu/events?' ), true );
 			if($result == NULL){
 				echo("Google calendar request failed. Please check to ensure that your calendar id matches the selected email address.");
 				//die();
@@ -66,20 +66,35 @@ class OAuthController extends BaseController {
 		$user = Auth::user();
 		$counter = 0;
 		$results = array();
-
+		
+		//Log::info( 'CODE1->'.$eventList['items'] );
+		
 		foreach ($eventList['items'] as $item) {
 			$start = DateTime::createFromFormat(DateTime::ISO8601, $item['start']['dateTime']);
 			$end = DateTime::createFromFormat(DateTime::ISO8601, $item['end']['dateTime']);
 			//Log::info('START' . $start->format(DateTime::ISO8601));
 			$name = $item['summary'];
+			$description = "";
+			//Description are currently location
+			if (array_key_exists('location', $item)) {
+    			//echo "The 'first' element is in the array";
+    			$description = $item['location'];
+			}
 			$add = false;
 			$catName = 'Uncategorized';
 			
 			$category = LogCategory::where('UID', '=', Auth::user()->id)->where('name', '=', $name)->first();
 
 			if ($category == NULL){
-				$add = true;
 				$category = LogCategory::where('UID', '=', Auth::user()->id)->where('name', '=', 'Uncategorized')->first();
+				$CID = $category['CID'];
+				$entry = LogEntry::where('UID', '=', Auth::user()->id)
+					->where('CID', '=', $CID)
+					->where('startDateTime', '=', $start)
+					->where('endDateTime', '=', $end)->first();
+				if($entry == NULL){
+					$add = true;
+				}
 			}else{
 				$CID = $category['CID'];
 				$entry = LogEntry::where('UID', '=', Auth::user()->id)
@@ -105,7 +120,7 @@ class OAuthController extends BaseController {
 								'startDateTime' => $start, 
 								'endDateTime' => $end, 
 								'UID' => Auth::user()->id,
-								'notes' => '',
+								'notes' => $description,
 								'duration' => $duration,
 								'rating' => 0)
 				);
@@ -116,7 +131,7 @@ class OAuthController extends BaseController {
 								'category' => $category['name'],
 								'color' => $category['color'],
 								'LID' => $id,
-								'notes' => '');
+								'notes' => $description);
 				$results[$counter] = $JSEntry;
 			}
 
@@ -127,7 +142,7 @@ class OAuthController extends BaseController {
 	public function calendarRequest () {
 		$start = Input::get( 'start' );
 		$end = Input::get( 'end' );
-		$calendarId = 'zuomingshi@gmail.com';
+		$calendarId = 'zuomings@cs.washington.edu';
 		$requestString = 'https://www.googleapis.com/calendar/v3/calendars/'.$calendarId.'/events?timeMin='.$start.'&timeMax='.$end.'&singleEvents=true&';
 		Log::info( $requestString );
 		$googleService = OAuth::consumer( 'Google' );
